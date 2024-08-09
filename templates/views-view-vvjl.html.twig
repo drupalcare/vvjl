@@ -1,0 +1,102 @@
+{#
+  @file
+  Template for rendering a Views Vanilla JavaScript Lightbox.
+
+  Available variables:
+  - options: The options array containing settings for the lightbox.
+  - rows: An array of row items to be displayed in the lightbox.
+  - attributes: A list of HTML attributes for the wrapper div.
+
+  Options settings:
+  - unique_id: A unique identifier for the lightbox instance.
+  - lightbox_speed: Speed of the lightbox effect.
+  - overlay_color: Color of the overlay.
+  - overlay_opacity: Opacity of the overlay.
+  - section_height: Height of the lightbox section.
+#}
+{# Set unique IDs for the Lightbox and container #}
+{% set unique_id = options.unique_id %}
+{% set vvjl_id = 'vvjl-' ~ unique_id %}
+{% set lightbox_inner_id = 'vvjl-inner-' ~ unique_id %}
+
+{% set grid_width = options.grid_image_width %}
+{% set vvjl_grid_width =  'grid-template-columns: repeat(auto-fill, minmax(' ~ grid_width ~ 'px, 1fr));' %}
+{% set grid_gap = options.grid_image_gap %}
+
+{% if grid_gap > 0 %}
+{% set vvjl_grid_gap =  'gap:' ~ grid_gap ~ 'px;' %}
+{% endif %}
+
+{# Initialize base classes array #}
+{% set classes = [
+  'vvjl',
+  vvjl_id,
+] %}
+
+{% set total_slides = rows|length %}
+
+<div {{ attributes.addClass(classes).setAttribute('id', vvjl_id) }} aria-label="Image Grid">
+  <div id="{{ lightbox_inner_id }}" style="{{ vvjl_grid_width }} {{ vvjl_grid_gap }}" class="vvjl-inner">
+
+    <div class="lightbox-modal" aria-hidden="true" style="display: none;" role="dialog" aria-labelledby="lightbox-heading">
+      <h2 id="lightbox-heading" class="visually-hidden">{{ 'Image Grid Lightbox'|t }}</h2>
+      <button class="button modal-close">
+        <span class="visually-hidden">{{ 'Close Grid'|t }}</span>
+        <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
+          <path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/>
+        </svg>
+      </button>
+
+      {# Image counter #}
+      <div class="lightbox-counter">
+        <span id="current-image" class="current-image">1</span><span> / </span><span class="total-images">{{ total_slides }}</span>
+      </div>
+
+      <div class="lightbox-modal-content">
+        <!-- Content will be dynamically injected here -->
+      </div>
+      <button class="button modal-prev">
+        <span class="visually-hidden">{{ 'Previous'|t }}</span>
+        <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
+          <path d="M640-80 240-480l400-400 71 71-329 329 329 329-71 71Z"/>
+        </svg>
+      </button>
+      <button class="button modal-next">
+        <span class="visually-hidden">{{ 'Next'|t }}</span>
+        <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
+          <path d="m321-80-71-71 329-329-329-329 71-71 400 400L321-80Z"/>
+        </svg>
+      </button>
+    </div>
+
+    {# Loop through each row to render individual lightbox sections #}
+    {% for key, row in rows %}
+      {% set row_content = row.content|render %}
+
+      {# Use a unique tag or CSS class to split the content #}
+      {% set split_content = row_content|split('<div class="vvjl-separator"></div>') %}
+      {% set image_field = split_content[0] %}
+      {% set foreground_field = split_content[1]|default('') %}
+
+      <div id="{{ vvjl_id ~ '-' ~ (key + 1) }}" class="lightbox-row {{ options.animation }}" aria-expanded="false" aria-label="{{ 'Slide @index of @total'|t({'@index': loop.index, '@total': total_slides}) }}">
+
+        <div class="lightbox-image">
+          <button class="button modal-open" aria-controls="{{ lightbox_inner_id }}" aria-label="{{ 'Expand slide @index'|t({'@index': loop.index}) }}">
+            <span class="visually-hidden">{{ 'Expand image grid'|t }}</span>
+            <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
+              <path d="M120-120v-320h80v184l504-504H520v-80h320v320h-80v-184L256-200h184v80H120Z"/>
+            </svg>
+          </button>
+          {{ image_field|safe_html }}
+        </div>
+
+        <div class="lightbox-content" {% if background_rgb and not options.disable_overlay %} style="background-color:{{ background_rgb }}"{% endif %}>
+          {{ foreground_field|safe_html }}
+        </div>
+
+      </div>
+    {% endfor %}
+
+  </div> {# End of vvjl-inner #}
+</div> {# End of main wrapper #}
+

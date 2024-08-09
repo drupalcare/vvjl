@@ -1,0 +1,328 @@
+/**
+ * @file
+ * VVj Lightbox.
+ *
+ * Filename:     vvjl.css
+ * Website:      https://www.flashwebcenter.com
+ * Developer:    Alaa Haddad https://www.alaahaddad.com.
+ */
+
+/* Base styles */
+.vvjl,
+.vvjl * {
+  box-sizing: border-box;
+}
+
+.vvjl-inner {
+  display: grid;
+  width: 100% !important;
+  height: auto;
+}
+
+.vvjl-inner img {
+  width: 100%;
+  height: auto;
+}
+
+.vvjl-inner .button {
+  all: unset;
+  cursor: pointer;
+}
+
+.lightbox-row .modal-open svg {
+  fill: #fff;
+  width: 30px;
+  height: 30px;
+}
+
+/* Lightbox row styles */
+.vvjl-inner .lightbox-row {
+  position: relative;
+  display: grid;
+  overflow: hidden;
+}
+
+.vvjl-inner > .lightbox-row {
+  cursor: pointer;
+}
+
+.vvjl-inner .lightbox-row .lightbox-content {
+  z-index: 2;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  margin-top: 50px;
+  pointer-events: none;
+  padding: 12px;
+}
+
+.vvjl-inner>.lightbox-row > .modal-open {
+  position: absolute;
+  right: 0;
+  top: 0;
+  max-height: 50px;
+  cursor: pointer;
+  z-index: 3;
+}
+
+/* Modal styles */
+.lightbox-modal {
+  z-index: 10000 !important;
+  display: none;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.7);
+  justify-content: center;
+  align-items: center;
+}
+
+.vvjl-inner .lightbox-modal .lightbox-content {
+  margin: 0;
+}
+
+.lightbox-modal .modal-close,
+.lightbox-row .modal-open {
+  position: absolute;
+  z-index: 3000;
+  right: 0;
+  top: 0;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.lightbox-modal .modal-close {
+  right: 20px;
+}
+
+.lightbox-modal .lightbox-counter {
+  position: absolute;
+  z-index: 3000;
+  left: 15px;
+  top: 15px;
+  color: #fff;
+  font-weight: bold;
+}
+
+.lightbox-modal-content {
+  position: relative;
+  margin: 0 auto !important;
+  padding: 20px !important;
+  width: calc(100% - 120px) !important;
+  height: 100%;
+  max-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.lightbox-modal-content img {
+  max-height: 95vh;
+  max-width: 100%;
+  object-fit: contain;
+}
+
+.lightbox-modal .modal-prev,
+.lightbox-modal .modal-next {
+  position: absolute;
+  top: calc(50% - 30px);
+  z-index: 10000;
+  background: transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.lightbox-modal .modal-prev {
+  left: 20px;
+}
+
+.lightbox-modal .modal-next {
+  right: 20px;
+}
+
+.vvjl-inner .lightbox-modal .modal-open {
+  display: none;
+  height: 0;
+  width: 0;
+}
+
+.vvjl-inner .lightbox-modal .lightbox-row {
+  display: block;
+}
+
+.lightbox-modal .modal-close svg,
+.lightbox-modal .modal-prev svg,
+.lightbox-modal .modal-next svg {
+  fill: #fff;
+  width: 60px;
+  height: 60px;
+}
+
+.vvjl-inner.grid-count-1 .lightbox-modal .modal-prev,
+.vvjl-inner.grid-count-1 .lightbox-modal .modal-next {
+  display: none;
+}
+
+.lightbox-modal[aria-hidden="false"] {
+  animation-name: fadeIn;
+  animation-duration: 0.4s;
+}
+
+.lightbox-modal[aria-hidden="true"] {
+  display: none;
+  animation-name: fadeOut;
+  animation-duration: 0.5s;
+}
+
+.lightbox-modal-content.fade-in {
+  opacity: 1;
+  transition: opacity 0.5s ease-in-out;
+}
+
+/* Responsive styles */
+@media (max-width:36rem) {
+  .lightbox-modal .modal-prev,
+  .lightbox-modal .modal-next {
+    top: calc(50% - 20px);
+  }
+
+  .lightbox-modal-content {
+    width: calc(100% - 70px) !important;
+  }
+
+  .lightbox-modal .modal-prev svg,
+  .lightbox-modal .modal-next svg {
+    width: 35px;
+    height: 40px;
+  }
+
+}
+
+/* Animation styles */
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  to {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+}
+
+.fade-in {
+  animation: fadeIn 0.5s ease-in-out forwards;
+}
+
+.fade-out {
+  animation: fadeOut 0.5s ease-in-out forwards;
+}
+
+/* Animate slideshow */
+.lightbox-modal .vvjl__animate_top .lightbox-image {
+  position: relative;
+  animation: animatetop 0.6s ease-out;
+}
+
+@keyframes animatetop {
+  from {
+    top: -100px;
+    opacity: 0;
+  }
+
+  to {
+    top: 0;
+    opacity: 1;
+  }
+
+}
+
+.lightbox-modal .vvjl__animate_left .lightbox-image {
+  position: relative;
+  animation: animateleft 0.6s ease-out;
+}
+
+@keyframes animateleft {
+  from {
+    left: -100px;
+    opacity: 0;
+  }
+
+  to {
+    left: 0;
+    opacity: 1;
+  }
+
+}
+
+.lightbox-modal .vvjl__animate_right .lightbox-image {
+  position: relative;
+  animation: animateright 0.6s ease-out;
+}
+
+@keyframes animateright {
+  from {
+    right: -100px;
+    opacity: 0;
+  }
+
+  to {
+    right: 0;
+    opacity: 1;
+  }
+
+}
+
+.lightbox-modal .vvjl__animate_bottom .lightbox-image {
+  position: relative;
+  animation: animatebottom 0.6s ease-out;
+}
+
+@keyframes animatebottom {
+  from {
+    bottom: -100px;
+    opacity: 0;
+  }
+
+  to {
+    bottom: 0;
+    opacity: 1;
+  }
+
+}
+
+.lightbox-modal .vvjl__animate_zoom .lightbox-image {
+  animation: animatezoom 0.6s ease-out;
+}
+
+@keyframes animatezoom {
+  from {
+    transform: scale(0);
+  }
+
+  to {
+    transform: scale(1.05);
+  }
+
+}

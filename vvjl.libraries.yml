@@ -1,0 +1,12 @@
+vvjl:
+  version: VERSION
+  css:
+    theme:
+      css/vvjl.css: { }
+  js:
+    js/vvjl.js: {}
+  dependencies:
+    - core/drupal
+    - core/drupal.ajax
+    - core/drupalSettings
+    - core/once
