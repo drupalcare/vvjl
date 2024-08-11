@@ -67,6 +67,7 @@ class ViewsVanillaJavascriptLightbox extends StylePluginBase {
       '#description' => $this->t('Set the width of the grid image in pixels.'),
       '#step' => 1,
       '#min' => 1,
+      '#required' => TRUE,
     ];
 
     $form['grid_image_gap'] = [
