@@ -6,6 +6,7 @@
  * Website:      https://www.flashwebcenter.com
  * Developer:    Alaa Haddad https://www.alaahaddad.com.
  */
+
 ((Drupal, once) => {
   'use strict';
   Drupal.behaviors.vvjLightbox = {
@@ -24,6 +25,25 @@
           wrapper.className = wrapper.className.replace(/\bgrid-count-\d+\b/g, '');
           wrapper.classList.add(`grid-count-${itemCount}`);
         });
+      };
+
+      const disableLinksInItems = (disable) => {
+        items.forEach(item => {
+          const links = item.querySelectorAll('a');
+          links.forEach(link => {
+            if (disable) {
+              link.setAttribute('tabindex', '-1');
+              link.addEventListener('click', preventDefaultHandler);
+            } else {
+              link.removeAttribute('tabindex');
+              link.removeEventListener('click', preventDefaultHandler);
+            }
+          });
+        });
+      };
+
+      const preventDefaultHandler = (event) => {
+        event.preventDefault();
       };
 
       const updateModalContent = () => {
@@ -61,31 +81,29 @@
         currModal.focus();
         document.addEventListener('keydown', trapFocus);
         event.stopPropagation();
+        disableLinksInItems(false); // Re-enable links when the modal is open
       };
 
-const closeModal = (event) => {
-  // Trigger fade-out animation
-  modalContent.classList.remove('fade-in');
-  modalContent.classList.add('fade-out');
+      const closeModal = (event) => {
+        modalContent.classList.remove('fade-in');
+        modalContent.classList.add('fade-out');
 
-  // Use setTimeout to wait for the animation to complete before hiding the modal
-  setTimeout(() => {
-    currModal.style.display = 'none';
-    currModal.setAttribute('aria-hidden', 'true');
-    document.querySelectorAll('.lightbox-row[aria-expanded="true"]').forEach(row => row.setAttribute('aria-expanded', 'false'));
-    currentIndex = -1;
-    if (lastFocusedElement) {
-      lastFocusedElement.focus();
-    }
-    document.removeEventListener('keydown', trapFocus);
+        setTimeout(() => {
+          currModal.style.display = 'none';
+          currModal.setAttribute('aria-hidden', 'true');
+          document.querySelectorAll('.lightbox-row[aria-expanded="true"]').forEach(row => row.setAttribute('aria-expanded', 'false'));
+          currentIndex = -1;
+          if (lastFocusedElement) {
+            lastFocusedElement.focus();
+          }
+          document.removeEventListener('keydown', trapFocus);
 
-    // Reset the animation classes
-    modalContent.classList.remove('fade-out');
-  }, 500); // The timeout should match the duration of the fade-out animation (0.5s = 500ms)
+          modalContent.classList.remove('fade-out');
+          disableLinksInItems(true); // Disable links when the modal is closed
+        }, 500);
 
-  if (event) event.stopPropagation();
-};
-
+        if (event) event.stopPropagation();
+      };
 
       const navigateModal = (direction) => {
         document.querySelectorAll('.lightbox-row[aria-expanded="true"]').forEach(row => row.setAttribute('aria-expanded', 'false'));
@@ -135,10 +153,10 @@ const closeModal = (event) => {
         }
       });
 
-      window.addEventListener('load', updateItemCountClass);
+      window.addEventListener('load', () => {
+        updateItemCountClass();
+        disableLinksInItems(true); // Disable links initially when the page loads
+      });
     }
   };
 })(Drupal, once);
-
-
-
