@@ -39,7 +39,7 @@ class ViewsVanillaJavascriptLightbox extends StylePluginBase {
     $options['overlay_color'] = ['default' => '#000000'];
     $options['overlay_opacity'] = ['default' => 0.4];
     $options['disable_overlay'] = ['default' => FALSE];
-    $options['animation'] = ['default' => 'vvjl__animate_bottom'];
+    $options['animation'] = ['default' => 'a-bottom'];
     return $options;
   }
 
@@ -84,11 +84,11 @@ class ViewsVanillaJavascriptLightbox extends StylePluginBase {
       '#title' => $this->t('Animation Type'),
       '#options' => [
         'none' => $this->t('None'),
-        'vvjl__animate_top' => $this->t('Top'),
-        'vvjl__animate_bottom' => $this->t('Bottom'),
-        'vvjl__animate_left' => $this->t('Left'),
-        'vvjl__animate_right' => $this->t('Right'),
-        'vvjl__animate_zoom' => $this->t('Zoom'),
+        'a-zoom' => $this->t('Zoom'),
+        'a-top' => $this->t('Slide from Top'),
+        'a-right' => $this->t('Slide from Right'),
+        'a-bottom' => $this->t('Slide from Bottom'),
+        'a-left' => $this->t('Slide from Left'),
       ],
       '#default_value' => $this->options['animation'],
       '#description' => $this->t('Choose the animation type to apply when click next/prev in the modal.'),

@@ -42,9 +42,7 @@
       <h2 id="lightbox-heading" class="visually-hidden">{{ 'Image Grid Lightbox'|t }}</h2>
       <button class="button modal-close">
         <span class="visually-hidden">{{ 'Close Grid'|t }}</span>
-        <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
-          <path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/>
-        </svg>
+        {{ include('@vvjl/svg/svg-close.svg') }}
       </button>
 
       {# Image counter #}
@@ -57,15 +55,11 @@
       </div>
       <button class="button modal-prev">
         <span class="visually-hidden">{{ 'Previous'|t }}</span>
-        <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
-          <path d="M640-80 240-480l400-400 71 71-329 329 329 329-71 71Z"/>
-        </svg>
+        {{ include('@vvjl/svg/svg-prev.svg') }}
       </button>
       <button class="button modal-next">
         <span class="visually-hidden">{{ 'Next'|t }}</span>
-        <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
-          <path d="m321-80-71-71 329-329-329-329 71-71 400 400L321-80Z"/>
-        </svg>
+        {{ include('@vvjl/svg/svg-next.svg') }}
       </button>
     </div>
 
@@ -83,9 +77,7 @@
         <div class="lightbox-image">
           <button class="button modal-open" aria-controls="{{ lightbox_inner_id }}" aria-label="{{ 'Expand slide @index'|t({'@index': loop.index}) }}">
             <span class="visually-hidden">{{ 'Expand image grid'|t }}</span>
-            <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
-              <path d="M120-120v-320h80v184l504-504H520v-80h320v320h-80v-184L256-200h184v80H120Z"/>
-            </svg>
+            {{ include('@vvjl/svg/svg-expand.svg') }}
           </button>
           {{ image_field|safe_html }}
         </div>

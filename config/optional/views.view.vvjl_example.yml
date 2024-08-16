@@ -213,6 +213,7 @@ display:
           grouping: {  }
           grid_image_width: '100'
           grid_image_gap: '10'
+          animation: a-bottom
           overlay_color: '#000000'
           overlay_opacity: '0.3'
           disable_overlay: 0
