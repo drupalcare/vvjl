@@ -20,7 +20,8 @@
 {% set lightbox_inner_id = 'vvjl-inner-' ~ unique_id %}
 
 {% set grid_width = options.grid_image_width %}
-{% set vvjl_grid_width =  'grid-template-columns: repeat(auto-fill, minmax(' ~ grid_width ~ 'px, 1fr));' %}
+{% set vvjl_grid_width = 'grid-template-columns: repeat(auto-fill, minmax(' ~ grid_width ~ 'px, 1fr)); ' %}
+
 {% set grid_gap = options.grid_image_gap %}
 
 {% if grid_gap > 0 %}
@@ -36,7 +37,7 @@
 {% set total_slides = rows|length %}
 
 <div {{ attributes.addClass(classes).setAttribute('id', vvjl_id) }} aria-label="Image Grid">
-  <div id="{{ lightbox_inner_id }}" style="{{ vvjl_grid_width }} {{ vvjl_grid_gap }}" class="vvjl-inner">
+  <div id="{{ lightbox_inner_id }}" style="{{ vvjl_grid_width }}{{ vvjl_grid_gap }}" class="vvjl-inner">
 
     <div class="lightbox-modal" aria-hidden="true" style="display: none;" role="dialog" aria-labelledby="lightbox-heading">
       <h2 id="lightbox-heading" class="visually-hidden">{{ 'Image Grid Lightbox'|t }}</h2>
