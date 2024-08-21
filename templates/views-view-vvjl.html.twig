@@ -83,9 +83,11 @@
           {{ image_field|safe_html }}
         </div>
 
-        <div class="lightbox-content" {% if background_rgb and not options.disable_overlay %} style="background-color:{{ background_rgb }}"{% endif %}>
-          {{ foreground_field|safe_html }}
-        </div>
+        {% if foreground_field|render|striptags|trim %}
+          <div class="lightbox-content" {% if background_rgb and not options.disable_overlay %} style="background-color:{{ background_rgb }}"{% endif %}>
+            {{ foreground_field|safe_html }}
+          </div>
+        {% endif %}
 
       </div>
     {% endfor %}
