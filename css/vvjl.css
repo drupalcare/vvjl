@@ -20,8 +20,15 @@
   white-space: nowrap;
 }
 
-.vvjl,
-.vvjl * {
+.vvj-lightbox,
+.vvj-lightbox .view-content {
+  width: 100%;
+  min-width: 100%;
+  display: block!important;
+}
+
+.vvj-lightbox,
+.vvj-lightbox * {
   box-sizing: border-box;
 }
 
