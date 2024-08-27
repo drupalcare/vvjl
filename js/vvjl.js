@@ -140,6 +140,15 @@
         }
       };
 
+      const initializeAriaAttributes = () => {
+        // Ensure initial state of aria-hidden and aria-expanded on load
+        items.forEach(item => {
+          item.setAttribute('aria-expanded', 'false');
+        });
+        currModal.setAttribute('aria-hidden', 'true');
+        disableLinksInItems(true); // Disable links initially when the page loads
+      };
+
       once('modalExpand', '.lightbox-row', context).forEach(row => row.addEventListener('click', openModal));
       once('modalNavigation', '.modal-next, .modal-prev', context).forEach(button => button.addEventListener('click', event => {
         const direction = button.classList.contains('modal-next') ? 'next' : 'prev';
@@ -155,7 +164,7 @@
 
       window.addEventListener('load', () => {
         updateItemCountClass();
-        disableLinksInItems(true); // Disable links initially when the page loads
+        initializeAriaAttributes(); // Initialize ARIA attributes on load
       });
     }
   };

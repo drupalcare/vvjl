@@ -25,7 +25,7 @@
 {% set grid_gap = options.grid_image_gap %}
 
 {% if grid_gap > 0 %}
-{% set vvjl_grid_gap =  'gap:' ~ grid_gap ~ 'px;' %}
+  {% set vvjl_grid_gap =  'gap:' ~ grid_gap ~ 'px;' %}
 {% endif %}
 
 {# Initialize base classes array #}
@@ -36,7 +36,8 @@
 
 {% set total_slides = rows|length %}
 
-<div {{ attributes.addClass(classes).setAttribute('id', vvjl_id) }} aria-label="Image Grid">
+<div {{ attributes.addClass(classes).setAttribute('id', vvjl_id) }} role="region" aria-labelledby="image-grid-heading">
+  <h2 id="image-grid-heading" class="visually-hidden">{{ 'Image Grid'|t }}</h2>
   <div id="{{ lightbox_inner_id }}" style="{{ vvjl_grid_width }}{{ vvjl_grid_gap }}" class="vvjl-inner">
 
     <div class="lightbox-modal" aria-hidden="true" style="display: none;" role="dialog" aria-labelledby="lightbox-heading">
@@ -73,10 +74,12 @@
       {% set image_field = split_content[0] %}
       {% set foreground_field = split_content[1]|default('') %}
 
-      <div id="{{ vvjl_id ~ '-' ~ (key + 1) }}" class="lightbox-row {{ options.animation }}" aria-expanded="false" aria-label="{{ 'Slide @index of @total'|t({'@index': loop.index, '@total': total_slides}) }}">
+      <div id="{{ vvjl_id ~ '-' ~ (key + 1) }}" class="lightbox-row {{ options.animation }}" role="group" aria-labelledby="slide-{{ key + 1 }}-heading">
+
+        <h3 id="slide-{{ key + 1 }}-heading" class="visually-hidden">{{ 'Slide @index of @total'|t({'@index': loop.index, '@total': total_slides}) }}</h3>
 
         <div class="lightbox-image">
-          <button class="button modal-open" aria-controls="{{ lightbox_inner_id }}" aria-label="{{ 'Expand slide @index'|t({'@index': loop.index}) }}">
+          <button class="button modal-open" aria-controls="{{ lightbox_inner_id }}" aria-expanded="false" aria-label="{{ 'Expand slide @index'|t({'@index': loop.index}) }}">
             <span class="visually-hidden">{{ 'Expand image grid'|t }}</span>
             {{ include('@vvjl/svg/svg-expand.svg') }}
           </button>
@@ -94,4 +97,5 @@
 
   </div> {# End of vvjl-inner #}
 </div> {# End of main wrapper #}
+
 
