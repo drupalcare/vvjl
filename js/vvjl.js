@@ -6,20 +6,23 @@
  * Website:      https://www.flashwebcenter.com
  * Developer:    Alaa Haddad https://www.alaahaddad.com.
  */
-
 ((Drupal, once) => {
   'use strict';
   Drupal.behaviors.vvjLightbox = {
     attach: (context, settings) => {
-      const currModal = document.querySelector('.lightbox-modal');
+      const currModal = context.querySelector('.lightbox-modal');
+      if (!currModal) {
+        return; // Exit if modal is not found in the context
+      }
+
       const modalContent = currModal.querySelector('.lightbox-modal-content');
-      const currentImageSpan = document.getElementById('current-image');
+      const currentImageSpan = context.getElementById('current-image');
       let currentIndex = -1;
-      let items = Array.from(document.querySelectorAll('.lightbox-row'));
+      let items = Array.from(context.querySelectorAll('.lightbox-row'));
       let lastFocusedElement;
 
       const updateItemCountClass = () => {
-        const wrappers = document.querySelectorAll('.vvjl-inner');
+        const wrappers = context.querySelectorAll('.vvjl-inner');
         wrappers.forEach(wrapper => {
           const itemCount = wrapper.children.length - 1;
           wrapper.className = wrapper.className.replace(/\bgrid-count-\d+\b/g, '');
@@ -91,7 +94,7 @@
         setTimeout(() => {
           currModal.style.display = 'none';
           currModal.setAttribute('aria-hidden', 'true');
-          document.querySelectorAll('.lightbox-row[aria-expanded="true"]').forEach(row => row.setAttribute('aria-expanded', 'false'));
+          context.querySelectorAll('.lightbox-row[aria-expanded="true"]').forEach(row => row.setAttribute('aria-expanded', 'false'));
           currentIndex = -1;
           if (lastFocusedElement) {
             lastFocusedElement.focus();
@@ -106,7 +109,7 @@
       };
 
       const navigateModal = (direction) => {
-        document.querySelectorAll('.lightbox-row[aria-expanded="true"]').forEach(row => row.setAttribute('aria-expanded', 'false'));
+        context.querySelectorAll('.lightbox-row[aria-expanded="true"]').forEach(row => row.setAttribute('aria-expanded', 'false'));
 
         if (direction === 'next') {
           currentIndex = (currentIndex + 1) % items.length;
