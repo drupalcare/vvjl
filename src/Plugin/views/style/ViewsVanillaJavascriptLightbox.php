@@ -34,10 +34,10 @@ class ViewsVanillaJavascriptLightbox extends StylePluginBase {
   protected function defineOptions(): array {
     $options = parent::defineOptions();
     $options['unique_id'] = ['default' => $this->generateUniqueId()];
-    $options['grid_image_width'] = ['default' => 300];
-    $options['grid_image_gap'] = ['default' => 20];
-    $options['overlay_color'] = ['default' => '#000000'];
-    $options['overlay_opacity'] = ['default' => 0.4];
+    $options['grid_image_width'] = ['default' => 330];
+    $options['grid_image_gap'] = ['default' => 24];
+    $options['overlay_color'] = ['default' => '#ffffff'];
+    $options['overlay_opacity'] = ['default' => 0.7];
     $options['disable_overlay'] = ['default' => FALSE];
     $options['animation'] = ['default' => 'a-bottom'];
     return $options;
@@ -66,7 +66,7 @@ class ViewsVanillaJavascriptLightbox extends StylePluginBase {
       '#default_value' => $this->options['grid_image_width'],
       '#description' => $this->t('Set the width of the grid image in pixels.'),
       '#step' => 1,
-      '#min' => 1,
+      '#min' => 50,
       '#required' => TRUE,
     ];
 
@@ -76,7 +76,8 @@ class ViewsVanillaJavascriptLightbox extends StylePluginBase {
       '#default_value' => $this->options['grid_image_gap'],
       '#description' => $this->t('Set the gap between grid images in pixels.'),
       '#step' => 1,
-      '#min' => 1,
+      '#min' => 0,
+      '#required' => TRUE,
     ];
 
     $form['animation'] = [

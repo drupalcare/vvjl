@@ -18,15 +18,19 @@
 {% set unique_id = options.unique_id %}
 {% set vvjl_id = 'vvjl-' ~ unique_id %}
 {% set lightbox_inner_id = 'vvjl-inner-' ~ unique_id %}
-
-{% set grid_width = options.grid_image_width %}
-{% set vvjl_grid_width = 'grid-template-columns: repeat(auto-fill, minmax(' ~ grid_width ~ 'px, 1fr)); ' %}
-
 {% set grid_gap = options.grid_image_gap %}
+{% set box_width = options.grid_image_width %}
 
-{% if grid_gap > 0 %}
-  {% set vvjl_grid_gap =  'gap:' ~ grid_gap ~ 'px;' %}
+{# Build the style attribute conditionally #}
+{% set style_attributes = [] %}
+{% if box_width > 0 %}
+  {% set style_attributes = style_attributes|merge(['--box-width: ' ~ box_width]) %}
 {% endif %}
+{% if grid_gap > 0 %}
+  {% set style_attributes = style_attributes|merge(['--grid-gap: ' ~ grid_gap]) %}
+{% endif %}
+{# Combine style attributes into a single string #}
+{% set style_string = style_attributes ? style_attributes|join('; ') : '' %}
 
 {# Initialize base classes array #}
 {% set classes = [
@@ -38,7 +42,7 @@
 
 <div {{ attributes.addClass(classes).setAttribute('id', vvjl_id) }} role="region" aria-labelledby="image-grid-heading">
   <h2 id="image-grid-heading" class="visually-hidden">{{ 'Image Grid'|t }}</h2>
-  <div id="{{ lightbox_inner_id }}" style="{{ vvjl_grid_width }}{{ vvjl_grid_gap }}" class="vvjl-inner">
+  <div id="{{ lightbox_inner_id }}" class="vvjl-inner" {% if style_string %}style="{{ style_string }}"{% endif %}>
 
     <div class="lightbox-modal" aria-hidden="true" style="display: none;" role="dialog" aria-labelledby="lightbox-heading">
       <h2 id="lightbox-heading" class="visually-hidden">{{ 'Image Grid Lightbox'|t }}</h2>
@@ -87,7 +91,7 @@
         </div>
 
         {% if foreground_field|render|striptags|trim %}
-          <div class="lightbox-content" {% if background_rgb and not options.disable_overlay %} style="background-color:{{ background_rgb }}"{% endif %}>
+          <div class="lightbox-content" {% if background_rgb and not options.disable_overlay %} style="--bg-color:{{ background_rgb }}"{% endif %}>
             {{ foreground_field|safe_html }}
           </div>
         {% endif %}
