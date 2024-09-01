@@ -112,7 +112,7 @@
 .lightbox-modal .modal-close,
 .lightbox-row .modal-open {
   position: absolute;
-  z-index: 3000;
+  z-index: 1;
   right: 0;
   top: 0;
   cursor: pointer;
