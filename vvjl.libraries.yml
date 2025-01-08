@@ -1,5 +1,4 @@
 vvjl:
-  version: VERSION
   css:
     theme:
       css/vvjl.css: { }
