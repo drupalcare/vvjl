@@ -212,7 +212,7 @@
 }
 
 /* Responsive styles */
-@media (max-width:36rem) {
+@media (max-width:35.99875rem) {
   .lightbox-modal .modal-prev,
   .lightbox-modal .modal-next {
     top: calc(50% - 20px);
