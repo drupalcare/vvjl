@@ -21,7 +21,7 @@ display:
     display_plugin: default
     position: 0
     display_options:
-      title: 'VVJT View'
+      title: 'VVJL View'
       fields:
         field_image:
           id: field_image
