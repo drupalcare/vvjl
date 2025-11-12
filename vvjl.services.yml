@@ -1,5 +1,5 @@
 services:
-  drupal.vvjl.twig_extension:
+  vvjl.twig_extension:
     class: Drupal\vvjl\Twig\VVJLTwigExtension
     tags:
       - { name: twig.extension }

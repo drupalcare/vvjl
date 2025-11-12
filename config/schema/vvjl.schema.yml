@@ -1,0 +1,25 @@
+views.style.views_vvjl:
+  type: views_style
+  label: 'Views Vanilla JavaScript Lightbox'
+  mapping:
+    unique_id:
+      type: integer
+      label: 'Unique identifier for lightbox instance'
+    grid_image_width:
+      type: integer
+      label: 'Grid image width in pixels'
+    grid_image_gap:
+      type: integer
+      label: 'Grid image gap in pixels'
+    overlay_color:
+      type: string
+      label: 'Overlay background color'
+    overlay_opacity:
+      type: float
+      label: 'Overlay background opacity'
+    disable_overlay:
+      type: boolean
+      label: 'Disable overlay color'
+    animation:
+      type: string
+      label: 'Animation type'

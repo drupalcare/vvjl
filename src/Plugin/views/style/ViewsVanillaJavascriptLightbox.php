@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Drupal\vvjl\Plugin\views\style;
 
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\views\Plugin\views\style\StylePluginBase;
-use Drupal\Core\Url;
+use Drupal\vvjl\VvjlConstants;
 
 /**
  * Style plugin to render items in Lightbox using vanilla JavaScript.
@@ -22,6 +24,16 @@ use Drupal\Core\Url;
 class ViewsVanillaJavascriptLightbox extends StylePluginBase {
 
   /**
+   * Animation type constants.
+   */
+  public const ANIMATION_NONE = 'none';
+  public const ANIMATION_ZOOM = 'a-zoom';
+  public const ANIMATION_TOP = 'a-top';
+  public const ANIMATION_RIGHT = 'a-right';
+  public const ANIMATION_BOTTOM = 'a-bottom';
+  public const ANIMATION_LEFT = 'a-left';
+
+  /**
    * Does the style plugin use a row plugin.
    *
    * @var bool
@@ -34,109 +46,206 @@ class ViewsVanillaJavascriptLightbox extends StylePluginBase {
   protected $usesRowClass = TRUE;
 
   /**
-   * Set default options.
+   * Cached unique ID for this view display.
+   *
+   * @var int|null
+   */
+  protected ?int $cachedUniqueId = NULL;
+
+  /**
+   * {@inheritdoc}
    */
   protected function defineOptions(): array {
     $options = parent::defineOptions();
-    $options['unique_id'] = ['default' => $this->generateUniqueId()];
-    $options['grid_image_width'] = ['default' => 330];
-    $options['grid_image_gap'] = ['default' => 24];
-    $options['overlay_color'] = ['default' => '#ffffff'];
-    $options['overlay_opacity'] = ['default' => 0.7];
-    $options['disable_overlay'] = ['default' => FALSE];
-    $options['animation'] = ['default' => 'a-bottom'];
+    $options[VvjlConstants::OPTION_UNIQUE_ID] = ['default' => $this->generateUniqueId()];
+    $options[VvjlConstants::OPTION_GRID_IMAGE_WIDTH] = ['default' => VvjlConstants::DEFAULT_GRID_IMAGE_WIDTH];
+    $options[VvjlConstants::OPTION_GRID_IMAGE_GAP] = ['default' => VvjlConstants::DEFAULT_GRID_IMAGE_GAP];
+    $options[VvjlConstants::OPTION_OVERLAY_COLOR] = ['default' => VvjlConstants::DEFAULT_OVERLAY_COLOR];
+    $options[VvjlConstants::OPTION_OVERLAY_OPACITY] = ['default' => VvjlConstants::DEFAULT_OVERLAY_OPACITY];
+    $options[VvjlConstants::OPTION_DISABLE_OVERLAY] = ['default' => VvjlConstants::DEFAULT_DISABLE_OVERLAY];
+    $options[VvjlConstants::OPTION_ANIMATION] = ['default' => VvjlConstants::DEFAULT_ANIMATION];
     return $options;
   }
 
   /**
-   * Builds the options form for configuring the plugin.
+   * Gets available animation type options.
    *
-   * @param array $form
-   *   The form array.
-   * @param \Drupal\Core\Form\FormStateInterface $form_state
-   *   The form state.
+   * @return array
+   *   Array of animation options with translated labels.
    */
-  public function buildOptionsForm(&$form, FormStateInterface $form_state) {
+  protected function getAnimationOptions(): array {
+    return [
+      self::ANIMATION_NONE => $this->t('None'),
+      self::ANIMATION_ZOOM => $this->t('Zoom'),
+      self::ANIMATION_TOP => $this->t('Slide from Top'),
+      self::ANIMATION_RIGHT => $this->t('Slide from Right'),
+      self::ANIMATION_BOTTOM => $this->t('Slide from Bottom'),
+      self::ANIMATION_LEFT => $this->t('Slide from Left'),
+    ];
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function buildOptionsForm(&$form, FormStateInterface $form_state): void {
     parent::buildOptionsForm($form, $form_state);
 
-    // Add a warning message if the first field is not set to "URL to image".
+    $this->setDefaultElementWeights($form);
+    $this->buildWarningMessage($form);
+    $this->buildGridSection($form);
+    $this->buildAnimationSection($form);
+    $this->buildOverlaySection($form);
+    $this->buildTokenDocumentation($form);
+  }
+
+  /**
+   * Set weights for default Drupal form elements.
+   */
+  protected function setDefaultElementWeights(array &$form): void {
+    $default_elements = [
+      'grouping' => -100,
+      'row_class' => -90,
+      'default_row_class' => -85,
+      'uses_fields' => -80,
+      'class' => -75,
+      'wrapper_class' => -70,
+    ];
+
+    foreach ($default_elements as $element_key => $weight) {
+      if (isset($form[$element_key])) {
+        $form[$element_key]['#weight'] = $weight;
+      }
+    }
+  }
+
+  /**
+   * Build warning message section.
+   */
+  protected function buildWarningMessage(array &$form): void {
+    if ($this->view->storage->id() === 'vvjl_example') {
+      return;
+    }
     $form['warning_message'] = [
       '#type' => 'markup',
-      '#markup' => '<div class="messages messages--warning">' . $this->t('Note: The first field must be an image. To see an example, check the vvjl_example view by clicking <a href="/admin/structure/views/view/vvjl_example" style="display: inline;">here</a> to edit it.', ['@url' => Url::fromRoute('entity.view.edit_form', ['view' => 'vvjl_example'])->toString()]) . '</div>',
+      '#markup' => '<div class="messages messages--warning">' . $this->t('Note: The first field must be an image. To see an example, check the vvjl_example view by clicking <a href="/admin/structure/views/view/@view_id" style="display: inline;">here</a> to edit it.', ['@view_id' => VvjlConstants::EXAMPLE_VIEW_ID]) . '</div>',
+      '#weight' => -50,
+    ];
+  }
+
+  /**
+   * Build grid configuration section.
+   */
+  protected function buildGridSection(array &$form): void {
+    $form['grid_section'] = [
+      '#type' => 'details',
+      '#title' => $this->t('Grid Settings'),
+      '#open' => TRUE,
+      '#weight' => -40,
     ];
 
-    $form['grid_image_width'] = [
+    $form['grid_section'][VvjlConstants::OPTION_GRID_IMAGE_WIDTH] = [
       '#type' => 'number',
       '#title' => $this->t('Grid Image Width (px)'),
-      '#default_value' => $this->options['grid_image_width'],
+      '#default_value' => $this->options[VvjlConstants::OPTION_GRID_IMAGE_WIDTH],
       '#description' => $this->t('Set the width of the grid image in pixels.'),
       '#step' => 1,
-      '#min' => 50,
+      '#min' => VvjlConstants::MIN_GRID_IMAGE_WIDTH,
       '#required' => TRUE,
     ];
 
-    $form['grid_image_gap'] = [
+    $form['grid_section'][VvjlConstants::OPTION_GRID_IMAGE_GAP] = [
       '#type' => 'number',
       '#title' => $this->t('Grid Image Gap (px)'),
-      '#default_value' => $this->options['grid_image_gap'],
+      '#default_value' => $this->options[VvjlConstants::OPTION_GRID_IMAGE_GAP],
       '#description' => $this->t('Set the gap between grid images in pixels.'),
       '#step' => 1,
-      '#min' => 0,
+      '#min' => VvjlConstants::MIN_GRID_IMAGE_GAP,
       '#required' => TRUE,
     ];
+  }
 
-    $form['animation'] = [
+  /**
+   * Build animation configuration section.
+   */
+  protected function buildAnimationSection(array &$form): void {
+    $form['animation_section'] = [
+      '#type' => 'details',
+      '#title' => $this->t('Animation Settings'),
+      '#open' => TRUE,
+      '#weight' => -30,
+    ];
+
+    $form['animation_section'][VvjlConstants::OPTION_ANIMATION] = [
       '#type' => 'select',
       '#title' => $this->t('Animation Type'),
-      '#options' => [
-        'none' => $this->t('None'),
-        'a-zoom' => $this->t('Zoom'),
-        'a-top' => $this->t('Slide from Top'),
-        'a-right' => $this->t('Slide from Right'),
-        'a-bottom' => $this->t('Slide from Bottom'),
-        'a-left' => $this->t('Slide from Left'),
-      ],
-      '#default_value' => $this->options['animation'],
+      '#options' => $this->getAnimationOptions(),
+      '#default_value' => $this->options[VvjlConstants::OPTION_ANIMATION],
       '#description' => $this->t('Choose the animation type to apply when click next/prev in the modal.'),
     ];
+  }
 
-    // Overlay color configuration.
-    $form['overlay_color'] = [
-      '#type' => 'color',
-      '#title' => $this->t('Overlay Color'),
-      '#default_value' => $this->options['overlay_color'],
-      '#description' => $this->t('Choose a color overlay for the lightbox background.'),
+  /**
+   * Build overlay configuration section.
+   */
+  protected function buildOverlaySection(array &$form): void {
+    $form['overlay_section'] = [
+      '#type' => 'details',
+      '#title' => $this->t('Overlay Settings'),
+      '#open' => TRUE,
+      '#weight' => -20,
     ];
 
-    // Overlay opacity configuration.
-    $form['overlay_opacity'] = [
+    $form['overlay_section'][VvjlConstants::OPTION_OVERLAY_COLOR] = [
+      '#type' => 'color',
+      '#title' => $this->t('Overlay Color'),
+      '#default_value' => $this->options[VvjlConstants::OPTION_OVERLAY_COLOR],
+      '#description' => $this->t('Choose a color overlay for the lightbox background.'),
+      '#states' => [
+        'disabled' => [
+          ':input[name="style_options[overlay_section][' . VvjlConstants::OPTION_DISABLE_OVERLAY . ']"]' => ['checked' => TRUE],
+        ],
+      ],
+    ];
+
+    $form['overlay_section'][VvjlConstants::OPTION_OVERLAY_OPACITY] = [
       '#type' => 'range',
       '#title' => $this->t('Overlay Opacity'),
-      '#default_value' => $this->options['overlay_opacity'],
-      '#min' => 0,
-      '#max' => 1,
-      '#step' => 0.1,
+      '#default_value' => $this->options[VvjlConstants::OPTION_OVERLAY_OPACITY],
+      '#min' => VvjlConstants::MIN_OPACITY,
+      '#max' => VvjlConstants::MAX_OPACITY,
+      '#step' => VvjlConstants::OPACITY_STEP,
       '#description' => $this->t('Set the opacity level for the overlay.'),
-      '#suffix' => '<span id="overlay-opacity-value">' . $this->options['overlay_opacity'] . '</span>',
+      '#suffix' => '<span id="overlay-opacity-value">' . $this->options[VvjlConstants::OPTION_OVERLAY_OPACITY] . '</span>',
       '#attributes' => [
         'oninput' => 'document.getElementById("overlay-opacity-value").innerText = this.value;',
       ],
+      '#states' => [
+        'disabled' => [
+          ':input[name="style_options[overlay_section][' . VvjlConstants::OPTION_DISABLE_OVERLAY . ']"]' => ['checked' => TRUE],
+        ],
+      ],
     ];
-    // Add the disable background checkbox.
-    $form['disable_overlay'] = [
+
+    $form['overlay_section'][VvjlConstants::OPTION_DISABLE_OVERLAY] = [
       '#type' => 'checkbox',
       '#title' => $this->t('Disable Overlay Color'),
-      '#default_value' => $this->options['disable_overlay'],
+      '#default_value' => $this->options[VvjlConstants::OPTION_DISABLE_OVERLAY],
       '#description' => $this->t('Check this to disable overlay color completely.'),
     ];
+  }
 
-    $form['vvjl_token_info'] = [
+  /**
+   * Build token documentation section.
+   */
+  protected function buildTokenDocumentation(array &$form): void {
+    $form['token_section'] = [
       '#type' => 'details',
-      '#title' => $this->t('VVJL Tokens'),
-      '#open' => TRUE,
+      '#title' => $this->t('Token Documentation'),
+      '#open' => FALSE,
+      '#weight' => 100,
     ];
 
-    $form['vvjl_token_info']['description'] = [
+    $form['token_section']['description'] = [
       '#markup' => $this->t('<p>When using <em>Global: Text area</em> or <em>Global: Unfiltered text</em> in the Views header, footer, or empty text areas, the default Twig-style tokens (e.g., <code>{{ title }}</code>) will not work with the VVJL style plugin.</p>
         <p>Instead, use the custom VVJL token format to access field values from the <strong>first row</strong> of the View result:</p>
         <ul>
@@ -151,46 +260,100 @@ class ViewsVanillaJavascriptLightbox extends StylePluginBase {
         </ul>
         <p>These tokens offer safe and flexible field output for dynamic headings, summaries, and fallback messages in VVJL-enabled Views.</p>'),
     ];
+  }
 
+  /**
+   * {@inheritdoc}
+   */
+  public function submitOptionsForm(&$form, FormStateInterface $form_state): void {
+    $values = $form_state->getValue('style_options');
+    $flattened_values = $this->flattenFormValues($values);
+    $form_state->setValue('style_options', $flattened_values);
+
+    parent::submitOptionsForm($form, $form_state);
+  }
+
+  /**
+   * Flatten nested form values to match original structure.
+   */
+  protected function flattenFormValues(array $values): array {
+    $flattened = [];
+
+    if (isset($values['grid_section'])) {
+      $flattened[VvjlConstants::OPTION_GRID_IMAGE_WIDTH] = $values['grid_section'][VvjlConstants::OPTION_GRID_IMAGE_WIDTH] ?? VvjlConstants::DEFAULT_GRID_IMAGE_WIDTH;
+      $flattened[VvjlConstants::OPTION_GRID_IMAGE_GAP] = $values['grid_section'][VvjlConstants::OPTION_GRID_IMAGE_GAP] ?? VvjlConstants::DEFAULT_GRID_IMAGE_GAP;
+    }
+
+    if (isset($values['animation_section'])) {
+      $flattened[VvjlConstants::OPTION_ANIMATION] = $values['animation_section'][VvjlConstants::OPTION_ANIMATION] ?? VvjlConstants::DEFAULT_ANIMATION;
+    }
+
+    if (isset($values['overlay_section'])) {
+      $flattened[VvjlConstants::OPTION_OVERLAY_COLOR] = $values['overlay_section'][VvjlConstants::OPTION_OVERLAY_COLOR] ?? VvjlConstants::DEFAULT_OVERLAY_COLOR;
+      $flattened[VvjlConstants::OPTION_OVERLAY_OPACITY] = $values['overlay_section'][VvjlConstants::OPTION_OVERLAY_OPACITY] ?? VvjlConstants::DEFAULT_OVERLAY_OPACITY;
+      $flattened[VvjlConstants::OPTION_DISABLE_OVERLAY] = $values['overlay_section'][VvjlConstants::OPTION_DISABLE_OVERLAY] ?? VvjlConstants::DEFAULT_DISABLE_OVERLAY;
+    }
+
+    $flattened[VvjlConstants::OPTION_UNIQUE_ID] = $this->options[VvjlConstants::OPTION_UNIQUE_ID] ?? $this->generateUniqueId();
+
+    return $flattened;
   }
 
   /**
    * Generates a unique numeric ID for the view display.
    *
    * @return int
-   *   A unique numeric ID.
+   *   A unique ID between 10000000 and 99999999.
    *
    * @throws \Random\RandomException
-   *   Thrown if an appropriate source of randomness cannot be found.
+   *   If an appropriate source of randomness cannot be found.
    */
   protected function generateUniqueId(): int {
-    // 8 digit unique ID
-    return random_int(10000000, 99999999);
+    if ($this->cachedUniqueId !== NULL) {
+      return $this->cachedUniqueId;
+    }
+
+    $this->cachedUniqueId = random_int(VvjlConstants::MIN_UNIQUE_ID, VvjlConstants::MAX_UNIQUE_ID);
+
+    return $this->cachedUniqueId;
   }
 
   /**
-   * Renders the view with the lightbox style.
-   *
-   * @return array
-   *   A render array for the lightbox view.
+   * {@inheritdoc}
+   */
+  public function validate(): array {
+    $errors = parent::validate();
+
+    if (!$this->usesFields()) {
+      $errors[] = $this->t('Views Lightbox requires Fields as row style');
+    }
+
+    return $errors;
+  }
+
+  /**
+   * {@inheritdoc}
    */
   public function render(): array {
     $rows = [];
-    foreach ($this->view->result as $row) {
-      // Render the row content.
-      $rows[] = $this->view->rowPlugin->render($row);
+
+    if (!empty($this->view->result)) {
+      foreach ($this->view->result as $row) {
+        $rendered_row = $this->view->rowPlugin->render($row);
+        if ($rendered_row !== NULL) {
+          $rows[] = $rendered_row;
+        }
+      }
     }
 
-    $libraries = [
-      'vvjl/vvjl',
-    ];
+    $libraries = $this->buildLibraryList();
 
     $build = [
       '#theme' => $this->themeFunctions(),
       '#view' => $this->view,
       '#options' => $this->options,
       '#rows' => $rows,
-      '#unique_id' => $this->options['unique_id'],
+      '#unique_id' => $this->options[VvjlConstants::OPTION_UNIQUE_ID] ?? $this->generateUniqueId(),
       '#attached' => [
         'library' => $libraries,
       ],
@@ -200,14 +363,13 @@ class ViewsVanillaJavascriptLightbox extends StylePluginBase {
   }
 
   /**
-   * {@inheritdoc}
+   * Build the list of libraries to attach.
+   *
+   * @return array
+   *   An array of library names to attach.
    */
-  public function validate() {
-    $errors = parent::validate();
-    if (!$this->usesFields()) {
-      $errors[] = $this->t('Views Lightbox requires Fields as row style');
-    }
-    return $errors;
+  protected function buildLibraryList(): array {
+    return [VvjlConstants::LIBRARY_JS];
   }
 
 }
