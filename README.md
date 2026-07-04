@@ -26,6 +26,20 @@ lightbox>` custom element extending vvj_core's `VvjElementBase`.
 - View Transitions API wrapping every state change (graceful fallback)
 - **Drupal admin help** — extended topic at `/admin/help/vvjl`
 
+## Token Support in Views Text Areas
+
+In Views headers, footers, or empty text with *Use replacement tokens from the
+first row*, default Twig tokens (`{{ title }}`) do not work. Use VVJL tokens
+instead:
+
+- `{{ title }}` → `[vvjl:title]`
+- `{{ field_image }}` → `[vvjl:field_image]`
+- Append `:plain` for plain text: `[vvjl:title:plain]`
+
+v2 resolves tokens through the shared `vvj_core.token_resolver` service; syntax
+is unchanged from v1. Tokens read from the **first row** of rendered View
+fields. Complex field rewrites are not supported.
+
 ## Installation
 
 ```bash
