@@ -1,100 +1,89 @@
-# Views Vanilla JavaScript Lightbox
+# Views Vanilla JavaScript Lightbox (VVJL)
 
-## Overview
-The **Views Vanilla JavaScript Lightbox** module (machine name: `vvjl`) 
-enables you to create beautiful and responsive lightbox displays for 
-various content items on your Drupal site. This module integrates with 
-the Views module, offering a new display style that you can select when 
-creating or editing views. It leverages pure vanilla JavaScript for 
-smooth and lightweight performance without jQuery dependencies.
+A vanilla-JavaScript lightbox **Views format** for Drupal 11.3+ / 12. Renders
+Views rows as a clickable image grid; clicking an image opens a modal with
+previous/next navigation and overlay color/opacity controls.
+
+v2.0 builds on the **`drupal/vvj_core` foundation** — composer auto-installs it
+on `composer update drupal/vvjl`. The lightbox behavior runs in a `<vvjl-
+lightbox>` custom element extending vvj_core's `VvjElementBase`.
 
 ## Features
-- **Lightbox Format**: Displays content items in a visually appealing 
-  lightbox format.
-- **Customizable Options**: Provides settings for grid image width, 
-  image gap, overlay color, opacity, and animation types.
-- **Responsive Design**: Ensures the lightbox adapts seamlessly to 
-  different screen sizes.
-- **Animation Effects**: Includes various transition animations such as 
-  top, bottom, left, right, and zoom.
-- **Unique ID Generation**: Automatically generates a unique numeric ID 
-  for each view display to ensure consistency and prevent conflicts.
 
-## Configuration
-After installing and enabling the module, you can configure it through 
-the Views UI:
-
-1. **Grid Image Width**: Set the width of the grid images in pixels.
-2. **Grid Image Gap**: Define the gap between grid images in pixels.
-3. **Overlay Color**: Choose a color for the lightbox background overlay.
-4. **Overlay Opacity**: Set the opacity level for the overlay (from 0.0 
-   to 1.0).
-5. **Disable Overlay**: Option to completely disable the overlay color.
-6. **Animation Type**: Select the type of animation for transitions 
-   between images (e.g., Top, Bottom, Left, Right, Zoom).
-
-## Token Support in Views Text Areas
-
-In Views headers, footers, or empty text areas—when using *Global: Text area* or
-*Global: Unfiltered text*—there is an option called **"Use replacement tokens
-from the first row."**
-
-The default Twig-style tokens (e.g., `{{ title }}` or `{{ field_image }}`)
-**will not work** with the VVJL style. Instead, use the custom tokens provided
-by VVJL:
-
-**Examples:**
-
-- `{{ title }}` → `[vvjl:title]`  
-- `{{ field_image }}` → `[vvjl:field_image]`
-
-To strip any HTML from the output, you can append `:plain` to the token:
-
-- `[vvjl:title:plain]`
-
-These tokens pull data from the **first row** of the View result and are
-designed to work seamlessly with the VVJL rendering system.
-
-## Example Usage
-1. Create a new view or edit an existing view.
-2. Under the "Format" section, select "Views Vanilla JavaScript Lightbox" 
-   as the style.
-3. Configure the lightbox settings such as grid image width, gap, 
-   overlay color, animation type, and more.
-4. Save the view and check the lightbox effect on the front end.
-
-## Additional Information
-- **Dependencies**: This module does not have any dependencies on other 
-  contributed modules.
-- **Compatibility**: Fully compatible with Drupal 10 and follows Drupal 
-  best practices.
+- Image grid (configurable per-image width + gap)
+- Modal with prev/next navigation
+- Six animation variants for image transitions (fade, zoom, slide-from-
+  top/bottom/left/right)
+- Configurable overlay color + opacity
+- Native focus trap (using `vvj_core/focus-trap`); ESC closes modal
+- WCAG 2.2 AAA accessibility: keyboard nav, ARIA states, screen-reader
+  announcements
+- `[vvjl:field]` and `[vvjl:field:plain]` Views tokens for the **first row** in
+  header/footer/empty text when *Use replacement tokens from the first row* is
+  enabled
+- Lazy IntersectionObserver hydration (lighthouse-100 by default)
+- AbortController-tracked listeners — clean cleanup on AJAX page swaps
+- View Transitions API wrapping every state change (graceful fallback)
+- **Drupal admin help** — extended topic at `/admin/help/vvjl`
 
 ## Installation
-1. Download and install the module from 
-   [Drupal.org](https://www.drupal.org/project/vvjl).
-2. Enable the module through the Drupal admin interface or using Drush: 
-   `drush en vvjl`
-3. Clear caches to ensure the new plugin is available: `drush cr`
 
-## Troubleshooting
-If you encounter any issues or have suggestions for improvements, please 
-open an issue in the module's issue queue on Drupal.org.
+```bash
+composer require drupal/vvjl:^2.0
+drush en vvjl
+```
 
-## Maintainers
-- [Alaa Haddad](https://www.drupal.org/u/flashwebcenter)
+`composer` resolves `drupal/vvj_core` automatically.
 
-## Support
-For issues, feature requests, and general support, please use the 
-[issue queue](https://www.drupal.org/project/issues/vvjl).
+## Usage
+
+1. Create or edit a View.
+2. Set **Format** to *Views Vanilla JavaScript Lightbox*.
+3. Set **Show** to *Fields*.
+4. The first field MUST be an image. Add additional fields for caption / overlay
+   text (optional).
+5. Configure grid + animation + overlay in the format settings.
+6. Save.
+
+The `vvjl_example` optional view (`config/optional/views.view.vvjl_example.yml`)
+demonstrates a working configuration when your site can import it without an ID
+collision.
+
+## Drop-in upgrade from 1.x
+
+`composer update drupal/vvjl && drush cache:rebuild` is sufficient. v2
+preserves:
+
+- Plugin ID `views_vvjl`
+- Theme hook `views_view_vvjl`
+- Twig template names
+- All option keys (`grid_image_width`, `grid_image_gap`, `overlay_color`,
+  `overlay_opacity`, `disable_overlay`, `animation`)
+- Library names (`vvjl/vvjl`)
+- JS behavior key `Drupal.behaviors.vvjLightbox`
+- CSS class names (`.vvj-lightbox`, `.vvjl`, `.vvjl-inner`, `.lightbox-row`,
+  `.lightbox-modal`, etc.)
+- SVG icon paths (`svg/*.svg`)
+
+Only one rendered-tag change: outer wrapper changed from `<div>` to `<vvjl-
+lightbox>`. Theme selectors targeting `.vvjl` keep matching; `div.vvjl` (rare)
+does not.
+
+## Architecture
+
+See [docs/planning/VVJ-CORE-
+DESIGN.md](https://github.com/flashwebcenter/apex/blob/main/docs/planning/VVJ-
+CORE-DESIGN.md) of the parent project for the full vvj_core foundation
+architecture.
 
 ## License
-This project is licensed under the 
-[GNU General Public License, version 2 or later](http://www.gnu.org/licenses/gpl-2.0.html).
 
----
+GPL-2.0-or-later.
 
-This file adheres to Drupal best practices for module documentation, 
-providing users with a clear understanding of the module's purpose, 
-features, and configuration options. It also includes important notes 
-on installation, troubleshooting, and support to assist users in 
-effectively using the module.
+## Maintainer
+
+Alaa Haddad —
+[drupal.org/u/flashwebcenter](https://www.drupal.org/u/flashwebcenter)
+
+Issues:
+[drupal.org/project/issues/vvjl](https://www.drupal.org/project/issues/vvjl)

@@ -71,8 +71,8 @@
   z-index: 2;
   position: absolute;
   bottom: 0;
-  left: 0;
-  right: 0;
+  inset-inline-start: 0;
+  inset-inline-end: 0;
   width: 100%;
   margin-block-start: 3.125rem;
   pointer-events: none;
@@ -82,7 +82,7 @@
 
 .vvjl-inner>.lightbox-row > .modal-open {
   position: absolute;
-  right: 0;
+  inset-inline-end: 0;
   top: 0;
   max-height: 3.125rem;
   cursor: pointer;
@@ -94,7 +94,7 @@
   z-index: 10000 !important;
   display: none;
   position: fixed;
-  left: 0;
+  inset-inline-start: 0;
   top: 0;
   width: 100%;
   height: 100%;
@@ -113,14 +113,14 @@
 .lightbox-row .modal-open {
   position: absolute;
   z-index: 1;
-  right: 0;
+  inset-inline-end: 0;
   top: 0;
   cursor: pointer;
   text-decoration: none;
 }
 
 .lightbox-modal .modal-close {
-  right: 1.25rem;
+  inset-inline-end: 1.25rem;
 }
 
 .lightbox-modal .lightbox-counter {
@@ -138,10 +138,11 @@
 .lightbox-modal-content {
   position: relative;
   margin: 0 auto !important;
-  padding: 1.875rem 1.25rem 1.25rem 1.25rem!important;
+  padding: 1.875rem 1.25rem 1.25rem!important;
   width: calc(100% - 120px) !important;
   height: 100%;
   max-height: 100vh;
+  max-height: 100dvh;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -149,6 +150,7 @@
 
 .lightbox-modal-content img {
   max-height: 95vh;
+  max-height: 95dvh;
   max-width: 100%;
   object-fit: contain;
 }
@@ -165,11 +167,11 @@
 }
 
 .lightbox-modal .modal-prev {
-  left: 20px;
+  inset-inline-start: 20px;
 }
 
 .lightbox-modal .modal-next {
-  right: 20px;
+  inset-inline-end: 20px;
 }
 
 .vvjl-inner .lightbox-modal .modal-open {
@@ -227,6 +229,7 @@
     width: 35px;
     height: 40px;
   }
+
   .vvjl-inner {
     grid-template-columns: 1fr;
   }
@@ -293,12 +296,12 @@
 
 @keyframes animateleft {
   from {
-    left: -100px;
+    inset-inline-start: -100px;
     opacity: 0;
   }
 
   to {
-    left: 0;
+    inset-inline-start: 0;
     opacity: 1;
   }
 
@@ -311,12 +314,12 @@
 
 @keyframes animateright {
   from {
-    right: -100px;
+    inset-inline-end: -100px;
     opacity: 0;
   }
 
   to {
-    right: 0;
+    inset-inline-end: 0;
     opacity: 1;
   }
 

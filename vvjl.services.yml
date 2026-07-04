@@ -1,5 +1,20 @@
 services:
-  vvjl.twig_extension:
-    class: Drupal\vvjl\Twig\VVJLTwigExtension
-    tags:
-      - { name: twig.extension }
+  Drupal\vvjl\Hook\VvjlHelpHook:
+    arguments:
+      - '@extension.list.module'
+      - '@module_handler'
+      - '@plugin.manager.filter'
+      - '@config.factory'
+
+  Drupal\vvjl\Hook\VvjlThemeHook:
+    autowire: true
+
+  Drupal\vvjl\Hook\VvjlPreprocessHooks:
+    autowire: true
+
+  # `@?` makes the dependency nullable so the container compiles even
+  # when vvj_core hasn't been enabled yet (the v1 → v2 upgrade window
+  # before vvjl_update_10001 runs).
+  Drupal\vvjl\Hook\VvjlTokenHooks:
+    arguments:
+      - '@?vvj_core.token_resolver'
