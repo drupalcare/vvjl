@@ -14,8 +14,6 @@
 // phpcs:disable Squiz.WhiteSpace.OperatorSpacing
 
 ((Drupal, once) => {
-  'use strict';
-
   Drupal.behaviors.vvjLightbox = {
     attach(context) {
       // No-op marker. Custom element hydrates itself via

@@ -18,25 +18,25 @@
 // phpcs:disable Squiz.WhiteSpace.OperatorSpacing
 
 ((Drupal) => {
-  'use strict';
-
   const { ElementBase, trapFocus } = Drupal.Vvj;
 
   class VvjlLightboxElement extends ElementBase {
-
     static get patternSlug() {
- return 'vvjl'; }
+      return 'vvjl';
+    }
 
     onHydrate() {
       /** @type {HTMLElement | null} */
       this._inner = this.querySelector(':scope > .vvjl-inner');
-      if (!this._inner) { return;
+      if (!this._inner) {
+        return;
       }
 
       /** @type {HTMLElement | null} */
       this._modal = this._inner.querySelector('.lightbox-modal');
       /** @type {HTMLElement | null} */
-      this._modalContent = this._modal?.querySelector('.lightbox-modal-content') ?? null;
+      this._modalContent =
+        this._modal?.querySelector('.lightbox-modal-content') ?? null;
       /** @type {HTMLElement | null} */
       this._currentImageSpan = this._inner.querySelector('#current-image');
       /** @type {NodeListOf<HTMLElement>} */
@@ -67,16 +67,20 @@
     // -----------------------------------------------------------------
 
     _updateItemCountClass() {
-      if (!this._inner) { return;
+      if (!this._inner) {
+        return;
       }
       // Total grid children minus 1 for the modal itself.
       const itemCount = Math.max(0, this._inner.children.length - 1);
-      this._inner.className = this._inner.className.replace(/\bgrid-count-\d+\b/g, '').trim();
+      this._inner.className = this._inner.className
+        .replace(/\bgrid-count-\d+\b/g, '')
+        .trim();
       this._inner.classList.add(`grid-count-${itemCount}`);
     }
 
     _initAriaAttributes() {
-      if (!this._modal) { return;
+      if (!this._modal) {
+        return;
       }
       this._items.forEach((item) => {
         item.setAttribute('aria-expanded', 'false');
@@ -90,34 +94,50 @@
 
     _wireGridClicks() {
       this._items.forEach((row) => {
-        row.addEventListener('click', this._handleRowClick, { signal: this.signal });
+        row.addEventListener('click', this._handleRowClick, {
+          signal: this.signal,
+        });
       });
     }
 
     _wireNavigationButtons() {
-      if (!this._modal) { return;
+      if (!this._modal) {
+        return;
       }
       const prev = this._modal.querySelector('.modal-prev');
       const next = this._modal.querySelector('.modal-next');
-      prev?.addEventListener('click', (event) => {
-        this._navigate('prev');
-        event.stopPropagation();
-      }, { signal: this.signal });
-      next?.addEventListener('click', (event) => {
-        this._navigate('next');
-        event.stopPropagation();
-      }, { signal: this.signal });
+      prev?.addEventListener(
+        'click',
+        (event) => {
+          this._navigate('prev');
+          event.stopPropagation();
+        },
+        { signal: this.signal },
+      );
+      next?.addEventListener(
+        'click',
+        (event) => {
+          this._navigate('next');
+          event.stopPropagation();
+        },
+        { signal: this.signal },
+      );
     }
 
     _wireCloseClicks() {
-      if (!this._modal) { return;
+      if (!this._modal) {
+        return;
       }
-      this.addEventListener('click', (event) => {
-        const target = /** @type {HTMLElement} */ (event.target);
-        if (target.closest('.modal-close') || target === this._modalContent) {
-          this._closeModal();
-        }
-      }, { signal: this.signal });
+      this.addEventListener(
+        'click',
+        (event) => {
+          const target = /** @type {HTMLElement} */ (event.target);
+          if (target.closest('.modal-close') || target === this._modalContent) {
+            this._closeModal();
+          }
+        },
+        { signal: this.signal },
+      );
     }
 
     /**
@@ -127,13 +147,18 @@
      * disconnect); acts only when the modal is currently open.
      */
     _wireEscapeKey() {
-      document.addEventListener('keydown', (event) => {
-        if (event.key !== 'Escape' || !this._modal) { return;
-        }
-        if (this._modal.getAttribute('aria-hidden') === 'false') {
-          this._closeModal();
-        }
-      }, { signal: this.signal });
+      document.addEventListener(
+        'keydown',
+        (event) => {
+          if (event.key !== 'Escape' || !this._modal) {
+            return;
+          }
+          if (this._modal.getAttribute('aria-hidden') === 'false') {
+            this._closeModal();
+          }
+        },
+        { signal: this.signal },
+      );
     }
 
     _neutralizeGridLinks(disable) {
@@ -142,7 +167,9 @@
         links.forEach((/** @type {HTMLAnchorElement} */ link) => {
           if (disable) {
             link.setAttribute('tabindex', '-1');
-            link.addEventListener('click', this._preventDefault, { signal: this.signal });
+            link.addEventListener('click', this._preventDefault, {
+              signal: this.signal,
+            });
           } else {
             link.removeAttribute('tabindex');
           }
@@ -159,7 +186,8 @@
     _handleRowClick = (event) => {
       /** @type {HTMLElement | null} */
       const lightboxRow = /** @type {HTMLElement} */ (event.currentTarget);
-      if (!this._modal || !this._items.length) { return;
+      if (!this._modal || !this._items.length) {
+        return;
       }
       this._lastFocusedElement = document.activeElement;
       this._currentIndex = Array.from(this._items).indexOf(lightboxRow);
@@ -178,19 +206,23 @@
     };
 
     _closeModal() {
-      if (!this._modal || !this._modalContent) { return;
+      if (!this._modal || !this._modalContent) {
+        return;
       }
       this._modalContent.classList.remove('fade-in');
       this._modalContent.classList.add('fade-out');
 
       setTimeout(() => {
-        if (!this._modal || !this._modalContent) { return;
+        if (!this._modal || !this._modalContent) {
+          return;
         }
         this._modal.style.display = 'none';
         this._modal.setAttribute('aria-hidden', 'true');
-        this._inner?.querySelectorAll('.lightbox-row[aria-expanded="true"]').forEach((row) => {
-          row.setAttribute('aria-expanded', 'false');
-        });
+        this._inner
+          ?.querySelectorAll('.lightbox-row[aria-expanded="true"]')
+          .forEach((row) => {
+            row.setAttribute('aria-expanded', 'false');
+          });
         this._currentIndex = -1;
         if (this._lastFocusedElement instanceof HTMLElement) {
           this._lastFocusedElement.focus();
@@ -204,24 +236,31 @@
 
     /** @param {'next' | 'prev'} direction */
     _navigate(direction) {
-      if (!this._items.length) { return;
+      if (!this._items.length) {
+        return;
       }
-      this._inner?.querySelectorAll('.lightbox-row[aria-expanded="true"]').forEach((row) => {
-        row.setAttribute('aria-expanded', 'false');
-      });
+      this._inner
+        ?.querySelectorAll('.lightbox-row[aria-expanded="true"]')
+        .forEach((row) => {
+          row.setAttribute('aria-expanded', 'false');
+        });
       if (direction === 'next') {
         this._currentIndex = (this._currentIndex + 1) % this._items.length;
       } else {
-        this._currentIndex = (this._currentIndex - 1 + this._items.length) % this._items.length;
+        this._currentIndex =
+          (this._currentIndex - 1 + this._items.length) % this._items.length;
       }
       this._items[this._currentIndex]?.setAttribute('aria-expanded', 'true');
       this.withTransition(() => this._updateModalContent());
     }
 
     _updateModalContent() {
-      if (!this._modalContent || !this._items[this._currentIndex]) { return;
+      if (!this._modalContent || !this._items[this._currentIndex]) {
+        return;
       }
-      const cloned = /** @type {HTMLElement} */ (this._items[this._currentIndex].cloneNode(true));
+      const cloned = /** @type {HTMLElement} */ (
+        this._items[this._currentIndex].cloneNode(true)
+      );
       /** @type {HTMLImageElement | null} */
       const imageElement = cloned.querySelector('.lightbox-image img');
       if (imageElement) {
@@ -232,7 +271,7 @@
       this._modalContent.innerHTML = '';
       this._modalContent.appendChild(cloned);
       // Force reflow so the fade-in animation runs each time.
-      void this._modalContent.offsetHeight;
+      this._modalContent.getBoundingClientRect();
       this._modalContent.style.opacity = '1';
       this._modalContent.classList.remove('fade-in', 'fade-out');
       requestAnimationFrame(() => {
@@ -242,11 +281,9 @@
         this._currentImageSpan.textContent = String(this._currentIndex + 1);
       }
     }
-
   }
 
   if (!customElements.get('vvjl-lightbox')) {
     customElements.define('vvjl-lightbox', VvjlLightboxElement);
   }
-
 })(Drupal);

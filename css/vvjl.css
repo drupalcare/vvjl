@@ -10,14 +10,14 @@
 /* Base styles */
 .vvj-lightbox .visually-hidden {
   position: absolute;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
   width: 1px;
   height: 1px;
   margin: -1px;
   padding: 0;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  border: 0;
   white-space: nowrap;
+  border: 0;
 }
 
 .vvj-lightbox,
@@ -27,16 +27,16 @@
 
 .vvj-lightbox,
 .vvj-lightbox .view-content {
+  display: block !important;
   width: 100%;
   min-width: 100%;
-  display: block!important;
 }
 
 .vvjl-inner {
   display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(calc(var(--box-width) * 1px), 1fr));
   width: 100% !important;
   height: auto;
-  grid-template-columns: repeat(auto-fill, minmax(calc(var(--box-width) * 1px), 1fr));
   gap: calc(var(--grid-gap) * 1px);
 }
 
@@ -68,45 +68,45 @@
 }
 
 .vvjl-inner .lightbox-row .lightbox-content {
-  z-index: 2;
   position: absolute;
+  z-index: 2;
   bottom: 0;
-  inset-inline-start: 0;
-  inset-inline-end: 0;
   width: 100%;
   margin-block-start: 3.125rem;
-  pointer-events: none;
   padding: 0.75rem;
+  pointer-events: none;
   background: var(--bg-color, initial);
+  inset-inline-start: 0;
+  inset-inline-end: 0;
 }
 
-.vvjl-inner>.lightbox-row > .modal-open {
+.vvjl-inner > .lightbox-row > .modal-open {
   position: absolute;
-  inset-inline-end: 0;
+  z-index: 3;
   top: 0;
   max-height: 3.125rem;
   cursor: pointer;
-  z-index: 3;
+  inset-inline-end: 0;
 }
 
 /* Modal styles */
 .lightbox-modal {
-  z-index: 10000 !important;
-  display: none;
   position: fixed;
-  inset-inline-start: 0;
+  z-index: 10000 !important;
   top: 0;
+  display: none;
+  overflow: auto;
+  align-items: center;
+  justify-content: center;
   width: 100%;
   height: 100%;
-  overflow: auto;
-  background-color: rgba(0, 0, 0, 0.7);
-  justify-content: center;
-  align-items: center;
+  background-color: rgb(0, 0, 0, 0.7);
+  inset-inline-start: 0;
 }
 
 .vvjl-inner .lightbox-modal .lightbox-content {
-  background: var(--bg-color, initial);
   margin: 0;
+  background: var(--bg-color, initial);
 }
 
 .lightbox-modal .modal-close,
@@ -125,45 +125,45 @@
 
 .lightbox-modal .lightbox-counter {
   position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 100%;
   max-width: 100%;
   min-height: 1.875rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   color: #fff;
   font-weight: bold;
 }
 
 .lightbox-modal-content {
   position: relative;
-  margin: 0 auto !important;
-  padding: 1.875rem 1.25rem 1.25rem!important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: calc(100% - 120px) !important;
   height: 100%;
   max-height: 100vh;
   max-height: 100dvh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  margin: 0 auto !important;
+  padding: 1.875rem 1.25rem 1.25rem !important;
 }
 
 .lightbox-modal-content img {
+  max-width: 100%;
   max-height: 95vh;
   max-height: 95dvh;
-  max-width: 100%;
   object-fit: contain;
 }
 
 .lightbox-modal .modal-prev,
 .lightbox-modal .modal-next {
   position: absolute;
-  top: calc(50% - 30px);
   z-index: 10000;
-  background: transparent;
+  top: calc(50% - 30px);
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
+  background: transparent;
 }
 
 .lightbox-modal .modal-prev {
@@ -176,8 +176,8 @@
 
 .vvjl-inner .lightbox-modal .modal-open {
   display: none;
-  height: 0;
   width: 0;
+  height: 0;
 }
 
 .vvjl-inner .lightbox-modal .lightbox-row {
@@ -198,23 +198,23 @@
 }
 
 .lightbox-modal[aria-hidden="false"] {
-  animation-name: fadeIn;
+  animation-name: fade-in;
   animation-duration: 0.4s;
 }
 
 .lightbox-modal[aria-hidden="true"] {
   display: none;
-  animation-name: fadeOut;
+  animation-name: fade-out;
   animation-duration: 0.5s;
 }
 
 .lightbox-modal-content.fade-in {
-  opacity: 1;
   transition: opacity 0.5s ease-in-out;
+  opacity: 1;
 }
 
 /* Responsive styles */
-@media (max-width:35.99875rem) {
+@media (max-width: 35.99875rem) {
   .lightbox-modal .modal-prev,
   .lightbox-modal .modal-next {
     top: calc(50% - 20px);
@@ -236,38 +236,36 @@
 }
 
 /* Animation styles */
-@keyframes fadeOut {
+@keyframes fade-out {
   from {
-    opacity: 1;
     transform: scale(1);
+    opacity: 1;
   }
 
   to {
-    opacity: 0;
     transform: scale(0.95);
+    opacity: 0;
   }
-
 }
 
-@keyframes fadeIn {
+@keyframes fade-in {
   from {
-    opacity: 0;
     transform: scale(0.95);
+    opacity: 0;
   }
 
   to {
-    opacity: 1;
     transform: scale(1);
+    opacity: 1;
   }
-
 }
 
 .fade-in {
-  animation: fadeIn 0.5s ease-in-out forwards;
+  animation: fade-in 0.5s ease-in-out forwards;
 }
 
 .fade-out {
-  animation: fadeOut 0.5s ease-in-out forwards;
+  animation: fade-out 0.5s ease-in-out forwards;
 }
 
 /* Animate slideshow */
@@ -286,7 +284,6 @@
     top: 0;
     opacity: 1;
   }
-
 }
 
 .lightbox-modal .a-left .lightbox-image {
@@ -304,7 +301,6 @@
     inset-inline-start: 0;
     opacity: 1;
   }
-
 }
 
 .lightbox-modal .a-right .lightbox-image {
@@ -322,7 +318,6 @@
     inset-inline-end: 0;
     opacity: 1;
   }
-
 }
 
 .lightbox-modal .a-bottom .lightbox-image {
@@ -340,7 +335,6 @@
     bottom: 0;
     opacity: 1;
   }
-
 }
 
 .lightbox-modal .a-zoom .lightbox-image {
@@ -355,5 +349,4 @@
   to {
     transform: scale(1.05);
   }
-
 }
