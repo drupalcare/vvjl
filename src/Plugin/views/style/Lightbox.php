@@ -206,7 +206,7 @@ class Lightbox extends VvjStylePluginBase {
       '#step' => VvjlConstants::OPACITY_STEP,
       '#description' => $this->t('Set the opacity level for the overlay.'),
       '#suffix' => '<span id="overlay-opacity-value" class="opacity-value">'
-      . $overlay_opacity_display . '</span>',
+        . $overlay_opacity_display . '</span>',
       '#attributes' => [
         'oninput' => 'document.getElementById("overlay-opacity-value").innerText = this.value;',
       ],
