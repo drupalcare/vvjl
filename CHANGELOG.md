@@ -19,6 +19,8 @@ from 1.x.
 
 ### Fixed
 
+- Update 10002 converts v1 views to the v2 option shape (value types:
+  strings and integers stored where v2 declares integer, boolean and float).
 - **Escape closes the open modal again** — the v2 focus-trap helper only handles
   Tab, so Escape-to-close (a v1 keyboard feature) had been silently dropped.
   Restored via a key handler on the element.
