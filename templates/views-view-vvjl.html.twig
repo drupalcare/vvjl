@@ -46,7 +46,7 @@
 
     <div class="lightbox-modal" aria-hidden="true" style="display: none;" role="dialog" aria-labelledby="lightbox-heading">
       <h2 id="lightbox-heading" class="visually-hidden">{{ 'Image Grid Lightbox'|t }}</h2>
-      <button class="button modal-close">
+      <button class="button modal-close control-btn">
         <span class="visually-hidden">{{ 'Close Grid'|t }}</span>
         {{ include('@vvjl/svg/svg-close.svg') }}
       </button>
@@ -58,11 +58,11 @@
       <div class="lightbox-modal-content">
         {# Content injected by VvjlLightboxElement on row click. #}
       </div>
-      <button class="button modal-prev">
+      <button class="button modal-prev control-btn">
         <span class="visually-hidden">{{ 'Previous'|t }}</span>
         {{ include('@vvjl/svg/svg-prev.svg') }}
       </button>
-      <button class="button modal-next">
+      <button class="button modal-next control-btn">
         <span class="visually-hidden">{{ 'Next'|t }}</span>
         {{ include('@vvjl/svg/svg-next.svg') }}
       </button>
@@ -79,7 +79,7 @@
         <h3 id="slide-{{ key + 1 }}-heading" class="visually-hidden">{{ 'Slide @index of @total'|t({'@index': loop.index, '@total': total_slides}) }}</h3>
 
         <div class="lightbox-image">
-          <button class="button modal-open" aria-controls="{{ lightbox_inner_id }}" aria-expanded="false" aria-label="{{ 'Expand slide @index'|t({'@index': loop.index}) }}">
+          <button class="button modal-open control-btn" aria-controls="{{ lightbox_inner_id }}" aria-expanded="false" aria-label="{{ 'Expand slide @index'|t({'@index': loop.index}) }}">
             <span class="visually-hidden">{{ 'Expand image grid'|t }}</span>
             {{ include('@vvjl/svg/svg-expand.svg') }}
           </button>

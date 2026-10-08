@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Drupal\Tests\vvjl\Kernel;
 
+use Drupal\Component\Utility\Html;
 use Drupal\Core\File\FileExists;
 use Drupal\Core\File\FileSystemInterface;
 use Drupal\KernelTests\KernelTestBase;
@@ -85,6 +86,50 @@ class VvjlExampleViewRenderTest extends KernelTestBase {
     $this->assertNotEmpty($view->result, 'The view returned rows.');
     $this->assertStringContainsString('class="vvjl-inner"', $html, 'The wrapper rendered.');
     $this->assertStringContainsString('class="lightbox-modal"', $html, 'A row rendered.');
+  }
+
+  /**
+   * Every lightbox control button carries the `control-btn` class.
+   *
+   * A theme that styles every `<button>` (or `.button`) globally repaints the
+   * open, close, previous and next controls. `control-btn` is the agreed
+   * opt-out hook (owner decision 2026-10-07): such a theme excludes
+   * `.control-btn`, so the controls keep this module's own design.
+   */
+  public function testControlButtonsCarryControlBtn(): void {
+    $this->createArticlesWithImages(2);
+
+    $view = Views::getView('vvjl_example');
+    $this->assertNotNull($view);
+    $view->setDisplay('page_1');
+    $build = $view->preview('page_1');
+    $this->assertIsArray($build);
+    $html = (string) $this->container->get('renderer')->renderInIsolation($build);
+    $xpath = new \DOMXPath(Html::load($html));
+
+    // Each control is located by its own class first, so an empty match fails
+    // as "not rendered" rather than passing as "nothing lacks the class".
+    foreach (['modal-close', 'modal-prev', 'modal-next', 'modal-open'] as $class) {
+      $nodes = $xpath->query('//button[contains(concat(" ", normalize-space(@class), " "), " ' . $class . ' ")]');
+      $this->assertNotFalse($nodes);
+      $this->assertGreaterThan(0, $nodes->length, "The $class control rendered.");
+      foreach ($nodes as $node) {
+        assert($node instanceof \DOMElement);
+        $classes = preg_split('/\s+/', trim($node->getAttribute('class'))) ?: [];
+        $this->assertContains('control-btn', $classes, "The $class control carries control-btn.");
+        $this->assertContains($class, $classes, "The $class control keeps its own class.");
+      }
+    }
+
+    // Every button in this template is a control, so a new button added
+    // without the class goes red here too.
+    $buttons = $xpath->query('//button');
+    $this->assertNotFalse($buttons);
+    foreach ($buttons as $button) {
+      assert($button instanceof \DOMElement);
+      $classes = preg_split('/\s+/', trim($button->getAttribute('class'))) ?: [];
+      $this->assertContains('control-btn', $classes, 'Button "' . $button->getAttribute('class') . '" carries control-btn.');
+    }
   }
 
   /**
