@@ -197,6 +197,8 @@ class Lightbox extends VvjStylePluginBase {
     $overlay_opacity_display = is_scalar($raw_overlay_opacity)
       ? (string) $raw_overlay_opacity
       : '';
+    $overlay_opacity_suffix = '<span id="overlay-opacity-value" class="opacity-value">'
+      . $overlay_opacity_display . '</span>';
     $form['overlay_section']['overlay_opacity'] = [
       '#type' => 'range',
       '#title' => $this->t('Overlay Opacity'),
@@ -205,8 +207,7 @@ class Lightbox extends VvjStylePluginBase {
       '#max' => VvjlConstants::MAX_OPACITY,
       '#step' => VvjlConstants::OPACITY_STEP,
       '#description' => $this->t('Set the opacity level for the overlay.'),
-      '#suffix' => '<span id="overlay-opacity-value" class="opacity-value">'
-        . $overlay_opacity_display . '</span>',
+      '#suffix' => $overlay_opacity_suffix,
       '#attributes' => [
         'oninput' => 'document.getElementById("overlay-opacity-value").innerText = this.value;',
       ],
