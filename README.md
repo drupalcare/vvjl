@@ -4,7 +4,7 @@ A vanilla-JavaScript lightbox **Views format** for Drupal 11.3+ / 12. Renders
 Views rows as a clickable image grid; clicking an image opens a modal with
 previous/next navigation and overlay color/opacity controls.
 
-v2.0 builds on the **`drupal/vvj_core` foundation** — composer auto-installs it
+v2.0 builds on the **`drupal/vvj_core` foundation**: composer auto-installs it
 on `composer update drupal/vvjl`. The lightbox behavior runs in a `<vvjl-
 lightbox>` custom element extending vvj_core's `VvjElementBase`.
 
@@ -22,9 +22,9 @@ lightbox>` custom element extending vvj_core's `VvjElementBase`.
   header/footer/empty text when *Use replacement tokens from the first row* is
   enabled
 - Lazy IntersectionObserver hydration (lighthouse-100 by default)
-- AbortController-tracked listeners — clean cleanup on AJAX page swaps
+- AbortController-tracked listeners: clean cleanup on AJAX page swaps
 - View Transitions API wrapping every state change (graceful fallback)
-- **Drupal admin help** — extended topic at `/admin/help/vvjl`
+- **Drupal admin help**: extended topic at `/admin/help/vvjl`
 
 ## Token Support in Views Text Areas
 
@@ -107,10 +107,10 @@ export SIMPLETEST_DB="mysql://user:pass@localhost/dbname"
 ../vendor/bin/phpunit -c core modules/contrib/vvjl/tests/src/Kernel
 ```
 
-The **Functional** and **FunctionalJavascript** suites additionally need
+The **Functional** and **FunctionalJavascript** suites also need
 `SIMPLETEST_BASE_URL` pointing at a running web server, and the JavaScript ones
 need chromedriver. Without those they error rather than fail, and the errors
-name missing infrastructure rather than anything about this module — so don't
+name missing infrastructure rather than anything about this module, so don't
 read them as test failures. The drupal.org pipeline provides both.
 
 ## License

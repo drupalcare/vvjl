@@ -1,11 +1,11 @@
 # Changelog
 
-## [2.0.0] — UNRELEASED
+## [2.0.0] (UNRELEASED)
 
-**Drop-in upgrade for 1.x sites.** v2 modernizes internals — extends the new
+**Drop-in upgrade for 1.x sites.** v2 modernizes internals: extends the new
 `vvj_core` foundation, ships a `<vvjl-lightbox>` custom element extending
 `VvjElementBase`, ports all behavior to AbortController-tracked listeners with
-View Transitions support — while preserving every CSS rule, every option key,
+View Transitions support, while preserving every CSS rule, every option key,
 the plugin ID, the theme hook, the Twig template names, and the JS behavior key
 from 1.x.
 
@@ -21,7 +21,7 @@ from 1.x.
 
 - Update 10002 converts v1 views to the v2 option shape (value types:
   strings and integers stored where v2 declares integer, boolean and float).
-- **Escape closes the open modal again** — the v2 focus-trap helper only handles
+- **Escape closes the open modal again**: the v2 focus-trap helper only handles
   Tab, so Escape-to-close (a v1 keyboard feature) had been silently dropped.
   Restored via a key handler on the element.
 - Overlay Opacity slider regained its live numeric value readout in the Views
@@ -39,8 +39,8 @@ from 1.x.
 
 ### Removed
 
-- `src/Twig/VVJLTwigExtension.php` — `safe_html` filter moved to `vvj_core`.
-- Cross-cutting constants (token pattern, unique-ID range) — moved to
+- `src/Twig/VVJLTwigExtension.php`: `safe_html` filter moved to `vvj_core`.
+- Cross-cutting constants (token pattern, unique-ID range), moved to
   `vvj_core`'s `ValidationBounds`.
 - Procedural hooks in `vvjl.module`.
 
