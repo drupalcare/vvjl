@@ -5,23 +5,23 @@
 
 /* Pattern Mosaic: bento grid, tiles revealed by scroll, photo morphs into a dark viewer. */
 .vvj-pattern.vvjl.vvj-pattern--vvjl-mosaic { --vvj-lightbox-backdrop: rgb(10 10 10 / .92); }
-.vvj-pattern.vvjl.vvj-pattern--vvjl-mosaic .vvjl-inner { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 44vw; padding: 8px; }
-.vvj-pattern.vvjl.vvj-pattern--vvjl-mosaic .vvjl-inner > .lightbox-row { overflow: hidden; border-radius: 6px; background: #1c1c1c; }
-.vvj-pattern.vvjl.vvj-pattern--vvjl-mosaic .vvjl-inner > .lightbox-row:nth-child(2),
-.vvj-pattern.vvjl.vvj-pattern--vvjl-mosaic .vvjl-inner > .lightbox-row:nth-child(7) { grid-column: span 2; }
+.vvj-pattern--vvjl-mosaic .vvjl-inner { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 44vw; padding: 8px; }
+.vvj-pattern--vvjl-mosaic :where(.vvjl-inner) > .lightbox-row { overflow: hidden; border-radius: 6px; background: #1c1c1c; }
+:where(.vvj-pattern--vvjl-mosaic) :where(.vvjl-inner) > .lightbox-row:nth-child(2),
+:where(.vvj-pattern--vvjl-mosaic) :where(.vvjl-inner) > .lightbox-row:nth-child(7) { grid-column: span 2; }
 @media (min-width: 768px) {
-  .vvj-pattern.vvjl.vvj-pattern--vvjl-mosaic .vvjl-inner { grid-template-columns: repeat(12, 1fr); grid-auto-rows: clamp(140px, 15vw, 230px); padding: 12px; }
-  .vvj-pattern.vvjl.vvj-pattern--vvjl-mosaic .vvjl-inner > .lightbox-row:nth-child(2) { grid-column: span 7; grid-row: span 2; }
-  .vvj-pattern.vvjl.vvj-pattern--vvjl-mosaic .vvjl-inner > .lightbox-row:nth-child(3),
-  .vvj-pattern.vvjl.vvj-pattern--vvjl-mosaic .vvjl-inner > .lightbox-row:nth-child(4) { grid-column: span 5; }
-  .vvj-pattern.vvjl.vvj-pattern--vvjl-mosaic .vvjl-inner > .lightbox-row:nth-child(5) { grid-column: span 4; grid-row: span 2; }
-  .vvj-pattern.vvjl.vvj-pattern--vvjl-mosaic .vvjl-inner > .lightbox-row:nth-child(6),
-  .vvj-pattern.vvjl.vvj-pattern--vvjl-mosaic .vvjl-inner > .lightbox-row:nth-child(7) { grid-column: span 8; }
+  .vvj-pattern--vvjl-mosaic .vvjl-inner { grid-template-columns: repeat(12, 1fr); grid-auto-rows: clamp(140px, 15vw, 230px); padding: 12px; }
+  :where(.vvj-pattern--vvjl-mosaic) :where(.vvjl-inner) > .lightbox-row:nth-child(2) { grid-column: span 7; grid-row: span 2; }
+  :where(.vvj-pattern--vvjl-mosaic) :where(.vvjl-inner) > .lightbox-row:nth-child(3),
+  :where(.vvj-pattern--vvjl-mosaic) :where(.vvjl-inner) > .lightbox-row:nth-child(4) { grid-column: span 5; }
+  :where(.vvj-pattern--vvjl-mosaic) :where(.vvjl-inner) > .lightbox-row:nth-child(5) { grid-column: span 4; grid-row: span 2; }
+  :where(.vvj-pattern--vvjl-mosaic) :where(.vvjl-inner) > .lightbox-row:nth-child(6),
+  :where(.vvj-pattern--vvjl-mosaic) :where(.vvjl-inner) > .lightbox-row:nth-child(7) { grid-column: span 8; }
 }
-.vvj-pattern.vvjl.vvj-pattern--vvjl-mosaic .vvjl-inner > .lightbox-row .lightbox-image { height: 100%; }
-.vvj-pattern.vvjl.vvj-pattern--vvjl-mosaic .vvjl-inner > .lightbox-row img { transition: transform 1.1s var(--vvjl-ease-out), filter .6s; }
-.vvj-pattern.vvjl.vvj-pattern--vvjl-mosaic .vvjl-inner > .lightbox-row:hover img,
-.vvj-pattern.vvjl.vvj-pattern--vvjl-mosaic .vvjl-inner > .lightbox-row:focus-within img { transform: scale(1.06); }
+.vvj-pattern--vvjl-mosaic :where(.vvjl-inner) > :where(.lightbox-row) .lightbox-image { height: 100%; }
+.vvj-pattern--vvjl-mosaic :where(.vvjl-inner) > :where(.lightbox-row) img { transition: transform 1.1s var(--vvjl-ease-out), filter .6s; }
+.vvj-pattern--vvjl-mosaic :where(.vvjl-inner) > :where(.lightbox-row:hover) img,
+.vvj-pattern--vvjl-mosaic :where(.vvjl-inner) > :where(.lightbox-row:focus-within) img { transform: scale(1.06); }
 
 /* Caption over the photo, on a scrim (disable_overlay is on: the scrim is a gradient). */
 .vvj-pattern.vvjl.vvj-pattern--vvjl-mosaic .vvjl-inner > .lightbox-row .lightbox-content {
@@ -45,25 +45,25 @@
 
 /* Scroll-linked entrance: each tile unmasks as it enters the viewport. */
 @supports (animation-timeline: view()) {
-  .vvj-pattern.vvjl.vvj-pattern--vvjl-mosaic .vvjl-inner > .lightbox-row { animation: vvjl-mosaic-in linear both; animation-timeline: view(); animation-range: entry 0% entry 80%; }
+  .vvj-pattern--vvjl-mosaic :where(.vvjl-inner) > .lightbox-row { animation: vvjl-mosaic-in linear both; animation-timeline: view(); animation-range: entry 0% entry 80%; }
   @keyframes vvjl-mosaic-in { from { clip-path: inset(22% 6% 0 6% round 18px); transform: translateY(48px); opacity: .25; } }
 }
 
 /* Viewer: photo centred, caption under it, arrows at the edges, counter and close on top. */
-.vvj-pattern.vvjl.vvj-pattern--vvjl-mosaic .lightbox-modal { backdrop-filter: blur(12px); }
+.vvj-pattern--vvjl-mosaic .lightbox-modal { backdrop-filter: blur(12px); }
 .vvj-pattern.vvjl.vvj-pattern--vvjl-mosaic .lightbox-modal-content { position: absolute; inset: 76px 96px 28px; display: grid; place-items: center; }
 .vvj-pattern.vvjl.vvj-pattern--vvjl-mosaic .lightbox-modal-content .lightbox-row { display: grid; justify-items: center; gap: 14px; }
 .vvj-pattern.vvjl.vvj-pattern--vvjl-mosaic .lightbox-modal-content img { width: auto; height: auto; max-width: 100%; max-height: calc(100vh - 210px); border-radius: 4px; }
 .vvj-pattern.vvjl.vvj-pattern--vvjl-mosaic .lightbox-modal-content .lightbox-content { position: static; padding: 0; background: none; text-align: center; }
-.vvj-pattern.vvjl.vvj-pattern--vvjl-mosaic .lightbox-counter { position: absolute; inset: 24px auto auto 24px; font: 600 15px/44px var(--vvj-font-mono); letter-spacing: .08em; }
-.vvj-pattern.vvjl.vvj-pattern--vvjl-mosaic .lightbox-counter .current-image::before { content: "0"; }
-.vvj-pattern.vvjl.vvj-pattern--vvjl-mosaic .lightbox-counter .total-images::before { content: "0"; }
+.vvj-pattern--vvjl-mosaic .lightbox-counter { position: absolute; inset: 24px auto auto 24px; font: 600 15px/44px var(--vvj-font-mono); letter-spacing: .08em; }
+:where(.vvj-pattern--vvjl-mosaic) :where(.lightbox-counter) .current-image::before { content: "0"; }
+:where(.vvj-pattern--vvjl-mosaic) :where(.lightbox-counter) .total-images::before { content: "0"; }
 .vvj-pattern.vvjl.vvj-pattern--vvjl-mosaic .modal-close, .vvj-pattern.vvjl.vvj-pattern--vvjl-mosaic .modal-prev, .vvj-pattern.vvjl.vvj-pattern--vvjl-mosaic .modal-next {
   position: absolute; width: 56px; height: 56px; display: grid; place-items: center; border-radius: 50%;
   border: 1px solid rgb(255 255 255 / .38); font-size: 22px; transition: background .25s, color .25s, transform .4s var(--vvjl-ease-out); }
 .vvj-pattern.vvjl.vvj-pattern--vvjl-mosaic .modal-close { inset: 18px 18px auto auto; width: 48px; height: 48px; }
-.vvj-pattern.vvjl.vvj-pattern--vvjl-mosaic .modal-prev { inset: 50% auto auto 22px; translate: 0 -50%; }
-.vvj-pattern.vvjl.vvj-pattern--vvjl-mosaic .modal-next { inset: 50% 22px auto auto; translate: 0 -50%; }
+.vvj-pattern--vvjl-mosaic .modal-prev { inset: 50% auto auto 22px; translate: 0 -50%; }
+.vvj-pattern--vvjl-mosaic .modal-next { inset: 50% 22px auto auto; translate: 0 -50%; }
 .vvj-pattern.vvjl.vvj-pattern--vvjl-mosaic .vvjl-btn-text { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); margin: -1px; padding: 0; border: 0; white-space: nowrap; }
 .vvj-pattern.vvjl.vvj-pattern--vvjl-mosaic .modal-close:hover, .vvj-pattern.vvjl.vvj-pattern--vvjl-mosaic .modal-prev:hover, .vvj-pattern.vvjl.vvj-pattern--vvjl-mosaic .modal-next:hover { background: #fff; color: #111; }
 .vvj-pattern.vvjl.vvj-pattern--vvjl-mosaic .modal-prev:hover { transform: translateX(-4px); }
@@ -71,7 +71,7 @@
 .vvj-pattern.vvjl.vvj-pattern--vvjl-mosaic .modal-close:active, .vvj-pattern.vvjl.vvj-pattern--vvjl-mosaic .modal-prev:active, .vvj-pattern.vvjl.vvj-pattern--vvjl-mosaic .modal-next:active { transform: scale(.9); }
 @media (max-width: 767px) {
   .vvj-pattern.vvjl.vvj-pattern--vvjl-mosaic .lightbox-modal-content { inset: 72px 12px 96px; }
-  .vvj-pattern.vvjl.vvj-pattern--vvjl-mosaic .modal-prev, .vvj-pattern.vvjl.vvj-pattern--vvjl-mosaic .modal-next { translate: none; }
-  .vvj-pattern.vvjl.vvj-pattern--vvjl-mosaic .modal-prev { inset: auto auto 22px calc(50% - 68px); }
-  .vvj-pattern.vvjl.vvj-pattern--vvjl-mosaic .modal-next { inset: auto calc(50% - 68px) 22px auto; }
+  .vvj-pattern--vvjl-mosaic .modal-prev, .vvj-pattern--vvjl-mosaic .modal-next { translate: none; }
+  .vvj-pattern--vvjl-mosaic .modal-prev { inset: auto auto 22px calc(50% - 68px); }
+  .vvj-pattern--vvjl-mosaic .modal-next { inset: auto calc(50% - 68px) 22px auto; }
 }

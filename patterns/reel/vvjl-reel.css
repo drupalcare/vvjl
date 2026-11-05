@@ -5,16 +5,16 @@
 
 /* Pattern Reel: one row of arched tiles you scroll sideways, a scroll-linked progress line, and a light story viewer. */
 .vvj-pattern.vvjl.vvj-pattern--vvjl-reel { --vvj-lightbox-backdrop: var(--vvj-surface); --vvjl-reel-pad: clamp(16px, 6vw, 96px); timeline-scope: --vvjl-reel; }
-.vvj-pattern.vvjl.vvj-pattern--vvjl-reel .vvjl-inner { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: clamp(220px, 27vw, 360px);
+.vvj-pattern--vvjl-reel .vvjl-inner { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: clamp(220px, 27vw, 360px);
   overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x mandatory; scroll-padding-inline: var(--vvjl-reel-pad);
   padding: 28px var(--vvjl-reel-pad) 20px; scrollbar-width: none; scroll-timeline: --vvjl-reel x; }
 .vvj-pattern.vvjl.vvj-pattern--vvjl-reel .vvjl-inner::-webkit-scrollbar { display: none; }
-.vvj-pattern.vvjl.vvj-pattern--vvjl-reel .vvjl-inner > .lightbox-row { scroll-snap-align: start; }
-.vvj-pattern.vvjl.vvj-pattern--vvjl-reel .vvjl-inner > .lightbox-row .lightbox-image { aspect-ratio: 3 / 4; overflow: hidden; border-radius: 999px 999px 14px 14px; }
+.vvj-pattern--vvjl-reel :where(.vvjl-inner) > .lightbox-row { scroll-snap-align: start; }
+.vvj-pattern--vvjl-reel :where(.vvjl-inner) > :where(.lightbox-row) .lightbox-image { aspect-ratio: 3 / 4; overflow: hidden; border-radius: 999px 999px 14px 14px; }
 .vvj-pattern.vvjl.vvj-pattern--vvjl-reel .vvjl-inner > .lightbox-row img { width: 100%; height: 100%; object-fit: cover; transition: transform .9s var(--vvjl-ease-out); }
-.vvj-pattern.vvjl.vvj-pattern--vvjl-reel .vvjl-inner > .lightbox-row:hover img { transform: scale(1.07); }
+.vvj-pattern--vvjl-reel :where(.vvjl-inner) > :where(.lightbox-row:hover) img { transform: scale(1.07); }
 @supports (animation-timeline: view()) {
-  .vvj-pattern.vvjl.vvj-pattern--vvjl-reel .vvjl-inner > .lightbox-row .lightbox-image { animation: vvjl-reel-depth linear both; animation-timeline: view(inline); }
+  .vvj-pattern--vvjl-reel :where(.vvjl-inner) > :where(.lightbox-row) .lightbox-image { animation: vvjl-reel-depth linear both; animation-timeline: view(inline); }
   @keyframes vvjl-reel-depth { 0%, 100% { transform: scale(.9); filter: saturate(.6); } 35%, 65% { transform: none; filter: none; } }
   .vvj-pattern.vvjl.vvj-pattern--vvjl-reel::after { content: ""; display: block; height: 3px; margin: 0 var(--vvjl-reel-pad) 28px; background: var(--vvj-accent);
     transform-origin: 0 50%; animation: vvjl-reel-progress linear both; animation-timeline: --vvjl-reel; }
@@ -30,14 +30,14 @@
 .vvj-pattern.vvjl.vvj-pattern--vvjl-reel .modal-open:active { transform: scale(.9); }
 
 /* Viewer: light, story bars on top, photo with tap halves, caption under it. */
-.vvj-pattern.vvjl.vvj-pattern--vvjl-reel .lightbox-modal { color: var(--vvj-ink); }
-.vvj-pattern.vvjl.vvj-pattern--vvjl-reel .vvjl-rail { position: absolute; inset: 16px 16px auto; }
+.vvj-pattern--vvjl-reel .lightbox-modal { color: var(--vvj-ink); }
+.vvj-pattern--vvjl-reel .vvjl-rail { position: absolute; inset: 16px 16px auto; }
 .vvj-pattern.vvjl.vvj-pattern--vvjl-reel .vvjl-rail-btn { flex: 1; height: 44px; display: grid; align-items: center; }
 .vvj-pattern.vvjl.vvj-pattern--vvjl-reel .vvjl-seg { display: block; height: 4px; border-radius: 4px; background: color-mix(in srgb, var(--vvj-ink) 22%, transparent); position: relative; overflow: hidden; }
 .vvj-pattern.vvjl.vvj-pattern--vvjl-reel .vvjl-seg::after { content: ""; position: absolute; inset: 0; background: var(--vvj-ink); transform: scaleX(0); transform-origin: 0 50%; transition: transform .5s var(--vvjl-ease-out); }
 .vvj-pattern.vvjl.vvj-pattern--vvjl-reel .vvjl-rail-btn[aria-current] .vvjl-seg::after, .vvj-pattern.vvjl.vvj-pattern--vvjl-reel .vvjl-rail-btn:has(~ [aria-current]) .vvjl-seg::after { transform: none; }
 .vvj-pattern.vvjl.vvj-pattern--vvjl-reel .vvjl-rail-btn:hover .vvjl-seg { background: color-mix(in srgb, var(--vvj-ink) 40%, transparent); }
-.vvj-pattern.vvjl.vvj-pattern--vvjl-reel .lightbox-counter { position: absolute; inset: 64px auto auto 20px; font: 600 14px/44px var(--vvj-font-ui); }
+.vvj-pattern--vvjl-reel .lightbox-counter { position: absolute; inset: 64px auto auto 20px; font: 600 14px/44px var(--vvj-font-ui); }
 .vvj-pattern.vvjl.vvj-pattern--vvjl-reel .modal-close { position: absolute; inset: 64px 14px auto auto; width: 44px; height: 44px; display: grid; place-items: center; border-radius: 50%; font-size: 18px; transition: background .2s; }
 .vvj-pattern.vvjl.vvj-pattern--vvjl-reel .modal-close:hover { background: color-mix(in srgb, var(--vvj-ink) 10%, transparent); }
 .vvj-pattern.vvjl.vvj-pattern--vvjl-reel .vvjl-btn-text { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); margin: -1px; padding: 0; border: 0; white-space: nowrap; }
@@ -48,9 +48,9 @@
 .vvj-pattern.vvjl.vvj-pattern--vvjl-reel .lightbox-modal-content .vvj-meta { color: var(--vvj-muted); opacity: 1; }
 .vvj-pattern.vvjl.vvj-pattern--vvjl-reel .lightbox-modal-content .vvj-title { font: 600 clamp(22px, 2.4vw, 32px)/1.2 var(--vvj-font-display); }
 .vvj-pattern.vvjl.vvj-pattern--vvjl-reel .modal-prev, .vvj-pattern.vvjl.vvj-pattern--vvjl-reel .modal-next { position: absolute; width: 30%; display: flex; align-items: center; padding: 0 20px; font-size: 20px; }
-.vvj-pattern.vvjl.vvj-pattern--vvjl-reel .modal-prev { inset: 116px auto 120px 0; }
+.vvj-pattern--vvjl-reel .modal-prev { inset: 116px auto 120px 0; }
 .vvj-pattern.vvjl.vvj-pattern--vvjl-reel .modal-next { inset: 116px 0 120px auto; justify-content: flex-end; }
-.vvj-pattern.vvjl.vvj-pattern--vvjl-reel .modal-prev .vvjl-pattern-icon, .vvj-pattern.vvjl.vvj-pattern--vvjl-reel .modal-next .vvjl-pattern-icon { width: 48px; height: 48px; padding: 14px; border-radius: 50%; background: var(--vvj-surface); color: var(--vvj-ink);
+.vvj-pattern--vvjl-reel :where(.modal-prev) .vvjl-pattern-icon, .vvj-pattern--vvjl-reel :where(.modal-next) .vvjl-pattern-icon { width: 48px; height: 48px; padding: 14px; border-radius: 50%; background: var(--vvj-surface); color: var(--vvj-ink);
   box-shadow: 0 0 0 1px var(--vvj-line); opacity: .8; transition: opacity .25s, transform .35s var(--vvjl-ease-out); }
-.vvj-pattern.vvjl.vvj-pattern--vvjl-reel .modal-prev:hover .vvjl-pattern-icon, .vvj-pattern.vvjl.vvj-pattern--vvjl-reel .modal-next:hover .vvjl-pattern-icon, .vvj-pattern.vvjl.vvj-pattern--vvjl-reel .modal-prev:focus-visible .vvjl-pattern-icon, .vvj-pattern.vvjl.vvj-pattern--vvjl-reel .modal-next:focus-visible .vvjl-pattern-icon { opacity: 1; transform: scale(1.12); }
+.vvj-pattern--vvjl-reel :where(.modal-prev:hover) .vvjl-pattern-icon, .vvj-pattern--vvjl-reel :where(.modal-next:hover) .vvjl-pattern-icon, .vvj-pattern--vvjl-reel :where(.modal-prev:focus-visible) .vvjl-pattern-icon, .vvj-pattern--vvjl-reel :where(.modal-next:focus-visible) .vvjl-pattern-icon { opacity: 1; transform: scale(1.12); }
 .vvj-pattern.vvjl.vvj-pattern--vvjl-reel .modal-prev:focus-visible, .vvj-pattern.vvjl.vvj-pattern--vvjl-reel .modal-next:focus-visible { outline-offset: -6px; }

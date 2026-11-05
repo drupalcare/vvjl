@@ -20,16 +20,16 @@
   font-family: var(--vvj-font-ui);
 }
 .vvj-pattern.vvjl,
-.vvj-pattern.vvjl *,
-.vvj-pattern.vvjl *::before,
-.vvj-pattern.vvjl *::after { box-sizing: border-box; }
-.vvj-pattern.vvjl .vvjl-inner { grid-template-columns: repeat(auto-fill, minmax(min(100%, calc(var(--box-width) * 1px)), 1fr)); gap: calc(var(--grid-gap, 0) * 1px); }
+:where(.vvj-pattern.vvjl) *,
+:where(.vvj-pattern.vvjl) *::before,
+:where(.vvj-pattern.vvjl) *::after { box-sizing: border-box; }
+:where(.vvj-pattern.vvjl) .vvjl-inner { grid-template-columns: repeat(auto-fill, minmax(min(100%, calc(var(--box-width) * 1px)), 1fr)); gap: calc(var(--grid-gap, 0) * 1px); }
 /* Theme resets: headings, paragraphs, lists, images (the visually-hidden headings keep their own box). */
-.vvj-pattern.vvjl :is(h1, h2, h3, h4, h5, h6, p):not(:where(.visually-hidden)) { margin: 0; padding: 0; font-size: inherit; line-height: inherit; color: inherit; hyphens: manual; overflow-wrap: normal; word-break: normal; }
-.vvj-pattern.vvjl :is(ul, ol, li) { list-style: none; margin: 0; padding: 0; }
-.vvj-pattern.vvjl :is(img, svg) { display: block; max-width: 100%; height: auto; }
+:where(.vvj-pattern.vvjl) :is(h1, h2, h3, h4, h5, h6, p):not(:where(.visually-hidden)) { margin: 0; padding: 0; font-size: inherit; line-height: inherit; color: inherit; hyphens: manual; overflow-wrap: normal; word-break: normal; }
+:where(.vvj-pattern.vvjl) :is(ul, ol, li) { list-style: none; margin: 0; padding: 0; }
+:where(.vvj-pattern.vvjl) :is(img, svg) { display: block; max-width: 100%; height: auto; }
 /* Beats the theme's h1-h6 colour; titles never hyphenate. */
-.vvj-pattern.vvjl :is(.vvj-title, .vvj-meta) { letter-spacing: normal; text-transform: none; }
+:where(.vvj-pattern.vvjl) :is(.vvj-title, .vvj-meta) { letter-spacing: normal; text-transform: none; }
 .vvj-pattern.vvjl .vvj-title { color: inherit; hyphens: manual; overflow-wrap: normal; word-break: normal; }
 .vvj-pattern.vvjl .lightbox-image img { display: block; max-width: 100%; }
 .vvj-pattern.vvjl .vvjl-inner .lightbox-row .lightbox-content { width: auto; margin: 0; }
@@ -39,18 +39,18 @@
 .vvj-pattern.vvjl .control-btn:focus-visible { outline: 3px solid currentColor; outline-offset: 3px; }
 /* The hidden text in the expand button sits at its centre (core .visually-hidden is absolute, 1px, clipped). */
 .vvj-pattern.vvjl .modal-open > .visually-hidden { inset: 50% auto auto 50%; }
-.vvj-pattern.vvjl .vvjl-pattern-icon { display: block; width: 1em; height: 1em; fill: currentColor; flex: none; }
+:where(.vvj-pattern.vvjl) .vvjl-pattern-icon { display: block; width: 1em; height: 1em; fill: currentColor; flex: none; }
 .vvj-pattern.vvjl .vvjl-of-word { display: none; }
 
 /* Viewer: the backdrop token, and vvjl.css positions cleared for each Pattern. */
-.vvj-pattern.vvjl .lightbox-modal { background: var(--vvj-lightbox-backdrop); color: #fff; }
-.vvj-pattern.vvjl .lightbox-modal-content { width: auto !important; height: auto; max-height: none; margin: 0 !important; padding: 0 !important; }
-.vvj-pattern.vvjl .lightbox-modal :is(.modal-prev, .modal-next, .modal-close) { inset: auto; }
+:where(.vvj-pattern.vvjl) .lightbox-modal { background: var(--vvj-lightbox-backdrop); color: #fff; }
+:where(.vvj-pattern.vvjl) .lightbox-modal-content { width: auto !important; height: auto; max-height: none; margin: 0 !important; padding: 0 !important; }
+:where(.vvj-pattern.vvjl) :where(.lightbox-modal) :is(.modal-prev, .modal-next, .modal-close) { inset: auto; }
 .vvj-pattern.vvjl .lightbox-modal .lightbox-counter { width: auto; min-height: 0; }
 .vvj-pattern.vvjl .vvjl-rail { display: flex; gap: 6px; }
 
 @media (prefers-reduced-motion: reduce) {
-  .vvj-pattern.vvjl *,
-  .vvj-pattern.vvjl *::before,
-  .vvj-pattern.vvjl *::after { transition-duration: 0.01ms !important; transition-delay: 0s !important; animation: none !important; }
+  :where(.vvj-pattern.vvjl) *,
+  :where(.vvj-pattern.vvjl) *::before,
+  :where(.vvj-pattern.vvjl) *::after { transition-duration: 0.01ms !important; transition-delay: 0s !important; animation: none !important; }
 }

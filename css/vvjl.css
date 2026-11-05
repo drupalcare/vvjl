@@ -21,12 +21,12 @@
 }
 
 .vvj-lightbox,
-.vvj-lightbox * {
+:where(.vvj-lightbox) * {
   box-sizing: border-box;
 }
 
 .vvj-lightbox,
-.vvj-lightbox .view-content {
+:where(.vvj-lightbox) .view-content {
   display: block !important;
   width: 100%;
   min-width: 100%;
@@ -40,12 +40,12 @@
   gap: calc(var(--grid-gap) * 1px);
 }
 
-.vvjl-inner img {
+:where(.vvjl-inner) img {
   width: 100%;
   height: auto;
 }
 
-.vvjl-inner .button {
+:where(.vvjl-inner) .button {
   all: unset;
   cursor: pointer;
 }
@@ -63,7 +63,7 @@
   overflow: hidden;
 }
 
-.vvjl-inner > .lightbox-row {
+:where(.vvjl-inner) > .lightbox-row {
   cursor: pointer;
 }
 
@@ -148,7 +148,7 @@
   padding: 1.875rem 1.25rem 1.25rem !important;
 }
 
-.lightbox-modal-content img {
+:where(.lightbox-modal-content) img {
   max-width: 100%;
   max-height: 95vh;
   max-height: 95dvh;
@@ -269,7 +269,7 @@
 }
 
 /* Animate slideshow */
-.lightbox-modal .a-top .lightbox-image {
+.lightbox-modal :where(.a-top) .lightbox-image {
   position: relative;
   animation: animatetop 0.6s ease-out;
 }
@@ -286,7 +286,7 @@
   }
 }
 
-.lightbox-modal .a-left .lightbox-image {
+.lightbox-modal :where(.a-left) .lightbox-image {
   position: relative;
   animation: animateleft 0.6s ease-out;
 }
@@ -303,7 +303,7 @@
   }
 }
 
-.lightbox-modal .a-right .lightbox-image {
+.lightbox-modal :where(.a-right) .lightbox-image {
   position: relative;
   animation: animateright 0.6s ease-out;
 }
@@ -320,7 +320,7 @@
   }
 }
 
-.lightbox-modal .a-bottom .lightbox-image {
+.lightbox-modal :where(.a-bottom) .lightbox-image {
   position: relative;
   animation: animatebottom 0.6s ease-out;
 }
@@ -337,7 +337,7 @@
   }
 }
 
-.lightbox-modal .a-zoom .lightbox-image {
+.lightbox-modal :where(.a-zoom) .lightbox-image {
   animation: animatezoom 0.6s ease-out;
 }
 
