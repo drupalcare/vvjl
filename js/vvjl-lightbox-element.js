@@ -55,6 +55,7 @@
       this._wireCloseClicks();
       this._wireEscapeKey();
       this._neutralizeGridLinks(true);
+      this._wirePatternGestures();
     }
 
     onDisconnect() {
@@ -179,6 +180,133 @@
 
     _preventDefault = (event) => event.preventDefault();
 
+    /**
+     * Pattern views only: Left/Right keys and swipe move between images.
+     *
+     * Keys inside the Pattern rail are left to the rail (roving focus).
+     */
+    _wirePatternGestures() {
+      if (!this.classList.contains('vvj-pattern') || !this._modalContent) {
+        return;
+      }
+      document.addEventListener(
+        'keydown',
+        (event) => {
+          if (
+            !this._modal ||
+            this._modal.getAttribute('aria-hidden') !== 'false' ||
+            (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') ||
+            event.target?.closest?.('.vvjl-rail')
+          ) {
+            return;
+          }
+          event.preventDefault();
+          this._navigate(event.key === 'ArrowRight' ? 'next' : 'prev');
+        },
+        { signal: this.signal },
+      );
+      let startX = null;
+      const content = this._modalContent;
+      content.addEventListener(
+        'pointerdown',
+        (event) => {
+          startX = event.pointerType === 'mouse' ? null : event.clientX;
+        },
+        { signal: this.signal },
+      );
+      content.addEventListener(
+        'pointercancel',
+        () => {
+          startX = null;
+        },
+        { signal: this.signal },
+      );
+      content.addEventListener(
+        'pointerup',
+        (event) => {
+          if (startX === null) {
+            return;
+          }
+          const dx = event.clientX - startX;
+          startX = null;
+          if (Math.abs(dx) < 40) {
+            return;
+          }
+          // The click that follows a swipe must not close the viewer.
+          const swallow = (click) => click.stopPropagation();
+          content.addEventListener('click', swallow, {
+            capture: true,
+            once: true,
+            signal: this.signal,
+          });
+          setTimeout(
+            () =>
+              content.removeEventListener('click', swallow, { capture: true }),
+            400,
+          );
+          this._navigate(dx < 0 ? 'next' : 'prev');
+        },
+        { signal: this.signal },
+      );
+    }
+
+    /**
+     * Shows the image at `index` (used by the Pattern rail).
+     *
+     * @param {number} index
+     *   Zero-based row index.
+     */
+    showImage(index) {
+      if (
+        !this._items?.length ||
+        index < 0 ||
+        index >= this._items.length ||
+        index === this._currentIndex
+      ) {
+        return;
+      }
+      this._inner
+        ?.querySelectorAll('.lightbox-row[aria-expanded="true"]')
+        .forEach((row) => {
+          row.setAttribute('aria-expanded', 'false');
+        });
+      this._currentIndex = index;
+      this._items[index].setAttribute('aria-expanded', 'true');
+      this.withTransition(() => this._updateModalContent());
+    }
+
+    /**
+     * Pattern views with the morph feature, when View Transitions exist.
+     *
+     * @return {boolean}
+     *   TRUE when the photo should morph between tile and viewer.
+     */
+    _canMorph() {
+      return (
+        this.classList.contains('vvjl-morph') &&
+        typeof document.startViewTransition === 'function'
+      );
+    }
+
+    /**
+     * Names one image `vvjl-photo` for a View Transition, clears the others.
+     *
+     * @param {HTMLImageElement | null | undefined} img
+     *   The image to name, or nothing to clear every name.
+     */
+    _namePhoto(img) {
+      this.querySelectorAll('.lightbox-image img').forEach((el) => {
+        /** @type {HTMLElement} */ (el).style.viewTransitionName = '';
+      });
+      if (img) {
+        img.style.viewTransitionName = 'vvjl-photo';
+      }
+    }
+
+    _modalImage() {
+      return this._modalContent?.querySelector('.lightbox-image img') ?? null;
+    }
+
     // -----------------------------------------------------------------
     // Modal open / close / navigate.
     // -----------------------------------------------------------------
@@ -191,6 +319,29 @@
       }
       this._lastFocusedElement = document.activeElement;
       this._currentIndex = Array.from(this._items).indexOf(lightboxRow);
+      if (this._canMorph()) {
+        // The tile photo morphs into the viewer photo (Pattern feature).
+        this._namePhoto(lightboxRow.querySelector('.lightbox-image img'));
+        const morph = this.withTransition(() => {
+          this._updateModalContent();
+          lightboxRow.setAttribute('aria-expanded', 'true');
+          if (this._modal) {
+            this._modal.setAttribute('aria-hidden', 'false');
+            this._modal.style.display = 'block';
+          }
+          this._namePhoto(this._modalImage());
+        });
+        if (morph) {
+          morph.finished.finally(() => this._namePhoto(null));
+        } else {
+          this._namePhoto(null);
+        }
+        this._modal.focus();
+        this._releaseFocusTrap = trapFocus(this._modal, this.signal);
+        event.stopPropagation();
+        this._neutralizeGridLinks(false);
+        return;
+      }
       this._updateModalContent();
       lightboxRow.setAttribute('aria-expanded', 'true');
       this._modal.setAttribute('aria-hidden', 'false');
@@ -209,29 +360,48 @@
       if (!this._modal || !this._modalContent) {
         return;
       }
+      if (this._canMorph() && this._currentIndex > -1) {
+        // The viewer photo morphs back into its tile (Pattern feature).
+        const tile = this._items[this._currentIndex]?.querySelector(
+          '.lightbox-image img',
+        );
+        this._namePhoto(this._modalImage());
+        const morph = this.withTransition(() => {
+          this._finishClose();
+          this._namePhoto(tile);
+        });
+        if (morph) {
+          morph.finished.finally(() => this._namePhoto(null));
+        } else {
+          this._namePhoto(null);
+        }
+        return;
+      }
       this._modalContent.classList.remove('fade-in');
       this._modalContent.classList.add('fade-out');
 
-      setTimeout(() => {
-        if (!this._modal || !this._modalContent) {
-          return;
-        }
-        this._modal.style.display = 'none';
-        this._modal.setAttribute('aria-hidden', 'true');
-        this._inner
-          ?.querySelectorAll('.lightbox-row[aria-expanded="true"]')
-          .forEach((row) => {
-            row.setAttribute('aria-expanded', 'false');
-          });
-        this._currentIndex = -1;
-        if (this._lastFocusedElement instanceof HTMLElement) {
-          this._lastFocusedElement.focus();
-        }
-        this._releaseFocusTrap?.();
-        this._releaseFocusTrap = null;
-        this._modalContent.classList.remove('fade-out');
-        this._neutralizeGridLinks(true);
-      }, 500);
+      setTimeout(() => this._finishClose(), 500);
+    }
+
+    _finishClose() {
+      if (!this._modal || !this._modalContent) {
+        return;
+      }
+      this._modal.style.display = 'none';
+      this._modal.setAttribute('aria-hidden', 'true');
+      this._inner
+        ?.querySelectorAll('.lightbox-row[aria-expanded="true"]')
+        .forEach((row) => {
+          row.setAttribute('aria-expanded', 'false');
+        });
+      this._currentIndex = -1;
+      if (this._lastFocusedElement instanceof HTMLElement) {
+        this._lastFocusedElement.focus();
+      }
+      this._releaseFocusTrap?.();
+      this._releaseFocusTrap = null;
+      this._modalContent.classList.remove('fade-out');
+      this._neutralizeGridLinks(true);
     }
 
     /** @param {'next' | 'prev'} direction */
@@ -268,6 +438,14 @@
         imageElement.removeAttribute('height');
         imageElement.removeAttribute('width');
       }
+      if (this.classList.contains('vvj-pattern')) {
+        // Pattern views: the copy in the viewer must not repeat the ids.
+        cloned.removeAttribute('id');
+        cloned.removeAttribute('aria-labelledby');
+        cloned
+          .querySelectorAll('[id]')
+          .forEach((el) => el.removeAttribute('id'));
+      }
       this._modalContent.innerHTML = '';
       this._modalContent.appendChild(cloned);
       // Force reflow so the fade-in animation runs each time.
@@ -280,6 +458,12 @@
       if (this._currentImageSpan) {
         this._currentImageSpan.textContent = String(this._currentIndex + 1);
       }
+      // Shared state contract; does nothing unless this is a Pattern view.
+      this.writeState({
+        index: this._currentIndex,
+        total: this._items.length,
+        items: this._items,
+      });
     }
   }
 

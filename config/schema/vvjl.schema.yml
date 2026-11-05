@@ -23,3 +23,6 @@ views.style.views_vvjl:
     animation:
       type: string
       label: 'Animation type'
+    vvj_pattern:
+      type: string
+      label: 'VVJ Pattern'

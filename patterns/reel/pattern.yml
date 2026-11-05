@@ -1,0 +1,14 @@
+label: 'Reel'
+description: 'One sideways row of arched tiles; a light viewer with story bars on top.'
+weight: 2
+options:
+  grid_image_width: 300
+  grid_image_gap: 16
+  animation: 'a-left'
+  overlay_color: '#121212'
+  overlay_opacity: 0.8
+  disable_overlay: false
+features:
+  - rail_segments
+needs:
+  - 'Row style Fields. First field the image (style vvj_wide_1600), then kicker (p.vvj-meta) and title (h3.vvj-title, not linked).'

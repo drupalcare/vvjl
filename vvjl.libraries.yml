@@ -15,3 +15,54 @@ vvjl:
     - vvj_core/a11y
     - vvj_core/element-base
     - vvj_core/focus-trap
+
+# Patterns. Each depends on vvjl/vvjl so its CSS loads after the module CSS.
+vvjl-pattern-base:
+  css:
+    theme:
+      patterns/vvjl-pattern-base.css: { weight: 205 }
+  js:
+    patterns/vvjl-pattern.js: {}
+  dependencies:
+    - vvjl/vvjl
+    - vvj_patterns/base
+    - vvj_patterns/state
+    - vvj_core/element-base
+    - vvj_core/keyboard-nav
+    - core/drupal
+    - core/once
+
+pattern.mosaic:
+  css:
+    theme:
+      patterns/mosaic/vvjl-mosaic.css: { weight: 210 }
+  dependencies:
+    - vvjl/vvjl-pattern-base
+
+pattern.sheet:
+  css:
+    theme:
+      patterns/sheet/vvjl-sheet.css: { weight: 210 }
+  dependencies:
+    - vvjl/vvjl-pattern-base
+
+pattern.reel:
+  css:
+    theme:
+      patterns/reel/vvjl-reel.css: { weight: 210 }
+  dependencies:
+    - vvjl/vvjl-pattern-base
+
+pattern.prints:
+  css:
+    theme:
+      patterns/prints/vvjl-prints.css: { weight: 210 }
+  dependencies:
+    - vvjl/vvjl-pattern-base
+
+pattern.index:
+  css:
+    theme:
+      patterns/index/vvjl-index.css: { weight: 210 }
+  dependencies:
+    - vvjl/vvjl-pattern-base

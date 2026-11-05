@@ -1,0 +1,15 @@
+label: 'Index'
+description: 'A numbered list of rows; a black viewer with a numbered control.'
+weight: 4
+options:
+  grid_image_width: 900
+  grid_image_gap: 1
+  animation: 'a-top'
+  overlay_color: '#ffffff'
+  overlay_opacity: 0.7
+  disable_overlay: true
+features:
+  - rail_numbers
+  - arrow_icons
+needs:
+  - 'Row style Fields. First field the image (style vvj_wide_1600), then kicker (p.vvj-meta) and title (h3.vvj-title, not linked).'

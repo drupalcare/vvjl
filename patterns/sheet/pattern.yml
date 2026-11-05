@@ -1,0 +1,15 @@
+label: 'Contact sheet'
+description: 'Even 3:2 frames with frame numbers; the viewer is a split screen with a paper sidebar and thumbnails.'
+weight: 1
+options:
+  grid_image_width: 240
+  grid_image_gap: 4
+  animation: 'a-right'
+  overlay_color: '#f2f2f2'
+  overlay_opacity: 1.0
+  disable_overlay: false
+features:
+  - rail_thumbs
+  - arrow_icons
+needs:
+  - 'Row style Fields. First field the image (style vvj_wide_1600), then kicker (p.vvj-meta) and title (h3.vvj-title, not linked).'

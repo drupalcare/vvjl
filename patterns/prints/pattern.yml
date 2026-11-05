@@ -1,0 +1,14 @@
+label: 'Prints'
+description: 'Tilted instant prints that straighten on hover; the print grows into a viewer with a bottom bar.'
+weight: 3
+options:
+  grid_image_width: 220
+  grid_image_gap: 32
+  animation: 'a-bottom'
+  overlay_color: '#ffffff'
+  overlay_opacity: 0.7
+  disable_overlay: true
+features:
+  - morph
+needs:
+  - 'Row style Fields. First field the image (style vvj_wide_1600), then kicker (p.vvj-meta) and title (h3.vvj-title, not linked).'

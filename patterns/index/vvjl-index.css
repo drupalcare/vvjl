@@ -1,0 +1,68 @@
+/**
+ * @file
+ * vvjl Pattern "index", scoped to the view element.
+ */
+
+/* Pattern Index: a numbered list of projects, the photo grows out of its row on hover; a black cinema viewer with a numbered segmented control. */
+.vvj-pattern.vvjl.vvj-pattern--vvjl-index { --vvj-lightbox-backdrop: #070707; --vvjl-index-hot: #bdbdbd; counter-reset: vvjl-ix; padding: clamp(16px, 5vw, 72px); }
+.vvj-pattern.vvjl.vvj-pattern--vvjl-index .vvjl-inner { gap: 0 calc(var(--grid-gap, 0) * 1px); }
+.vvj-pattern.vvjl.vvj-pattern--vvjl-index .vvjl-inner > .lightbox-row { counter-increment: vvjl-ix; display: grid; align-items: center; gap: 0 clamp(12px, 2vw, 32px);
+  grid-template-columns: 3.2em minmax(0, 2fr) minmax(0, 1fr) 132px 48px; grid-template-areas: "num title meta img btn";
+  min-height: 96px; padding: 12px 8px; border: solid var(--vvj-line); border-width: 1px 0 0; isolation: isolate; }
+.vvj-pattern.vvjl.vvj-pattern--vvjl-index .vvjl-inner > .lightbox-row:last-child { border-width: 1px 0; }
+.vvj-pattern.vvjl.vvj-pattern--vvjl-index .vvjl-inner > .lightbox-row::before { content: counter(vvjl-ix, decimal-leading-zero); grid-area: num; font: 500 14px var(--vvj-font-mono); color: var(--vvj-muted); }
+.vvj-pattern.vvjl.vvj-pattern--vvjl-index .vvjl-inner > .lightbox-row::after { content: ""; position: absolute; inset: 0; z-index: -1; background: color-mix(in srgb, var(--vvj-accent) 10%, var(--vvj-surface));
+  clip-path: inset(0 100% 0 0); transition: clip-path .55s var(--vvjl-ease-io); }
+.vvj-pattern.vvjl.vvj-pattern--vvjl-index .vvjl-inner > .lightbox-row:hover::after, .vvj-pattern.vvjl.vvj-pattern--vvjl-index .vvjl-inner > .lightbox-row:focus-within::after { clip-path: inset(0); }
+.vvj-pattern.vvjl.vvj-pattern--vvjl-index .vvjl-inner > .lightbox-row .lightbox-content { display: contents; }
+.vvj-pattern.vvjl.vvj-pattern--vvjl-index .vvjl-inner .vvj-title { grid-area: title; margin: 0; font: 500 clamp(20px, 2.6vw, 38px)/1.1 var(--vvj-font-display); transition: translate .5s var(--vvjl-ease-out); }
+.vvj-pattern.vvjl.vvj-pattern--vvjl-index .vvjl-inner .lightbox-row:hover .vvj-title, .vvj-pattern.vvjl.vvj-pattern--vvjl-index .vvjl-inner .lightbox-row:focus-within .vvj-title { translate: 12px 0; }
+.vvj-pattern.vvjl.vvj-pattern--vvjl-index .vvjl-inner .vvj-meta { grid-area: meta; margin: 0; font-size: 13px; letter-spacing: .12em; text-transform: uppercase; color: var(--vvj-muted); }
+.vvj-pattern.vvjl.vvj-pattern--vvjl-index .vvjl-inner > .lightbox-row .lightbox-image { display: contents; }
+.vvj-pattern.vvjl.vvj-pattern--vvjl-index .vvjl-inner > .lightbox-row img { grid-area: img; width: 132px; height: 84px; border-radius: 4px; transform-origin: 100% 50%;
+  transition: transform .6s var(--vvjl-ease-out), clip-path .6s var(--vvjl-ease-out); clip-path: inset(10% 0 10% 30% round 4px); }
+.vvj-pattern.vvjl.vvj-pattern--vvjl-index .vvjl-inner > .lightbox-row:hover img, .vvj-pattern.vvjl.vvj-pattern--vvjl-index .vvjl-inner > .lightbox-row:focus-within img { transform: scale(1.9); clip-path: inset(0 round 4px); position: relative; z-index: 3; }
+.vvj-pattern.vvjl.vvj-pattern--vvjl-index .modal-open { grid-area: btn; width: 48px; height: 48px; display: grid; place-items: center; border-radius: 50%; border: 1.5px solid currentColor; font-size: 16px; transition: background .25s, color .25s; }
+.vvj-pattern.vvjl.vvj-pattern--vvjl-index .lightbox-row:hover .modal-open, .vvj-pattern.vvjl.vvj-pattern--vvjl-index .modal-open:focus-visible { background: var(--vvj-ink); color: var(--vvj-surface); }
+@media (max-width: 640px) {
+  .vvj-pattern.vvjl.vvj-pattern--vvjl-index .vvjl-inner > .lightbox-row { grid-template-columns: 2.4em minmax(0, 1fr) 88px; grid-template-areas: "num title img" "num meta img" "num btn img"; gap: 4px clamp(12px, 2vw, 32px); }
+  .vvj-pattern.vvjl.vvj-pattern--vvjl-index .vvjl-inner > .lightbox-row img { width: 88px; height: 88px; clip-path: inset(0 round 4px); }
+  .vvj-pattern.vvjl.vvj-pattern--vvjl-index .vvjl-inner > .lightbox-row:hover img, .vvj-pattern.vvjl.vvj-pattern--vvjl-index .vvjl-inner > .lightbox-row:focus-within img { transform: none; }
+  .vvj-pattern.vvjl.vvj-pattern--vvjl-index .modal-open { width: 44px; height: 44px; }
+}
+/* Viewer: black cinema, photo and a big caption, bottom row Previous | 01 02 03 | Next. */
+.vvj-pattern.vvjl.vvj-pattern--vvjl-index .lightbox-modal-content { position: absolute; inset: 72px clamp(16px, 6vw, 96px) 108px; display: grid; place-items: center; touch-action: pan-y; }
+.vvj-pattern.vvjl.vvj-pattern--vvjl-index .lightbox-modal-content .lightbox-row { display: grid; gap: 18px; justify-items: start; }
+.vvj-pattern.vvjl.vvj-pattern--vvjl-index .lightbox-modal-content img { width: auto; height: auto; max-width: 100%; max-height: calc(100vh - 300px); }
+.vvj-pattern.vvjl.vvj-pattern--vvjl-index .lightbox-modal-content .lightbox-content { position: static; background: none; padding: 0; }
+.vvj-pattern.vvjl.vvj-pattern--vvjl-index .lightbox-modal-content .vvj-meta { margin: 0; font-size: 13px; letter-spacing: .14em; text-transform: uppercase; color: var(--vvjl-index-hot); }
+.vvj-pattern.vvjl.vvj-pattern--vvjl-index .lightbox-modal-content .vvj-title { margin: 4px 0 0; font: 500 clamp(24px, 3.4vw, 48px)/1.05 var(--vvj-font-display); }
+.vvj-pattern.vvjl.vvj-pattern--vvjl-index .modal-close { position: absolute; inset: 16px 16px auto auto; height: 44px; padding: 0 16px; display: flex; align-items: center; gap: 10px; flex-direction: row-reverse;
+  border-radius: 44px; background: rgb(255 255 255 / .1); font-weight: 600; font-size: 14px; transition: background .2s; }
+.vvj-pattern.vvjl.vvj-pattern--vvjl-index .modal-close:hover { background: rgb(255 255 255 / .22); }
+.vvj-pattern.vvjl.vvj-pattern--vvjl-index .lightbox-counter { position: absolute; inset: 16px auto auto clamp(16px, 6vw, 96px); font: 500 14px/44px var(--vvj-font-mono); color: #d8d8d8; }
+.vvj-pattern.vvjl.vvj-pattern--vvjl-index .vvjl-rail { position: absolute; inset: auto auto 28px 50%; translate: -50% 0; padding: 4px; border-radius: 48px; background: rgb(255 255 255 / .08); gap: 2px; }
+.vvj-pattern.vvjl.vvj-pattern--vvjl-index .vvjl-rail-btn { display: grid; place-items: center; min-width: 44px; height: 44px; border-radius: 44px; font: 600 14px var(--vvj-font-mono); color: #cfcfcf; transition: background .3s var(--vvjl-ease-out), color .3s; }
+.vvj-pattern.vvjl.vvj-pattern--vvjl-index .vvjl-rail-btn:hover { color: #fff; background: rgb(255 255 255 / .12); }
+.vvj-pattern.vvjl.vvj-pattern--vvjl-index .vvjl-rail-btn[aria-current] { background: #fff; color: #070707; }
+.vvj-pattern.vvjl.vvj-pattern--vvjl-index .modal-prev, .vvj-pattern.vvjl.vvj-pattern--vvjl-index .modal-next { position: absolute; height: 52px; display: flex; align-items: center; gap: 10px; font-weight: 600; font-size: 15px; color: #fff; }
+.vvj-pattern.vvjl.vvj-pattern--vvjl-index .modal-prev { inset: auto auto 28px clamp(16px, 6vw, 96px); }
+.vvj-pattern.vvjl.vvj-pattern--vvjl-index .modal-next { inset: auto clamp(16px, 6vw, 96px) 28px auto; flex-direction: row-reverse; }
+.vvj-pattern.vvjl.vvj-pattern--vvjl-index .modal-prev .vvjl-pattern-icon, .vvj-pattern.vvjl.vvj-pattern--vvjl-index .modal-next .vvjl-pattern-icon { transition: transform .35s var(--vvjl-ease-out); }
+.vvj-pattern.vvjl.vvj-pattern--vvjl-index .modal-prev:hover .vvjl-pattern-icon { transform: translateX(-6px); }
+.vvj-pattern.vvjl.vvj-pattern--vvjl-index .modal-next:hover .vvjl-pattern-icon { transform: translateX(6px); }
+.vvj-pattern.vvjl.vvj-pattern--vvjl-index .modal-prev:active, .vvj-pattern.vvjl.vvj-pattern--vvjl-index .modal-next:active { opacity: .7; }
+@media (max-width: 760px) {
+  .vvj-pattern.vvjl.vvj-pattern--vvjl-index .lightbox-modal-content { inset: 72px clamp(16px, 6vw, 96px) 150px; }
+  .vvj-pattern.vvjl.vvj-pattern--vvjl-index .vvjl-rail { inset: auto auto 88px 50%; }
+  .vvj-pattern.vvjl.vvj-pattern--vvjl-index .modal-prev { inset: auto auto 16px clamp(16px, 6vw, 96px); }
+  .vvj-pattern.vvjl.vvj-pattern--vvjl-index .modal-next { inset: auto clamp(16px, 6vw, 96px) 16px auto; }
+  .vvj-pattern.vvjl.vvj-pattern--vvjl-index .vvjl-rail-btn { min-width: 40px; }
+}
+
+/* Drupal markup: field wrappers join the row grid; the button is a grid item; the grown photo is not clipped. */
+.vvj-pattern.vvjl.vvj-pattern--vvjl-index .vvjl-inner > .lightbox-row { overflow: visible; }
+/* Not the expand button's hidden label: as display: contents it lost its clip and spilled out of the 48px circle. */
+.vvj-pattern.vvjl.vvj-pattern--vvjl-index .vvjl-inner > .lightbox-row .lightbox-image :is(div, span, a, picture):not(.modal-open, .modal-open *),
+.vvj-pattern.vvjl.vvj-pattern--vvjl-index .vvjl-inner > .lightbox-row .lightbox-content :is(div, span) { display: contents; }
+.vvj-pattern.vvjl.vvj-pattern--vvjl-index .vvjl-inner .modal-open { position: relative; inset: auto; z-index: 1; }

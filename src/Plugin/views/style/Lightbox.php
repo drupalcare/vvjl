@@ -59,6 +59,15 @@ class Lightbox extends VvjStylePluginBase {
 
   /**
    * {@inheritdoc}
+   *
+   * The Patterns select appears only while vvj_patterns is enabled.
+   */
+  protected function supportsPatterns(): bool {
+    return TRUE;
+  }
+
+  /**
+   * {@inheritdoc}
    */
   protected function definePatternOptions(array $options): array {
     $options['grid_image_width'] = ['default' => VvjlConstants::DEFAULT_GRID_IMAGE_WIDTH];
@@ -279,6 +288,9 @@ class Lightbox extends VvjStylePluginBase {
     }
 
     $flattened['unique_id'] = $this->options['unique_id'] ?? $this->generateUniqueId();
+
+    // Patterns: the shared logic lives in vvj_patterns.
+    $this->flattenPatternChoice($values, $flattened);
 
     return $flattened;
   }
