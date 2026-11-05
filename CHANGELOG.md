@@ -11,6 +11,7 @@ from 1.x.
 
 ### Added
 
+- Patterns: 5 ready-made designs (Mosaic, Contact sheet, Reel, Prints, Index) chosen in the format settings. They need the `vvj_patterns` sub-module of `drupal/vvj_core`.
 - `drupal/vvj_core` dependency. Composer pulls it automatically.
 - `<vvjl-lightbox>` custom element (extends `VvjElementBase`). Lazy
   IntersectionObserver hydration; AbortController-tracked listeners; View
