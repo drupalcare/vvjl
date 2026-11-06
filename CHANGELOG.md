@@ -12,7 +12,7 @@ from 1.x.
 ### Added
 
 - Patterns: the bridge reads the shared roles for the Prints; the chips, rail and current number keep the stage tokens.
-- Pattern colours: every hard-coded Pattern colour is a `--vvjl-*` token in `vvjl-pattern-base.css`; new `pattern-bridge-solo` and `pattern-bridge-apex` libraries (`patterns/bridge/`) map the button, menu and print colours to a Solo or APEX theme. The black-and-white look is unchanged.
+- Pattern colors: every hard-coded Pattern color is a `--vvjl-*` token in `vvjl-pattern-base.css`; new `pattern-bridge-solo` and `pattern-bridge-apex` libraries (`patterns/bridge/`) map the button, menu and print colors to a Solo or APEX theme. The black-and-white look is unchanged.
 - Patterns: 5 ready-made designs (Mosaic, Contact sheet, Reel, Prints, Index) chosen in the format settings. They need the `vvj_patterns` sub-module of `drupal/vvj_core`.
 - `drupal/vvj_core` dependency. Composer pulls it automatically.
 - `<vvjl-lightbox>` custom element (extends `VvjElementBase`). Lazy

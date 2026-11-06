@@ -1,32 +1,32 @@
 /**
  * @file
- * vvjl theme bridge for APEX: maps the module's colour tokens to the theme's region colours.
+ * vvjl theme bridge for APEX: maps the module's color tokens to the theme's region colors.
  *
  * Token mapping ONLY; every element is painted once, in the Pattern CSS. The
  * selector is the module's own token block (0,2,0) and this file loads just
  * after it, so the theme value wins by order. A plain :where() at 0,0,0 would
- * lose to the module's declaration. The Pattern inherits the colours of the
+ * lose to the module's declaration. The Pattern inherits the colors of the
  * region it sits in. Each value falls back to the black-and-white --vvj-*
- * token, so a region that leaves a colour unset still renders. Backdrops, scrims, shadows and the viewer text derive from --vvj-stage-*, which the vvj_patterns bridge supplies, so they are not repeated here.
+ * token, so a region that leaves a color unset still renders. Backdrops, scrims, shadows and the viewer text derive from --vvj-stage-*, which the vvj_patterns bridge supplies, so they are not repeated here.
  */
 
-/* Colours come from the shared --vvj-theme-* roles (vvj_patterns bridge), so the
-   theme's own colour spelling lives once, there. Each role keeps its black-and-white fallback. */
+/* Colors come from the shared --vvj-theme-* roles (vvj_patterns bridge), so the
+   theme's own color spelling lives once, there. Each role keeps its black-and-white fallback. */
 /* Chips, the Index rail and the current number sit on the dark lightbox stage, so they keep
    the stage tokens from vvjl-pattern-base.css (a theme fill could vanish there, 1.4.11). */
 .vvj-pattern.vvjl {
   /* Menus: the Index viewer's close pill and number rail. */
-  /* The close pill keeps stage tokens: its words take the stage text colour, so an opaque theme ground would hide them. */
+  /* The close pill keeps stage tokens: its words take the stage text color, so an opaque theme ground would hide them. */
   --vvjl-index-chip: color-mix(in sRGB, var(--vvj-stage-color) 10%, transparent);
   --vvjl-index-chip-hover: color-mix(in sRGB, var(--vvj-stage-color) 22%, transparent);
 
-  /* Prints: the paper is the form background, the ink is the text colour. */
+  /* Prints: the paper is the form background, the ink is the text color. */
   --vvjl-prints-paper: var(--vvj-theme-form-bg, var(--vvj-surface));
   --vvjl-prints-ink: var(--vvj-theme-text, var(--vvj-ink));
   --vvjl-prints-meta: color-mix(in oklab, var(--vvjl-prints-ink) 88%, var(--vvjl-prints-paper));
 }
 
-/* APEX extra colours: the owner will name them; none are invented here. */
+/* APEX extra colors: the owner will name them; none are invented here. */
 
 @media (forced-colors: active) {
   .vvj-pattern.vvjl {

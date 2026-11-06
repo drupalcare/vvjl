@@ -2,7 +2,7 @@
  * @file
  * Shared by every vvjl Pattern: tokens, resets of vvjl.css, titles, icons.
  *
- * Colours come only from the --vvj-* tokens (vvj_patterns/base) and the --vvjl-* tokens below; every
+ * Colors come only from the --vvj-* tokens (vvj_patterns/base) and the --vvjl-* tokens below; every
  * selector starts at the view's own element. vvjl.css sets the viewer box
  * with !important (width, margin, padding of .lightbox-modal-content), so
  * those three resets need !important too; nothing else here does.
@@ -13,7 +13,7 @@
   --vvjl-ease-io: var(--vvj-ease-io, cubic-bezier(0.76, 0, 0.24, 1));
   --vvj-lightbox-backdrop: var(--vvjl-backdrop);
 
-  /* Colours: the black-and-white look, written once. Every value derives from the stage tokens, so a theme that moves them moves these. */
+  /* Colors: the black-and-white look, written once. Every value derives from the stage tokens, so a theme that moves them moves these. */
   --vvjl-viewer-ink: var(--vvj-stage-color);
   --vvjl-backdrop: color-mix(in sRGB, color-mix(in sRGB, var(--vvj-stage-color) 3.9216%, var(--vvj-stage-bg)) 94%, transparent);
   --vvjl-backdrop-mosaic: color-mix(in sRGB, color-mix(in sRGB, var(--vvj-stage-color) 3.9216%, var(--vvj-stage-bg)) 92%, transparent);
@@ -89,7 +89,7 @@
   max-width: 100%;
   height: auto;
 }
-/* Beats the theme's h1-h6 colour; titles never hyphenate. */
+/* Beats the theme's h1-h6 color; titles never hyphenate. */
 :where(.vvj-pattern.vvjl) :is(.vvj-title, .vvj-meta) {
   letter-spacing: normal;
   text-transform: none;
