@@ -2,7 +2,7 @@
 
 /**
  * @file
- * VVJL — Views Vanilla Javascript Lightbox bootstrap.
+ * VVJL — Views Vanilla JavaScript Lightbox bootstrap.
  *
  * Hooks live as OOP `#[Hook]` attribute classes under `src/Hook/`.
  * This file is intentionally minimal.

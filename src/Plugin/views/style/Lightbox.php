@@ -130,14 +130,14 @@ class Lightbox extends VvjStylePluginBase {
   protected function buildGridSection(array &$form): void {
     $form['grid_section'] = [
       '#type' => 'details',
-      '#title' => $this->t('Grid Settings'),
+      '#title' => $this->t('Grid settings'),
       '#open' => TRUE,
       '#weight' => -40,
     ];
 
     $form['grid_section']['grid_image_width'] = [
       '#type' => 'number',
-      '#title' => $this->t('Grid Image Width (px)'),
+      '#title' => $this->t('Grid image width (px)'),
       '#default_value' => $this->options['grid_image_width'],
       '#description' => $this->t('Set the width of the grid image in pixels.'),
       '#step' => 1,
@@ -147,7 +147,7 @@ class Lightbox extends VvjStylePluginBase {
 
     $form['grid_section']['grid_image_gap'] = [
       '#type' => 'number',
-      '#title' => $this->t('Grid Image Gap (px)'),
+      '#title' => $this->t('Grid image gap (px)'),
       '#default_value' => $this->options['grid_image_gap'],
       '#description' => $this->t('Set the gap between grid images in pixels.'),
       '#step' => 1,
@@ -165,13 +165,13 @@ class Lightbox extends VvjStylePluginBase {
   protected function buildAnimationSection(array &$form): void {
     $form['animation_section'] = [
       '#type' => 'details',
-      '#title' => $this->t('Animation Settings'),
+      '#title' => $this->t('Animation settings'),
       '#open' => TRUE,
       '#weight' => -30,
     ];
 
     $form['animation_section']['animation'] = [
-      '#title' => $this->t('Animation Type'),
+      '#title' => $this->t('Animation type'),
       '#description' => $this->t('Choose the animation type to apply when click next/prev in the modal. Reduced-motion users see no animation regardless of this setting.'),
     ] + $this->buildAnimationSelect('animation');
   }
@@ -185,14 +185,14 @@ class Lightbox extends VvjStylePluginBase {
   protected function buildOverlaySection(array &$form): void {
     $form['overlay_section'] = [
       '#type' => 'details',
-      '#title' => $this->t('Overlay Settings'),
+      '#title' => $this->t('Overlay settings'),
       '#open' => TRUE,
       '#weight' => -20,
     ];
 
     $form['overlay_section']['overlay_color'] = [
       '#type' => 'color',
-      '#title' => $this->t('Overlay Color'),
+      '#title' => $this->t('Overlay color'),
       '#default_value' => $this->options['overlay_color'],
       '#description' => $this->t('Choose a color overlay for the lightbox background.'),
       '#states' => [
@@ -210,7 +210,7 @@ class Lightbox extends VvjStylePluginBase {
       . $overlay_opacity_display . '</span>';
     $form['overlay_section']['overlay_opacity'] = [
       '#type' => 'range',
-      '#title' => $this->t('Overlay Opacity'),
+      '#title' => $this->t('Overlay opacity'),
       '#default_value' => $this->options['overlay_opacity'],
       '#min' => VvjlConstants::MIN_OPACITY,
       '#max' => VvjlConstants::MAX_OPACITY,
@@ -229,7 +229,7 @@ class Lightbox extends VvjStylePluginBase {
 
     $form['overlay_section']['disable_overlay'] = [
       '#type' => 'checkbox',
-      '#title' => $this->t('Disable Overlay Color'),
+      '#title' => $this->t('Disable overlay color'),
       '#default_value' => $this->options['disable_overlay'],
       '#description' => $this->t('Check this to disable overlay color completely.'),
     ];

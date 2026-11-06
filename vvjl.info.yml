@@ -1,6 +1,6 @@
-name: 'Views Vanilla Javascript Lightbox - VVJL'
+name: 'Views Vanilla JavaScript Lightbox - VVJL'
 type: module
-description: 'Accessible lightbox display format for Views.'
+description: 'Displays Views results in an accessible lightbox.'
 core_version_requirement: ^11.3 || ^12
 package: VVJ
 php: 8.3
