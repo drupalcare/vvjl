@@ -20,6 +20,22 @@
 ((Drupal) => {
   const { ElementBase, trapFocus } = Drupal.Vvj;
 
+  /**
+   * Sets aria-expanded on a row's opening button, never on the row itself.
+   *
+   * The row is a group, where aria-expanded is not supported.
+   *
+   * @param {HTMLElement | undefined} row
+   *   A grid row.
+   * @param {boolean} expanded
+   *   TRUE while the viewer shows this row.
+   */
+  const setRowExpanded = (row, expanded) => {
+    row
+      ?.querySelector('.modal-open')
+      ?.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+  };
+
   class VvjlLightboxElement extends ElementBase {
     static get patternSlug() {
       return 'vvjl';
@@ -38,7 +54,9 @@
       this._modalContent =
         this._modal?.querySelector('.lightbox-modal-content') ?? null;
       /** @type {HTMLElement | null} */
-      this._currentImageSpan = this._inner.querySelector('#current-image');
+      this._currentImageSpan = this._inner.querySelector(
+        '.lightbox-counter .current-image',
+      );
       /** @type {NodeListOf<HTMLElement>} */
       this._items = this._inner.querySelectorAll('.lightbox-row');
       /** @type {number} */
@@ -83,10 +101,12 @@
       if (!this._modal) {
         return;
       }
-      this._items.forEach((item) => {
-        item.setAttribute('aria-expanded', 'false');
-      });
+      this._collapseAll();
       this._modal.setAttribute('aria-hidden', 'true');
+    }
+
+    _collapseAll() {
+      this._items.forEach((row) => setRowExpanded(row, false));
     }
 
     // -----------------------------------------------------------------
@@ -265,13 +285,9 @@
       ) {
         return;
       }
-      this._inner
-        ?.querySelectorAll('.lightbox-row[aria-expanded="true"]')
-        .forEach((row) => {
-          row.setAttribute('aria-expanded', 'false');
-        });
+      this._collapseAll();
       this._currentIndex = index;
-      this._items[index].setAttribute('aria-expanded', 'true');
+      setRowExpanded(this._items[index], true);
       this.withTransition(() => this._updateModalContent());
     }
 
@@ -324,7 +340,7 @@
         this._namePhoto(lightboxRow.querySelector('.lightbox-image img'));
         const morph = this.withTransition(() => {
           this._updateModalContent();
-          lightboxRow.setAttribute('aria-expanded', 'true');
+          setRowExpanded(lightboxRow, true);
           if (this._modal) {
             this._modal.setAttribute('aria-hidden', 'false');
             this._modal.style.display = 'block';
@@ -343,7 +359,7 @@
         return;
       }
       this._updateModalContent();
-      lightboxRow.setAttribute('aria-expanded', 'true');
+      setRowExpanded(lightboxRow, true);
       this._modal.setAttribute('aria-hidden', 'false');
       this._modal.style.display = 'block';
 
@@ -389,11 +405,7 @@
       }
       this._modal.style.display = 'none';
       this._modal.setAttribute('aria-hidden', 'true');
-      this._inner
-        ?.querySelectorAll('.lightbox-row[aria-expanded="true"]')
-        .forEach((row) => {
-          row.setAttribute('aria-expanded', 'false');
-        });
+      this._collapseAll();
       this._currentIndex = -1;
       if (this._lastFocusedElement instanceof HTMLElement) {
         this._lastFocusedElement.focus();
@@ -409,18 +421,14 @@
       if (!this._items.length) {
         return;
       }
-      this._inner
-        ?.querySelectorAll('.lightbox-row[aria-expanded="true"]')
-        .forEach((row) => {
-          row.setAttribute('aria-expanded', 'false');
-        });
+      this._collapseAll();
       if (direction === 'next') {
         this._currentIndex = (this._currentIndex + 1) % this._items.length;
       } else {
         this._currentIndex =
           (this._currentIndex - 1 + this._items.length) % this._items.length;
       }
-      this._items[this._currentIndex]?.setAttribute('aria-expanded', 'true');
+      setRowExpanded(this._items[this._currentIndex], true);
       this.withTransition(() => this._updateModalContent());
     }
 
@@ -438,6 +446,16 @@
         imageElement.removeAttribute('height');
         imageElement.removeAttribute('width');
       }
+      // The open button only works in the grid. Pattern CSS shows it again
+      // inside the viewer, where it would be a focusable control that does
+      // nothing, so the copy drops it.
+      cloned.querySelectorAll('.modal-open').forEach((el) => el.remove());
+      // Grid links are taken out of the tab order while the viewer is open,
+      // and a copy made then would keep that. Links in the viewer are real
+      // content, so the copy always restores them.
+      cloned
+        .querySelectorAll('a[href][tabindex="-1"]')
+        .forEach((link) => link.removeAttribute('tabindex'));
       if (this.classList.contains('vvj-pattern')) {
         // Pattern views: the copy in the viewer must not repeat the ids.
         cloned.removeAttribute('id');

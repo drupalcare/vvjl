@@ -51,19 +51,20 @@
 {% endif %}
 {% set vvjl_arrows = 'arrow_icons' in vvj_features %}
 
-<vvjl-lightbox {{ attributes.addClass(classes).setAttribute('id', vvjl_id) }} role="region" aria-labelledby="image-grid-heading"{% if vvj_pattern and vvj_pattern_label %} aria-label="{{ vvj_pattern_label }}"{% endif %}>
-  <h2 id="image-grid-heading" class="visually-hidden">{{ 'Image Grid'|t }}</h2>
+{# One name source: the heading. A Pattern's label replaces the default text. #}
+<vvjl-lightbox {{ attributes.addClass(classes).setAttribute('id', vvjl_id) }} role="region" aria-labelledby="{{ vvjl_id }}-heading">
+  <h2 id="{{ vvjl_id }}-heading" class="visually-hidden">{{ vvj_pattern and vvj_pattern_label ? vvj_pattern_label : 'Image Grid'|t }}</h2>
   <div id="{{ lightbox_inner_id }}" class="vvjl-inner" {% if style_string %}style="{{ style_string }}"{% endif %}>
 
-    <div class="lightbox-modal" aria-hidden="true" style="display: none;" role="dialog" aria-labelledby="lightbox-heading"{% if vvj_pattern %} aria-modal="true" tabindex="-1"{% endif %}>
-      <h2 id="lightbox-heading" class="visually-hidden">{{ 'Image Grid Lightbox'|t }}</h2>
+    <div class="lightbox-modal" aria-hidden="true" style="display: none;" role="dialog" aria-modal="true" aria-labelledby="{{ vvjl_id }}-lightbox-heading"{% if vvj_pattern %} tabindex="-1"{% endif %}>
+      <h2 id="{{ vvjl_id }}-lightbox-heading" class="visually-hidden">{{ 'Image Grid Lightbox'|t }}</h2>
       {% if vvj_pattern %}
       <button type="button" class="button modal-close control-btn">
         {{ include('@vvjl/svg/vvjl-pattern-close.svg') }}<span class="vvjl-btn-text">{{ 'Close'|t }}</span>
       </button>
 
       <div class="lightbox-counter" aria-live="polite">
-        <span id="current-image" class="current-image">1</span><span class="vvjl-of"><span class="vvjl-of-slash"> / </span><span class="vvjl-of-word">{{ 'of'|t }}</span></span><span class="total-images">{{ total_slides }}</span>
+        <span id="{{ vvjl_id }}-current" class="current-image">1</span><span class="vvjl-of"><span class="vvjl-of-slash"> / </span><span class="vvjl-of-word">{{ 'of'|t }}</span></span><span class="total-images">{{ total_slides }}</span>
       </div>
       {% else %}
       <button class="button modal-close control-btn">
@@ -72,7 +73,7 @@
       </button>
 
       <div class="lightbox-counter">
-        <span id="current-image" class="current-image">1</span><span> / </span><span class="total-images">{{ total_slides }}</span>
+        <span id="{{ vvjl_id }}-current" class="current-image">1</span><span> / </span><span class="total-images">{{ total_slides }}</span>
       </div>
       {% endif %}
 
@@ -114,13 +115,12 @@
       {% set image_field = split_content[0] %}
       {% set foreground_field = split_content[1]|default('') %}
 
-      <div id="{{ vvjl_id ~ '-' ~ (key + 1) }}" class="lightbox-row {{ options.animation }}" role="group" aria-labelledby="slide-{{ key + 1 }}-heading">
+      <div id="{{ vvjl_id ~ '-' ~ (key + 1) }}" class="lightbox-row {{ options.animation }}" role="group" aria-labelledby="{{ vvjl_id }}-slide-{{ key + 1 }}-heading">
 
-        <h3 id="slide-{{ key + 1 }}-heading" class="visually-hidden">{{ 'Slide @index of @total'|t({'@index': loop.index, '@total': total_slides}) }}</h3>
+        <h3 id="{{ vvjl_id }}-slide-{{ key + 1 }}-heading" class="visually-hidden">{{ 'Slide @index of @total'|t({'@index': loop.index, '@total': total_slides}) }}</h3>
 
         <div class="lightbox-image">
           <button class="button modal-open control-btn" aria-controls="{{ lightbox_inner_id }}" aria-expanded="false" aria-label="{{ 'Expand slide @index'|t({'@index': loop.index}) }}">
-            <span class="visually-hidden">{{ 'Expand image grid'|t }}</span>
             {{ include(vvj_pattern ? '@vvjl/svg/vvjl-pattern-expand.svg' : '@vvjl/svg/svg-expand.svg') }}
           </button>
           {{ image_field|safe_html }}

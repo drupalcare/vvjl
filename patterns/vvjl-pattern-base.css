@@ -2,7 +2,7 @@
  * @file
  * Shared by every vvjl Pattern: tokens, resets of vvjl.css, titles, icons.
  *
- * Colours come only from the --vvj-* tokens (vvj_patterns/base); every
+ * Colours come only from the --vvj-* tokens (vvj_patterns/base) and the --vvjl-* tokens below; every
  * selector starts at the view's own element. vvjl.css sets the viewer box
  * with !important (width, margin, padding of .lightbox-modal-content), so
  * those three resets need !important too; nothing else here does.
@@ -11,9 +11,48 @@
 .vvj-pattern.vvjl {
   --vvjl-ease-out: var(--vvj-ease-out, cubic-bezier(0.16, 1, 0.3, 1));
   --vvjl-ease-io: var(--vvj-ease-io, cubic-bezier(0.76, 0, 0.24, 1));
-  --vvj-lightbox-backdrop: rgb(10 10 10 / 0.94);
-  display: block;
+  --vvj-lightbox-backdrop: var(--vvjl-backdrop);
+
+  /* Colours: the black-and-white look, written once. Every value derives from the stage tokens, so a theme that moves them moves these. */
+  --vvjl-viewer-ink: var(--vvj-stage-color);
+  --vvjl-backdrop: color-mix(in sRGB, color-mix(in sRGB, var(--vvj-stage-color) 3.9216%, var(--vvj-stage-bg)) 94%, transparent);
+  --vvjl-backdrop-mosaic: color-mix(in sRGB, color-mix(in sRGB, var(--vvj-stage-color) 3.9216%, var(--vvj-stage-bg)) 92%, transparent);
+  --vvjl-backdrop-prints: color-mix(in sRGB, color-mix(in sRGB, var(--vvj-stage-color) 7.8431%, var(--vvj-stage-bg)) 96%, transparent);
+  --vvjl-backdrop-index: color-mix(in sRGB, var(--vvj-stage-color) 2.7451%, var(--vvj-stage-bg));
+  --vvjl-backdrop-sheet: color-mix(in sRGB, var(--vvj-stage-color) 6.6667%, var(--vvj-stage-bg));
+  --vvjl-chip-bg: var(--vvj-stage-color);
+  --vvjl-chip-ink: color-mix(in sRGB, var(--vvj-stage-color) 6.6667%, var(--vvj-stage-bg));
+  --vvjl-caption-ink: var(--vvj-stage-color);
+  --vvjl-mosaic-tile: color-mix(in sRGB, var(--vvj-stage-color) 10.9804%, var(--vvj-stage-bg));
+  --vvjl-mosaic-scrim: linear-gradient(to top, color-mix(in sRGB, var(--vvj-stage-bg) 82%, transparent), color-mix(in sRGB, var(--vvj-stage-bg) 55%, transparent) 55%, transparent);
+  --vvjl-mosaic-glass: rgb(15, 16, 19, 0.62);
+  --vvjl-mosaic-line: color-mix(in sRGB, var(--vvj-stage-color) 38%, transparent);
+  --vvjl-prints-paper: color-mix(in sRGB, var(--vvj-stage-color) 98.8235%, var(--vvj-stage-bg));
+  --vvjl-prints-ink: color-mix(in sRGB, var(--vvj-stage-color) 10.1961%, var(--vvj-stage-bg));
+  --vvjl-prints-meta: color-mix(in sRGB, var(--vvj-stage-color) 35.2941%, var(--vvj-stage-bg));
+  --vvjl-prints-shadow: 0 1px 2px color-mix(in sRGB, var(--vvj-stage-bg) 14%, transparent), 0 14px 30px -16px color-mix(in sRGB, var(--vvj-stage-bg) 45%, transparent);
+  --vvjl-prints-shadow-lift: 0 2px 4px color-mix(in sRGB, var(--vvj-stage-bg) 12%, transparent), 0 30px 50px -20px color-mix(in sRGB, var(--vvj-stage-bg) 50%, transparent);
+  --vvjl-prints-shadow-viewer: 0 40px 80px -30px var(--vvj-stage-bg);
+  --vvjl-bar-line: color-mix(in sRGB, var(--vvj-stage-color) 20%, transparent);
+  --vvjl-bar-ink: color-mix(in sRGB, var(--vvj-stage-color) 94.902%, var(--vvj-stage-bg));
+  --vvjl-bar-fill: color-mix(in sRGB, var(--vvj-stage-color) 10%, transparent);
+  --vvjl-bar-fill-active: color-mix(in sRGB, var(--vvj-stage-color) 18%, transparent);
+  --vvjl-index-hot: color-mix(in sRGB, var(--vvj-stage-color) 74.1176%, var(--vvj-stage-bg));
+  --vvjl-index-chip: color-mix(in sRGB, var(--vvj-stage-color) 10%, transparent);
+  --vvjl-index-chip-hover: color-mix(in sRGB, var(--vvj-stage-color) 22%, transparent);
+  --vvjl-index-counter: color-mix(in sRGB, var(--vvj-stage-color) 84.7059%, var(--vvj-stage-bg));
+  --vvjl-index-rail: color-mix(in sRGB, var(--vvj-stage-color) 8%, transparent);
+  --vvjl-index-rail-ink: color-mix(in sRGB, var(--vvj-stage-color) 81.1765%, var(--vvj-stage-bg));
+  --vvjl-index-rail-hover: color-mix(in sRGB, var(--vvj-stage-color) 12%, transparent);
+  --vvjl-index-rail-hover-ink: var(--vvj-stage-color);
+  --vvjl-index-current-bg: var(--vvj-stage-color);
+  --vvjl-index-current-ink: color-mix(in sRGB, var(--vvj-stage-color) 2.7451%, var(--vvj-stage-bg));
+  --vvjl-sheet-ink: color-mix(in sRGB, var(--vvj-stage-color) 10.1961%, var(--vvj-stage-bg));
+  --vvjl-sheet-meta: color-mix(in sRGB, var(--vvj-stage-color) 23.9216%, var(--vvj-stage-bg));
+  --vvjl-sheet-hover-ink: color-mix(in sRGB, var(--vvj-stage-color) 94.902%, var(--vvj-stage-bg));
+
   position: relative;
+  display: block;
   margin: 0;
   padding: 0;
   color: var(--vvj-ink);
@@ -22,35 +61,134 @@
 .vvj-pattern.vvjl,
 :where(.vvj-pattern.vvjl) *,
 :where(.vvj-pattern.vvjl) *::before,
-:where(.vvj-pattern.vvjl) *::after { box-sizing: border-box; }
-:where(.vvj-pattern.vvjl) .vvjl-inner { grid-template-columns: repeat(auto-fill, minmax(min(100%, calc(var(--box-width) * 1px)), 1fr)); gap: calc(var(--grid-gap, 0) * 1px); }
+:where(.vvj-pattern.vvjl) *::after {
+  box-sizing: border-box;
+}
+:where(.vvj-pattern.vvjl) .vvjl-inner {
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, calc(var(--box-width) * 1px)), 1fr));
+  gap: calc(var(--grid-gap, 0) * 1px);
+}
 /* Theme resets: headings, paragraphs, lists, images (the visually-hidden headings keep their own box). */
-:where(.vvj-pattern.vvjl) :is(h1, h2, h3, h4, h5, h6, p):not(:where(.visually-hidden)) { margin: 0; padding: 0; font-size: inherit; line-height: inherit; color: inherit; hyphens: manual; overflow-wrap: normal; word-break: normal; }
-:where(.vvj-pattern.vvjl) :is(ul, ol, li) { list-style: none; margin: 0; padding: 0; }
-:where(.vvj-pattern.vvjl) :is(img, svg) { display: block; max-width: 100%; height: auto; }
+:where(.vvj-pattern.vvjl) :is(h1, h2, h3, h4, h5, h6, p):not(:where(.visually-hidden)) {
+  margin: 0;
+  padding: 0;
+  word-break: normal;
+  hyphens: manual;
+  color: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  overflow-wrap: normal;
+}
+:where(.vvj-pattern.vvjl) :is(ul, ol, li) {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+:where(.vvj-pattern.vvjl) :is(img, svg) {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
 /* Beats the theme's h1-h6 colour; titles never hyphenate. */
-:where(.vvj-pattern.vvjl) :is(.vvj-title, .vvj-meta) { letter-spacing: normal; text-transform: none; }
-.vvj-pattern.vvjl .vvj-title { color: inherit; hyphens: manual; overflow-wrap: normal; word-break: normal; }
-.vvj-pattern.vvjl .lightbox-image img { display: block; max-width: 100%; }
-.vvj-pattern.vvjl .vvjl-inner .lightbox-row .lightbox-content { width: auto; margin: 0; }
+:where(.vvj-pattern.vvjl) :is(.vvj-title, .vvj-meta) {
+  letter-spacing: normal;
+  text-transform: none;
+}
+.vvj-pattern.vvjl .vvj-title {
+  word-break: normal;
+  hyphens: manual;
+  color: inherit;
+  overflow-wrap: normal;
+}
+.vvj-pattern.vvjl .lightbox-image img {
+  display: block;
+  max-width: 100%;
+}
+.vvj-pattern.vvjl .vvjl-inner .lightbox-row .lightbox-content {
+  width: auto;
+  margin: 0;
+}
 
 /* Controls: vvjl.css wipes .button with all: unset; every Pattern restyles. Full reset here; no display, so vvjl.css can still hide the viewer's copies. */
-.vvj-pattern.vvjl .control-btn { appearance: none; margin: 0; padding: 0; border: 0; border-radius: 0; background: none; box-shadow: none; color: inherit; font: inherit; line-height: 1.2; letter-spacing: normal; text-transform: none; text-decoration: none; text-align: center; width: auto; height: auto; min-width: 0; min-height: 0; vertical-align: middle; outline: 0; cursor: pointer; -webkit-tap-highlight-color: transparent; }
-.vvj-pattern.vvjl .control-btn:focus-visible { outline: 3px solid currentColor; outline-offset: 3px; }
+.vvj-pattern.vvjl .control-btn {
+  width: auto;
+  min-width: 0;
+  height: auto;
+  min-height: 0;
+  margin: 0;
+  padding: 0;
+  cursor: pointer;
+  text-align: center;
+  vertical-align: middle;
+  text-decoration: none;
+  letter-spacing: normal;
+  text-transform: none;
+  color: inherit;
+  border: 0;
+  border-radius: 0;
+  outline: 0;
+  background: none;
+  box-shadow: none;
+  font: inherit;
+  line-height: 1.2;
+  appearance: none;
+  -webkit-tap-highlight-color: transparent;
+}
+.vvj-pattern.vvjl .control-btn:focus-visible {
+  outline: 3px solid currentColor;
+  outline-offset: 3px;
+}
 /* The hidden text in the expand button sits at its centre (core .visually-hidden is absolute, 1px, clipped). */
-.vvj-pattern.vvjl .modal-open > .visually-hidden { inset: 50% auto auto 50%; }
-:where(.vvj-pattern.vvjl) .vvjl-pattern-icon { display: block; width: 1em; height: 1em; fill: currentColor; flex: none; }
-.vvj-pattern.vvjl .vvjl-of-word { display: none; }
+.vvj-pattern.vvjl .modal-open > .visually-hidden {
+  inset: 50% auto auto 50%;
+}
+:where(.vvj-pattern.vvjl) .vvjl-pattern-icon {
+  display: block;
+  flex: none;
+  width: 1em;
+  height: 1em;
+  fill: currentColor;
+}
+/* Viewer buttons: the icon follows the button font size and color, not the module 60px white viewer icon. */
+:where(.vvj-pattern.vvjl) :is(.modal-close, .modal-prev, .modal-next) .vvjl-pattern-icon {
+  width: 1em;
+  height: 1em;
+  fill: currentColor;
+}
+.vvj-pattern.vvjl .vvjl-of-word {
+  display: none;
+}
 
 /* Viewer: the backdrop token, and vvjl.css positions cleared for each Pattern. */
-:where(.vvj-pattern.vvjl) .lightbox-modal { background: var(--vvj-lightbox-backdrop); color: #fff; }
-:where(.vvj-pattern.vvjl) .lightbox-modal-content { width: auto !important; height: auto; max-height: none; margin: 0 !important; padding: 0 !important; }
-:where(.vvj-pattern.vvjl) :where(.lightbox-modal) :is(.modal-prev, .modal-next, .modal-close) { inset: auto; }
-.vvj-pattern.vvjl .lightbox-modal .lightbox-counter { width: auto; min-height: 0; }
-.vvj-pattern.vvjl .vvjl-rail { display: flex; gap: 6px; }
+:where(.vvj-pattern.vvjl) .lightbox-modal {
+  color: var(--vvjl-viewer-ink);
+  background: var(--vvj-lightbox-backdrop);
+}
+:where(.vvj-pattern.vvjl) .lightbox-modal-content {
+  width: auto !important;
+  height: auto;
+  max-height: none;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+:where(.vvj-pattern.vvjl) :where(.lightbox-modal) :is(.modal-prev, .modal-next, .modal-close) {
+  inset: auto;
+}
+.vvj-pattern.vvjl .lightbox-modal .lightbox-counter {
+  width: auto;
+  min-height: 0;
+}
+.vvj-pattern.vvjl .vvjl-rail {
+  display: flex;
+  gap: 6px;
+}
 
 @media (prefers-reduced-motion: reduce) {
   :where(.vvj-pattern.vvjl) *,
   :where(.vvj-pattern.vvjl) *::before,
-  :where(.vvj-pattern.vvjl) *::after { transition-duration: 0.01ms !important; transition-delay: 0s !important; animation: none !important; }
+  :where(.vvj-pattern.vvjl) *::after {
+    transition-delay: 0s !important;
+    transition-duration: 0.01ms !important;
+    animation: none !important;
+  }
 }

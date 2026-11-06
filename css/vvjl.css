@@ -184,9 +184,10 @@
   display: block;
 }
 
-.lightbox-modal .modal-close svg,
-.lightbox-modal .modal-prev svg,
-.lightbox-modal .modal-next svg {
+/* :where(svg) keeps this at 0,2,0 so a Pattern can size its own icons. */
+.lightbox-modal .modal-close :where(svg),
+.lightbox-modal .modal-prev :where(svg),
+.lightbox-modal .modal-next :where(svg) {
   fill: #fff;
   width: 60px;
   height: 60px;
@@ -224,8 +225,8 @@
     width: calc(100% - 70px) !important;
   }
 
-  .lightbox-modal .modal-prev svg,
-  .lightbox-modal .modal-next svg {
+  .lightbox-modal .modal-prev :where(svg),
+  .lightbox-modal .modal-next :where(svg) {
     width: 35px;
     height: 40px;
   }

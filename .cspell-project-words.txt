@@ -1,0 +1,3 @@
+# Project words for cspell (drupal.org CI reads this file by name).
+# Pattern names shipped in this module
+bento

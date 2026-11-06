@@ -66,3 +66,15 @@ pattern.index:
       patterns/index/vvjl-index.css: { weight: 210 }
   dependencies:
     - vvjl/vvjl-pattern-base
+
+# Theme bridges: loaded by vvj_patterns' library_info_alter as dependencies of vvjl-pattern-base; neutral themes load neither.
+# No dependency back on vvjl-pattern-base: that makes a loop and a memory fatal.
+pattern-bridge-solo:
+  css:
+    theme:
+      patterns/bridge/vvjl-bridge-solo.css: { weight: 206 }
+
+pattern-bridge-apex:
+  css:
+    theme:
+      patterns/bridge/vvjl-bridge-apex.css: { weight: 206 }
