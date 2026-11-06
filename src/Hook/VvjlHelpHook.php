@@ -4,40 +4,16 @@ declare(strict_types=1);
 
 namespace Drupal\vvjl\Hook;
 
-use Drupal\Component\Utility\Html;
-use Drupal\Core\Config\ConfigFactoryInterface;
-use Drupal\Core\Extension\ModuleExtensionList;
-use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Hook\Attribute\Hook;
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
-use Drupal\filter\FilterPluginManager;
 
 /**
- * Help hook for vvjl — renders README.md on the help page.
+ * Help hook for vvjl.
  */
 final class VvjlHelpHook {
 
   use StringTranslationTrait;
-
-  /**
-   * Constructor.
-   *
-   * @param \Drupal\Core\Extension\ModuleExtensionList $moduleExtensionList
-   *   For resolving the module path.
-   * @param \Drupal\Core\Extension\ModuleHandlerInterface $moduleHandler
-   *   For checking whether the markdown filter module is enabled.
-   * @param \Drupal\filter\FilterPluginManager $filterManager
-   *   For instantiating the markdown filter when available.
-   * @param \Drupal\Core\Config\ConfigFactoryInterface $configFactory
-   *   For loading markdown.settings when the filter is enabled.
-   */
-  public function __construct(
-    private readonly ModuleExtensionList $moduleExtensionList,
-    private readonly ModuleHandlerInterface $moduleHandler,
-    private readonly FilterPluginManager $filterManager,
-    private readonly ConfigFactoryInterface $configFactory,
-  ) {}
 
   /**
    * Implements hook_help() for the vvjl help route.
@@ -47,18 +23,20 @@ final class VvjlHelpHook {
     if ($route_name !== 'help.page.vvjl') {
       return NULL;
     }
-    $module_path = $this->moduleExtensionList->getPath('vvjl');
-    $text = @file_get_contents($module_path . '/README.md');
-    if ($text === FALSE) {
-      return (string) $this->t('README.md file not found.');
-    }
-    if (!$this->moduleHandler->moduleExists('markdown')) {
-      return '<pre>' . Html::escape($text) . '</pre>';
-    }
-    $settings = $this->configFactory->get('markdown.settings')->getRawData();
-    /** @var \Drupal\filter\Plugin\FilterInterface $filter */
-    $filter = $this->filterManager->createInstance('markdown', ['settings' => $settings]);
-    return $filter->process($text, 'en')->getProcessedText();
+    $output = '<h2>' . $this->t('About') . '</h2>';
+    $output .= '<p>' . $this->t('The Views Vanilla JavaScript Lightbox module displays the results of a view in an accessible lightbox. It is a Views format: it shows whatever the view lists and adds no content of its own. For more information, see the <a href=":project">online documentation for the Views Vanilla JavaScript Lightbox module</a>.', [
+      ':project' => 'https://www.drupal.org/project/vvjl',
+    ]) . '</p>';
+    $output .= '<h2>' . $this->t('Uses') . '</h2>';
+    $output .= '<dl>';
+    $output .= '<dt>' . $this->t('Displaying a view in a lightbox') . '</dt>';
+    $output .= '<dd>' . $this->t('In the Views administration pages (<em>Structure</em> > <em>Views</em>), edit a view and, under <em>Format</em>, choose <em>Views Vanilla JavaScript Lightbox</em>. Its settings cover layout, navigation, animation, accessibility and responsive behavior.') . '</dd>';
+    $output .= '<dt>' . $this->t('Choosing a Pattern') . '</dt>';
+    $output .= '<dd>' . $this->t('With the VVJ Patterns module (part of VVJ Core) enabled, the <em>Patterns</em> section of the format settings offers five ready-made designs: Mosaic, Reel, Prints, Index and Contact sheet. Choosing one applies its layout, animation and styling settings to the view.') . '</dd>';
+    $output .= '<dt>' . $this->t('Trying the example view') . '</dt>';
+    $output .= '<dd>' . $this->t('On a site with the Article content type, the module installs an example view, <em>VVJL Example</em>, at the path /vvjl-example.') . '</dd>';
+    $output .= '</dl>';
+    return $output;
   }
 
 }

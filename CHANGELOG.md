@@ -11,6 +11,7 @@ from 1.x.
 
 ### Added
 
+- Help page: follows the drupal.org help text standard (translatable About and Uses sections) instead of printing README.md as raw text.
 - Patterns: the bridge reads the shared roles for the Prints; the chips, rail and current number keep the stage tokens.
 - Pattern colors: every hard-coded Pattern color is a `--vvjl-*` token in `vvjl-pattern-base.css`; new `pattern-bridge-solo` and `pattern-bridge-apex` libraries (`patterns/bridge/`) map the button, menu and print colors to a Solo or APEX theme. The black-and-white look is unchanged.
 - Patterns: 5 ready-made designs (Mosaic, Contact sheet, Reel, Prints, Index) chosen in the format settings. They need the `vvj_patterns` sub-module of `drupal/vvj_core`.
