@@ -4,50 +4,51 @@
  */
 
 /* Pattern Prints: instant prints scattered on the page, they straighten on hover; the viewer ends in a full-width bottom bar. */
-.vvj-pattern.vvjl.vvj-pattern--vvjl-prints { --vvj-lightbox-backdrop: var(--vvjl-backdrop-prints); padding: clamp(24px, 5vw, 72px) clamp(16px, 5vw, 72px); overflow-x: clip; }
-.vvj-pattern.vvjl.vvj-pattern--vvjl-prints .vvjl-inner { gap: 40px calc(var(--grid-gap, 0) * 1px); }
-.vvj-pattern--vvjl-prints :where(.vvjl-inner) > .lightbox-row { background: var(--vvjl-prints-paper); color: var(--vvjl-prints-ink); padding: 10px 10px 0; border-radius: 2px;
+.vvj-pattern.vvjl.vvj-pattern--vvjl-prints { --vvj-lightbox-backdrop: var(--vvjl-backdrop-prints); padding: clamp(24px, 5cqi, 72px) clamp(16px, 5cqi, 72px); overflow-x: clip; }
+.vvj-pattern.vvjl.vvj-pattern--vvjl-prints .vvjl-inner { gap: var(--vvj-space-40, 40px) calc(var(--grid-gap, 0) * 1px); }
+.vvj-pattern--vvjl-prints :where(.vvjl-inner) > .lightbox-row { background: var(--vvjl-prints-paper); color: var(--vvjl-prints-ink); padding: var(--vvj-space-10, 10px) var(--vvj-space-10, 10px) 0; border-radius: var(--vvj-radius-2, 2px);
   box-shadow: var(--vvjl-prints-shadow); rotate: var(--tilt, 0deg);
-  transition: rotate .5s var(--vvjl-ease-out), translate .5s var(--vvjl-ease-out), box-shadow .5s; animation: vvjl-prints-drop .8s var(--vvjl-ease-out) both; }
+  transition: rotate var(--vvj-dur-500, 0.5s) var(--vvjl-ease-out), translate var(--vvj-dur-500, 0.5s) var(--vvjl-ease-out), box-shadow var(--vvj-dur-500, 0.5s); animation: vvjl-prints-drop var(--vvj-dur-800, 0.8s) var(--vvjl-ease-out) both; }
 :where(.vvj-pattern--vvjl-prints) :where(.vvjl-inner) > .lightbox-row:nth-child(2) { --tilt: -3deg; animation-delay: .05s; }
-:where(.vvj-pattern--vvjl-prints) :where(.vvjl-inner) > .lightbox-row:nth-child(3) { --tilt: 2deg; animation-delay: .15s; }
-:where(.vvj-pattern--vvjl-prints) :where(.vvjl-inner) > .lightbox-row:nth-child(4) { --tilt: -1.5deg; animation-delay: .25s; }
-:where(.vvj-pattern--vvjl-prints) :where(.vvjl-inner) > .lightbox-row:nth-child(5) { --tilt: 3deg; animation-delay: .35s; }
-:where(.vvj-pattern--vvjl-prints) :where(.vvjl-inner) > .lightbox-row:nth-child(6) { --tilt: -2.5deg; animation-delay: .45s; }
-:where(.vvj-pattern--vvjl-prints) :where(.vvjl-inner) > .lightbox-row:nth-child(7) { --tilt: 1.5deg; animation-delay: .55s; }
+:where(.vvj-pattern--vvjl-prints) :where(.vvjl-inner) > .lightbox-row:nth-child(3) { --tilt: 2deg; animation-delay: var(--vvj-dur-150, 0.15s); }
+:where(.vvj-pattern--vvjl-prints) :where(.vvjl-inner) > .lightbox-row:nth-child(4) { --tilt: -1.5deg; animation-delay: var(--vvj-dur-250, 0.25s); }
+:where(.vvj-pattern--vvjl-prints) :where(.vvjl-inner) > .lightbox-row:nth-child(5) { --tilt: 3deg; animation-delay: var(--vvj-dur-350, 0.35s); }
+:where(.vvj-pattern--vvjl-prints) :where(.vvjl-inner) > .lightbox-row:nth-child(6) { --tilt: -2.5deg; animation-delay: var(--vvj-dur-450, 0.45s); }
+:where(.vvj-pattern--vvjl-prints) :where(.vvjl-inner) > .lightbox-row:nth-child(7) { --tilt: 1.5deg; animation-delay: var(--vvj-dur-550, 0.55s); }
 @keyframes vvjl-prints-drop { from { opacity: 0; translate: 0 -40px; rotate: calc(var(--tilt, 0deg) * -3); } }
 .vvj-pattern--vvjl-prints :where(.vvjl-inner) > :where(.lightbox-row) .lightbox-image { aspect-ratio: 1; overflow: hidden; }
-.vvj-pattern--vvjl-prints :where(.vvjl-inner) > :where(.lightbox-row) img { object-position: 50% 25%; }
+/* The photo fills the square print; a wide photo left the lower part of the square empty. */
+.vvj-pattern.vvjl.vvj-pattern--vvjl-prints .vvjl-inner > .lightbox-row .lightbox-image img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 25%; }
 /* Caption written on the white strip under the photo. */
-.vvj-pattern.vvjl.vvj-pattern--vvjl-prints .vvjl-inner > .lightbox-row .lightbox-content { position: static; background: none; padding: 12px 4px 16px; }
-.vvj-pattern.vvjl.vvj-pattern--vvjl-prints .vvj-title { margin: 0; font: italic 500 19px/1.25 var(--vvj-font-display); }
-.vvj-pattern.vvjl.vvj-pattern--vvjl-prints .vvj-meta { margin: 0 0 2px; font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: var(--vvjl-prints-meta); }
+.vvj-pattern.vvjl.vvj-pattern--vvjl-prints .vvjl-inner > .lightbox-row .lightbox-content { position: static; background: none; padding: var(--vvj-space-12, 12px) var(--vvj-space-4, 4px) var(--vvj-space-16, 16px); }
+.vvj-pattern.vvjl.vvj-pattern--vvjl-prints .vvj-title { margin: 0; font: italic 500 var(--vvj-text-20, 1.25rem)/1.25 var(--vvj-font-display); }
+.vvj-pattern.vvjl.vvj-pattern--vvjl-prints .vvj-meta { margin: 0 0 var(--vvj-space-2, 2px); font-size: var(--vvj-text-12, 0.75rem); letter-spacing: .1em; text-transform: uppercase; color: var(--vvjl-prints-meta); }
 .vvj-pattern.vvjl.vvj-pattern--vvjl-prints .modal-open { position: absolute; inset: 0; z-index: 1; }
 .vvj-pattern--vvjl-prints :where(.modal-open) .vvjl-pattern-icon { display: none; }
 .vvj-pattern.vvjl.vvj-pattern--vvjl-prints .modal-open:focus-visible { outline-offset: -4px; }
 
 /* Viewer: the print enlarged on a warm dark table. */
 .vvj-pattern.vvjl.vvj-pattern--vvjl-prints .lightbox-modal-content { position: absolute; inset: 24px 16px 88px; display: grid; place-items: center; touch-action: pan-y; }
-.vvj-pattern--vvjl-prints :where(.lightbox-modal-content) .lightbox-row { background: var(--vvjl-prints-paper); color: var(--vvjl-prints-ink); padding: 12px 12px 0; box-shadow: var(--vvjl-prints-shadow-viewer); }
+.vvj-pattern--vvjl-prints :where(.lightbox-modal-content) .lightbox-row { background: var(--vvjl-prints-paper); color: var(--vvjl-prints-ink); padding: var(--vvj-space-12, 12px) var(--vvj-space-12, 12px) 0; box-shadow: var(--vvjl-prints-shadow-viewer); }
 :where(.vvj-pattern--vvjl-prints) :where(.vvjl-inner) > .lightbox-row:hover, :where(.vvj-pattern--vvjl-prints) :where(.vvjl-inner) > .lightbox-row:focus-within { rotate: 0deg; translate: 0 -8px; z-index: 2;
   box-shadow: var(--vvjl-prints-shadow-lift); }
 /* Hit-area guard: the lifted, straightened print stays under the cursor (JS-RULES.md rule 1). */
 :where(:where(.vvj-pattern--vvjl-prints) :where(.vvjl-inner) > .lightbox-row:hover)::after { content: ""; position: absolute; inset: -12px; }
 .vvj-pattern.vvjl.vvj-pattern--vvjl-prints .lightbox-modal-content img { width: auto; height: auto; max-width: min(100%, 980px); max-height: calc(100vh - 230px); }
-.vvj-pattern.vvjl.vvj-pattern--vvjl-prints .lightbox-modal-content .lightbox-content { position: static; background: none; padding: 12px 4px 16px; }
+.vvj-pattern.vvjl.vvj-pattern--vvjl-prints .lightbox-modal-content .lightbox-content { position: static; background: none; padding: var(--vvj-space-12, 12px) var(--vvj-space-4, 4px) var(--vvj-space-16, 16px); }
 /* Bottom navigation bar: four equal cells. */
 .vvj-pattern.vvjl.vvj-pattern--vvjl-prints .modal-prev, .vvj-pattern.vvjl.vvj-pattern--vvjl-prints .lightbox-counter, .vvj-pattern.vvjl.vvj-pattern--vvjl-prints .modal-next, .vvj-pattern.vvjl.vvj-pattern--vvjl-prints .modal-close {
-  position: absolute; width: 25%; height: 72px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px;
-  border: solid var(--vvjl-bar-line); border-width: 1px 0 0; isolation: isolate; font-size: 13px; font-weight: 600; color: var(--vvjl-bar-ink); overflow: hidden; }
+  position: absolute; width: 25%; height: 72px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: var(--vvj-space-4, 4px);
+  border: solid var(--vvjl-bar-line); border-width: 1px 0 0; isolation: isolate; font-size: var(--vvj-text-13, 0.8125rem); font-weight: 600; color: var(--vvjl-bar-ink); overflow: hidden; }
 .vvj-pattern--vvjl-prints .modal-prev { inset: auto auto 0 0; }
-.vvj-pattern.vvjl.vvj-pattern--vvjl-prints .lightbox-counter { inset: auto auto 0 25%; font: 600 18px/1 var(--vvj-font-display); flex-direction: row; gap: 0; }
+.vvj-pattern.vvjl.vvj-pattern--vvjl-prints .lightbox-counter { inset: auto auto 0 25%; font: 600 var(--vvj-text-18, 1.125rem)/1 var(--vvj-font-display); flex-direction: row; gap: 0; }
 .vvj-pattern.vvjl.vvj-pattern--vvjl-prints .lightbox-counter .vvjl-of-slash { display: none; }
-.vvj-pattern.vvjl.vvj-pattern--vvjl-prints .lightbox-counter .vvjl-of-word { display: inline; font-size: 14px; margin: 0 .4em; opacity: .8; }
+.vvj-pattern.vvjl.vvj-pattern--vvjl-prints .lightbox-counter .vvjl-of-word { display: inline; font-size: var(--vvj-text-14, 0.875rem); margin: 0 .4em; opacity: .8; }
 .vvj-pattern--vvjl-prints .modal-next { inset: auto auto 0 50%; }
 .vvj-pattern--vvjl-prints .modal-close { inset: auto auto 0 75%; }
-.vvj-pattern--vvjl-prints .vvjl-pattern-icon { font-size: 18px; transition: transform .35s var(--vvjl-ease-out); }
+.vvj-pattern--vvjl-prints .vvjl-pattern-icon { font-size: var(--vvj-text-18, 1.125rem); transition: transform var(--vvj-dur-350, 0.35s) var(--vvjl-ease-out); }
 .vvj-pattern.vvjl.vvj-pattern--vvjl-prints .modal-prev::before, .vvj-pattern.vvjl.vvj-pattern--vvjl-prints .modal-next::before, .vvj-pattern.vvjl.vvj-pattern--vvjl-prints .modal-close::before {
-  content: ""; position: absolute; inset: 0; z-index: -1; background: var(--vvjl-bar-fill); transform: scaleY(0); transform-origin: 50% 100%; transition: transform .35s var(--vvjl-ease-out); }
+  content: ""; position: absolute; inset: 0; z-index: -1; background: var(--vvjl-bar-fill); transform: scaleY(0); transform-origin: 50% 100%; transition: transform var(--vvj-dur-350, 0.35s) var(--vvjl-ease-out); }
 .vvj-pattern.vvjl.vvj-pattern--vvjl-prints .modal-prev:hover::before, .vvj-pattern.vvjl.vvj-pattern--vvjl-prints .modal-next:hover::before, .vvj-pattern.vvjl.vvj-pattern--vvjl-prints .modal-close:hover::before { transform: none; }
 .vvj-pattern--vvjl-prints :where(.modal-prev:hover) .vvjl-pattern-icon { transform: translateX(-4px); }
 .vvj-pattern--vvjl-prints :where(.modal-next:hover) .vvjl-pattern-icon { transform: translateX(4px); }

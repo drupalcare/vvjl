@@ -23,6 +23,12 @@ from 1.x.
 
 ### Fixed
 
+- Patterns: Sheet's caption keeps its clearance from the open button.
+- Patterns: Index, Mosaic, Reel and Sheet used two variables that were never defined (`--vvj-accent`, `--vvj-font-mono`), so their accent and monospace styling silently did not apply; both are now defined.
+- Patterns: spacing, corner radius, type size, shadow and motion read shared `--vvj-*` variables with fallbacks, so a site or theme can adjust them in one place; a few odd values moved to the nearest step, under 10%.
+- Patterns: each Pattern states its stage, ground, placement and the kinds of site it serves best in `pattern.yml`.
+- Patterns: sizes that followed the screen width (`vw`) now follow the Pattern's own width (`cqi`), so a Pattern in a sidebar or narrow column keeps its proportions.
+- Patterns: Prints and Mosaic fill their frames with the photo (a wide photo left an empty band); Reel's expand icon follows its button color (it was white on a white button); Index keeps its expand button 12 px from the step label on phones.
 - Patterns: muted meta text (Prints under Solo and APEX, and the Sheet) uses 88% of the ink (was 70% and 80%), so it keeps a 4.5:1 contrast.
 - Accessibility: the lightbox region has one name, its hidden heading; with a Pattern the heading reads the Pattern label (the unused `aria-label` is gone).
 - Accessibility: `aria-expanded` is now set on the open button (the control) instead of the row group; every view's dialog is `aria-modal`; heading and counter ids carry the view id, so two lightboxes on one page no longer share ids; the open button's unused hidden text is removed.

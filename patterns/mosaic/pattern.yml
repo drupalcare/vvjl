@@ -1,6 +1,10 @@
 label: 'Mosaic'
 description: 'A bento grid of photos; the tile photo grows into a dark viewer with round arrows.'
 weight: 0
+stage: open
+ground: dark
+placement: neither
+serves: [studio, creative, events]
 options:
   grid_image_width: 260
   grid_image_gap: 8

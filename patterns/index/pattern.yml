@@ -1,6 +1,10 @@
 label: 'Index'
 description: 'A numbered list of rows; a black viewer with a numbered control.'
 weight: 4
+stage: open
+ground: light
+placement: inner-padding
+serves: [publication, associations, government]
 options:
   grid_image_width: 900
   grid_image_gap: 1

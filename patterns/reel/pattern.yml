@@ -1,6 +1,10 @@
 label: 'Reel'
 description: 'One sideways row of arched tiles; a light viewer with story bars on top.'
 weight: 2
+stage: open
+ground: dark
+placement: neither
+serves: [cultural, creative, publication]
 options:
   grid_image_width: 300
   grid_image_gap: 16

@@ -4,59 +4,60 @@
  */
 
 /* Pattern Index: a numbered list of projects, the photo grows out of its row on hover; a black cinema viewer with a numbered segmented control. */
-.vvj-pattern.vvjl.vvj-pattern--vvjl-index { --vvj-lightbox-backdrop: var(--vvjl-backdrop-index); counter-reset: vvjl-ix; padding: clamp(16px, 5vw, 72px); }
+.vvj-pattern.vvjl.vvj-pattern--vvjl-index { --vvj-lightbox-backdrop: var(--vvjl-backdrop-index); counter-reset: vvjl-ix; padding: clamp(16px, 5cqi, 72px); }
 .vvj-pattern.vvjl.vvj-pattern--vvjl-index .vvjl-inner { gap: 0 calc(var(--grid-gap, 0) * 1px); }
-.vvj-pattern.vvjl.vvj-pattern--vvjl-index .vvjl-inner > .lightbox-row { counter-increment: vvjl-ix; display: grid; align-items: center; gap: 0 clamp(12px, 2vw, 32px);
+.vvj-pattern.vvjl.vvj-pattern--vvjl-index .vvjl-inner > .lightbox-row { counter-increment: vvjl-ix; display: grid; align-items: center; gap: 0 clamp(12px, 2cqi, 32px);
   grid-template-columns: 3.2em minmax(0, 2fr) minmax(0, 1fr) 132px 48px; grid-template-areas: "num title meta img btn";
-  min-height: 96px; padding: 12px 8px; border: solid var(--vvj-line); border-width: 1px 0 0; isolation: isolate; }
+  min-height: 96px; padding: var(--vvj-space-12, 12px) var(--vvj-space-8, 8px); border: solid var(--vvj-line); border-width: 1px 0 0; isolation: isolate; }
 .vvj-pattern.vvjl.vvj-pattern--vvjl-index .vvjl-inner > .lightbox-row:last-child { border-width: 1px 0; }
 .vvj-pattern.vvjl.vvj-pattern--vvjl-index .vvjl-inner > .lightbox-row::before { content: counter(vvjl-ix, decimal-leading-zero); grid-area: num; font: 500 14px var(--vvj-font-mono); color: var(--vvj-muted); }
 .vvj-pattern.vvjl.vvj-pattern--vvjl-index .vvjl-inner > .lightbox-row::after { content: ""; position: absolute; inset: 0; z-index: -1; background: color-mix(in srgb, var(--vvj-accent) 10%, var(--vvj-surface));
-  clip-path: inset(0 100% 0 0); transition: clip-path .55s var(--vvjl-ease-io); }
+  clip-path: inset(0 100% 0 0); transition: clip-path var(--vvj-dur-550, 0.55s) var(--vvjl-ease-io); }
 .vvj-pattern.vvjl.vvj-pattern--vvjl-index .vvjl-inner > .lightbox-row:hover::after, .vvj-pattern.vvjl.vvj-pattern--vvjl-index .vvjl-inner > .lightbox-row:focus-within::after { clip-path: inset(0); }
 .vvj-pattern.vvjl.vvj-pattern--vvjl-index .vvjl-inner > .lightbox-row .lightbox-content { display: contents; }
-.vvj-pattern.vvjl.vvj-pattern--vvjl-index .vvjl-inner .vvj-title { grid-area: title; margin: 0; font: 500 clamp(20px, 2.6vw, 38px)/1.1 var(--vvj-font-display); transition: translate .5s var(--vvjl-ease-out); }
+.vvj-pattern.vvjl.vvj-pattern--vvjl-index .vvjl-inner .vvj-title { grid-area: title; margin: 0; font: 500 clamp(20px, 2.6cqi, 38px)/1.1 var(--vvj-font-display); transition: translate var(--vvj-dur-500, 0.5s) var(--vvjl-ease-out); }
 .vvj-pattern--vvjl-index :where(.vvjl-inner) :where(.lightbox-row:hover) .vvj-title, .vvj-pattern--vvjl-index :where(.vvjl-inner) :where(.lightbox-row:focus-within) .vvj-title { translate: 12px 0; }
-.vvj-pattern.vvjl.vvj-pattern--vvjl-index .vvjl-inner .vvj-meta { grid-area: meta; margin: 0; font-size: 13px; letter-spacing: .12em; text-transform: uppercase; color: var(--vvj-muted); }
+.vvj-pattern.vvjl.vvj-pattern--vvjl-index .vvjl-inner .vvj-meta { grid-area: meta; margin: 0; font-size: var(--vvj-text-13, 0.8125rem); letter-spacing: .12em; text-transform: uppercase; color: var(--vvj-muted); }
 .vvj-pattern.vvjl.vvj-pattern--vvjl-index .vvjl-inner > .lightbox-row .lightbox-image { display: contents; }
-.vvj-pattern.vvjl.vvj-pattern--vvjl-index .vvjl-inner > .lightbox-row img { grid-area: img; width: 132px; height: 84px; border-radius: 4px; transform-origin: 100% 50%;
-  transition: transform .6s var(--vvjl-ease-out), clip-path .6s var(--vvjl-ease-out); clip-path: inset(10% 0 10% 30% round 4px); }
+.vvj-pattern.vvjl.vvj-pattern--vvjl-index .vvjl-inner > .lightbox-row img { grid-area: img; width: 132px; height: 84px; border-radius: var(--vvj-radius-4, 4px); transform-origin: 100% 50%;
+  transition: transform var(--vvj-dur-600, 0.6s) var(--vvjl-ease-out), clip-path var(--vvj-dur-600, 0.6s) var(--vvjl-ease-out); clip-path: inset(10% 0 10% 30% round 4px); }
 .vvj-pattern--vvjl-index :where(.vvjl-inner) > :where(.lightbox-row:hover) img, .vvj-pattern--vvjl-index :where(.vvjl-inner) > :where(.lightbox-row:focus-within) img { transform: scale(1.9); clip-path: inset(0 round 4px); position: relative; z-index: 3; }
-.vvj-pattern.vvjl.vvj-pattern--vvjl-index .modal-open { grid-area: btn; width: 48px; height: 48px; display: grid; place-items: center; border-radius: 50%; border: 1.5px solid currentColor; font-size: 16px; transition: background .25s, color .25s; }
+.vvj-pattern.vvjl.vvj-pattern--vvjl-index .modal-open { grid-area: btn; width: 48px; height: 48px; display: grid; place-items: center; border-radius: 50%; border: 1.5px solid currentColor; font-size: var(--vvj-text-16, 1rem); transition: background var(--vvj-dur-250, 0.25s), color var(--vvj-dur-250, 0.25s); }
 .vvj-pattern.vvjl.vvj-pattern--vvjl-index .lightbox-row:hover .modal-open, .vvj-pattern.vvjl.vvj-pattern--vvjl-index .modal-open:focus-visible { background: var(--vvj-ink); color: var(--vvj-surface); }
 @container vvj-region (max-width: 600px) {
-  .vvj-pattern.vvjl.vvj-pattern--vvjl-index .vvjl-inner > .lightbox-row { grid-template-columns: 2.4em minmax(0, 1fr) 88px; grid-template-areas: "num title img" "num meta img" "num btn img"; gap: 4px clamp(12px, 2vw, 32px); }
+  .vvj-pattern.vvjl.vvj-pattern--vvjl-index .vvjl-inner > .lightbox-row { grid-template-columns: 2.4em minmax(0, 1fr) 88px; grid-template-areas: "num title img" "num meta img" "num btn img"; gap: var(--vvj-space-4, 4px) clamp(12px, 2cqi, 32px); }
   .vvj-pattern.vvjl.vvj-pattern--vvjl-index .vvjl-inner > .lightbox-row img { width: 88px; height: 88px; clip-path: inset(0 round 4px); }
   .vvj-pattern--vvjl-index :where(.vvjl-inner) > :where(.lightbox-row:hover) img, .vvj-pattern--vvjl-index :where(.vvjl-inner) > :where(.lightbox-row:focus-within) img { transform: none; }
-  .vvj-pattern.vvjl.vvj-pattern--vvjl-index .modal-open { width: 44px; height: 44px; }
+  /* 6px over the 4px row gap keeps the button 12px clear of the step label above it. */
+  .vvj-pattern.vvjl.vvj-pattern--vvjl-index .modal-open { width: 44px; height: 44px; margin-block-start: var(--vvj-space-6, 6px); }
 }
 /* Viewer: black cinema, photo and a big caption, bottom row Previous | 01 02 03 | Next. */
-.vvj-pattern.vvjl.vvj-pattern--vvjl-index .lightbox-modal-content { position: absolute; inset: 72px clamp(16px, 6vw, 96px) 108px; display: grid; place-items: center; touch-action: pan-y; }
-.vvj-pattern.vvjl.vvj-pattern--vvjl-index .lightbox-modal-content .lightbox-row { display: grid; gap: 18px; justify-items: start; }
+.vvj-pattern.vvjl.vvj-pattern--vvjl-index .lightbox-modal-content { position: absolute; inset: 72px clamp(16px, 6cqi, 96px) 108px; display: grid; place-items: center; touch-action: pan-y; }
+.vvj-pattern.vvjl.vvj-pattern--vvjl-index .lightbox-modal-content .lightbox-row { display: grid; gap: var(--vvj-space-18, 18px); justify-items: start; }
 .vvj-pattern.vvjl.vvj-pattern--vvjl-index .lightbox-modal-content img { width: auto; height: auto; max-width: 100%; max-height: calc(100vh - 300px); }
 .vvj-pattern.vvjl.vvj-pattern--vvjl-index .lightbox-modal-content .lightbox-content { position: static; background: none; padding: 0; }
-.vvj-pattern.vvjl.vvj-pattern--vvjl-index .lightbox-modal-content .vvj-meta { margin: 0; font-size: 13px; letter-spacing: .14em; text-transform: uppercase; color: var(--vvjl-index-hot); }
-.vvj-pattern.vvjl.vvj-pattern--vvjl-index .lightbox-modal-content .vvj-title { margin: 4px 0 0; font: 500 clamp(24px, 3.4vw, 48px)/1.05 var(--vvj-font-display); }
-.vvj-pattern.vvjl.vvj-pattern--vvjl-index .modal-close { position: absolute; inset: 16px 16px auto auto; height: 44px; padding: 0 16px; display: flex; align-items: center; gap: 10px; flex-direction: row-reverse;
-  border-radius: 44px; background: var(--vvjl-index-chip); font-weight: 600; font-size: 14px; transition: background .2s; }
+.vvj-pattern.vvjl.vvj-pattern--vvjl-index .lightbox-modal-content .vvj-meta { margin: 0; font-size: var(--vvj-text-13, 0.8125rem); letter-spacing: .14em; text-transform: uppercase; color: var(--vvjl-index-hot); }
+.vvj-pattern.vvjl.vvj-pattern--vvjl-index .lightbox-modal-content .vvj-title { margin: var(--vvj-space-4, 4px) 0 0; font: 500 clamp(24px, 3.4cqi, 48px)/1.05 var(--vvj-font-display); }
+.vvj-pattern.vvjl.vvj-pattern--vvjl-index .modal-close { position: absolute; inset: 16px 16px auto auto; height: 44px; padding: 0 var(--vvj-space-16, 16px); display: flex; align-items: center; gap: var(--vvj-space-10, 10px); flex-direction: row-reverse;
+  border-radius: var(--vvj-radius-48, 48px); background: var(--vvjl-index-chip); font-weight: 600; font-size: var(--vvj-text-14, 0.875rem); transition: background var(--vvj-dur-200, 0.2s); }
 .vvj-pattern.vvjl.vvj-pattern--vvjl-index .modal-close:hover { background: var(--vvjl-index-chip-hover); }
-.vvj-pattern--vvjl-index .lightbox-counter { position: absolute; inset: 16px auto auto clamp(16px, 6vw, 96px); font: 500 14px/44px var(--vvj-font-mono); color: var(--vvjl-index-counter); }
-.vvj-pattern.vvjl.vvj-pattern--vvjl-index .vvjl-rail { position: absolute; inset: auto auto 28px 50%; translate: -50% 0; padding: 4px; border-radius: 48px; background: var(--vvjl-index-rail); gap: 2px; }
-.vvj-pattern.vvjl.vvj-pattern--vvjl-index .vvjl-rail-btn { display: grid; place-items: center; min-width: 44px; height: 44px; border-radius: 44px; font: 600 14px var(--vvj-font-mono); color: var(--vvjl-index-rail-ink); transition: background .3s var(--vvjl-ease-out), color .3s; }
+.vvj-pattern--vvjl-index .lightbox-counter { position: absolute; inset: 16px auto auto clamp(16px, 6cqi, 96px); font: 500 var(--vvj-text-14, 0.875rem)/44px var(--vvj-font-mono); color: var(--vvjl-index-counter); }
+.vvj-pattern.vvjl.vvj-pattern--vvjl-index .vvjl-rail { position: absolute; inset: auto auto 28px 50%; translate: -50% 0; padding: var(--vvj-space-4, 4px); border-radius: var(--vvj-radius-48, 48px); background: var(--vvjl-index-rail); gap: var(--vvj-space-2, 2px); }
+.vvj-pattern.vvjl.vvj-pattern--vvjl-index .vvjl-rail-btn { display: grid; place-items: center; min-width: 44px; height: 44px; border-radius: var(--vvj-radius-48, 48px); font: 600 14px var(--vvj-font-mono); color: var(--vvjl-index-rail-ink); transition: background var(--vvj-dur-300, 0.3s) var(--vvjl-ease-out), color var(--vvj-dur-300, 0.3s); }
 .vvj-pattern.vvjl.vvj-pattern--vvjl-index .vvjl-rail-btn:hover { color: var(--vvjl-index-rail-hover-ink); background: var(--vvjl-index-rail-hover); }
 .vvj-pattern.vvjl.vvj-pattern--vvjl-index .vvjl-rail-btn[aria-current] { background: var(--vvjl-index-current-bg); color: var(--vvjl-index-current-ink); }
-.vvj-pattern.vvjl.vvj-pattern--vvjl-index .modal-prev, .vvj-pattern.vvjl.vvj-pattern--vvjl-index .modal-next { position: absolute; height: 52px; display: flex; align-items: center; gap: 10px; font-weight: 600; font-size: 15px; color: var(--vvjl-caption-ink); }
-.vvj-pattern--vvjl-index .modal-prev { inset: auto auto 28px clamp(16px, 6vw, 96px); }
-.vvj-pattern--vvjl-index .modal-next { inset: auto clamp(16px, 6vw, 96px) 28px auto; flex-direction: row-reverse; }
-.vvj-pattern--vvjl-index :where(.modal-prev) .vvjl-pattern-icon, .vvj-pattern--vvjl-index :where(.modal-next) .vvjl-pattern-icon { transition: transform .35s var(--vvjl-ease-out); }
+.vvj-pattern.vvjl.vvj-pattern--vvjl-index .modal-prev, .vvj-pattern.vvjl.vvj-pattern--vvjl-index .modal-next { position: absolute; height: 52px; display: flex; align-items: center; gap: var(--vvj-space-10, 10px); font-weight: 600; font-size: var(--vvj-text-15, 0.9375rem); color: var(--vvjl-caption-ink); }
+.vvj-pattern--vvjl-index .modal-prev { inset: auto auto 28px clamp(16px, 6cqi, 96px); }
+.vvj-pattern--vvjl-index .modal-next { inset: auto clamp(16px, 6cqi, 96px) 28px auto; flex-direction: row-reverse; }
+.vvj-pattern--vvjl-index :where(.modal-prev) .vvjl-pattern-icon, .vvj-pattern--vvjl-index :where(.modal-next) .vvjl-pattern-icon { transition: transform var(--vvj-dur-350, 0.35s) var(--vvjl-ease-out); }
 .vvj-pattern--vvjl-index :where(.modal-prev:hover) .vvjl-pattern-icon { transform: translateX(-6px); }
 .vvj-pattern--vvjl-index :where(.modal-next:hover) .vvjl-pattern-icon { transform: translateX(6px); }
 :where(.vvj-pattern--vvjl-index) .modal-prev:active, :where(.vvj-pattern--vvjl-index) .modal-next:active { opacity: .7; }
 @media (max-width: 760px) {
-  .vvj-pattern.vvjl.vvj-pattern--vvjl-index .lightbox-modal-content { inset: 72px clamp(16px, 6vw, 96px) 150px; }
+  .vvj-pattern.vvjl.vvj-pattern--vvjl-index .lightbox-modal-content { inset: 72px clamp(16px, 6cqi, 96px) 150px; }
   .vvj-pattern.vvjl.vvj-pattern--vvjl-index .vvjl-rail { inset: auto auto 88px 50%; }
-  .vvj-pattern--vvjl-index .modal-prev { inset: auto auto 16px clamp(16px, 6vw, 96px); }
-  .vvj-pattern--vvjl-index .modal-next { inset: auto clamp(16px, 6vw, 96px) 16px auto; }
+  .vvj-pattern--vvjl-index .modal-prev { inset: auto auto 16px clamp(16px, 6cqi, 96px); }
+  .vvj-pattern--vvjl-index .modal-next { inset: auto clamp(16px, 6cqi, 96px) 16px auto; }
   .vvj-pattern.vvjl.vvj-pattern--vvjl-index .vvjl-rail-btn { min-width: 40px; }
 }
 

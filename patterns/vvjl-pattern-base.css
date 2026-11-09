@@ -25,7 +25,7 @@
   --vvjl-caption-ink: var(--vvj-stage-color);
   --vvjl-mosaic-tile: color-mix(in sRGB, var(--vvj-stage-color) 10.9804%, var(--vvj-stage-bg));
   --vvjl-mosaic-scrim: linear-gradient(to top, color-mix(in sRGB, var(--vvj-stage-bg) 82%, transparent), color-mix(in sRGB, var(--vvj-stage-bg) 55%, transparent) 55%, transparent);
-  --vvjl-mosaic-glass: rgb(15, 16, 19, 0.62);
+  --vvjl-mosaic-glass: var(--vvj-glass-bg);
   --vvjl-mosaic-line: color-mix(in sRGB, var(--vvj-stage-color) 38%, transparent);
   --vvjl-prints-paper: color-mix(in sRGB, var(--vvj-stage-color) 98.8235%, var(--vvj-stage-bg));
   --vvjl-prints-ink: color-mix(in sRGB, var(--vvj-stage-color) 10.1961%, var(--vvj-stage-bg));
@@ -149,6 +149,11 @@
   height: 1em;
   fill: currentColor;
 }
+/* The expand icon follows its button color: the module paints it white (0,2,1),
+   which vanished on Reel's white button. */
+.vvj-pattern.vvjl .modal-open .vvjl-pattern-icon {
+  fill: currentColor;
+}
 /* Viewer buttons: the icon follows the button font size and color, not the module 60px white viewer icon. */
 :where(.vvj-pattern.vvjl) :is(.modal-close, .modal-prev, .modal-next) .vvjl-pattern-icon {
   width: 1em;
@@ -180,7 +185,7 @@
 }
 .vvj-pattern.vvjl .vvjl-rail {
   display: flex;
-  gap: 6px;
+  gap: var(--vvj-space-6, 6px);
 }
 
 @media (prefers-reduced-motion: reduce) {

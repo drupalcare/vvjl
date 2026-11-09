@@ -1,6 +1,10 @@
 label: 'Contact sheet'
 description: 'Even 3:2 frames with frame numbers; the viewer is a split screen with a paper sidebar and thumbnails.'
 weight: 1
+stage: open
+ground: light
+placement: inner-padding
+serves: [studio, publication, university]
 options:
   grid_image_width: 240
   grid_image_gap: 4
