@@ -14,5 +14,9 @@ options:
   disable_overlay: false
 features:
   - rail_segments
+pictures:
+  vvj_image:
+    style: vvj_wide_1600
+    responsive: false
 needs:
   - 'Row style Fields. First field the image (style vvj_wide_1600), then kicker (p.vvj-meta) and title (h3.vvj-title, not linked).'

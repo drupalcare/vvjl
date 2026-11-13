@@ -56,23 +56,23 @@
   <h2 id="{{ vvjl_id }}-heading" class="visually-hidden">{{ vvj_pattern and vvj_pattern_label ? vvj_pattern_label : 'Image Grid'|t }}</h2>
   <div id="{{ lightbox_inner_id }}" class="vvjl-inner" {% if style_string %}style="{{ style_string }}"{% endif %}>
 
-    <div class="lightbox-modal" aria-hidden="true" style="display: none;" role="dialog" aria-modal="true" aria-labelledby="{{ vvjl_id }}-lightbox-heading"{% if vvj_pattern %} tabindex="-1"{% endif %}>
+    <div class="lightbox-modal" aria-hidden="true" style="display: none;" role="dialog" aria-modal="true" aria-labelledby="{{ vvjl_id }}-lightbox-heading" tabindex="-1">
       <h2 id="{{ vvjl_id }}-lightbox-heading" class="visually-hidden">{{ 'Image Grid Lightbox'|t }}</h2>
       {% if vvj_pattern %}
       <button type="button" class="button modal-close control-btn">
         {{ include('@vvjl/svg/vvjl-pattern-close.svg') }}<span class="vvjl-btn-text">{{ 'Close'|t }}</span>
       </button>
 
-      <div class="lightbox-counter" aria-live="polite">
+      <div class="lightbox-counter" aria-live="polite" aria-atomic="true">
         <span id="{{ vvjl_id }}-current" class="current-image">1</span><span class="vvjl-of"><span class="vvjl-of-slash"> / </span><span class="vvjl-of-word">{{ 'of'|t }}</span></span><span class="total-images">{{ total_slides }}</span>
       </div>
       {% else %}
-      <button class="button modal-close control-btn">
+      <button type="button" class="button modal-close control-btn">
         <span class="visually-hidden">{{ 'Close Grid'|t }}</span>
         {{ include('@vvjl/svg/svg-close.svg') }}
       </button>
 
-      <div class="lightbox-counter">
+      <div class="lightbox-counter" aria-live="polite" aria-atomic="true">
         <span id="{{ vvjl_id }}-current" class="current-image">1</span><span> / </span><span class="total-images">{{ total_slides }}</span>
       </div>
       {% endif %}
@@ -98,11 +98,11 @@
       </div>
       {% endif %}
       {% else %}
-      <button class="button modal-prev control-btn">
+      <button type="button" class="button modal-prev control-btn">
         <span class="visually-hidden">{{ 'Previous'|t }}</span>
         {{ include('@vvjl/svg/svg-prev.svg') }}
       </button>
-      <button class="button modal-next control-btn">
+      <button type="button" class="button modal-next control-btn">
         <span class="visually-hidden">{{ 'Next'|t }}</span>
         {{ include('@vvjl/svg/svg-next.svg') }}
       </button>
@@ -120,7 +120,7 @@
         <h3 id="{{ vvjl_id }}-slide-{{ key + 1 }}-heading" class="visually-hidden">{{ 'Slide @index of @total'|t({'@index': loop.index, '@total': total_slides}) }}</h3>
 
         <div class="lightbox-image">
-          <button class="button modal-open control-btn" aria-controls="{{ lightbox_inner_id }}" aria-expanded="false" aria-label="{{ 'Expand slide @index'|t({'@index': loop.index}) }}">
+          <button type="button" class="button modal-open control-btn" aria-haspopup="dialog" aria-label="{{ 'Expand slide @index'|t({'@index': loop.index}) }}">
             {{ include(vvj_pattern ? '@vvjl/svg/vvjl-pattern-expand.svg' : '@vvjl/svg/svg-expand.svg') }}
           </button>
           {{ image_field|safe_html }}

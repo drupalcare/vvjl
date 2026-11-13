@@ -20,21 +20,8 @@
 ((Drupal) => {
   const { ElementBase, trapFocus } = Drupal.Vvj;
 
-  /**
-   * Sets aria-expanded on a row's opening button, never on the row itself.
-   *
-   * The row is a group, where aria-expanded is not supported.
-   *
-   * @param {HTMLElement | undefined} row
-   *   A grid row.
-   * @param {boolean} expanded
-   *   TRUE while the viewer shows this row.
-   */
-  const setRowExpanded = (row, expanded) => {
-    row
-      ?.querySelector('.modal-open')
-      ?.setAttribute('aria-expanded', expanded ? 'true' : 'false');
-  };
+  // The open buttons carry aria-haspopup="dialog" in the template: they open
+  // a modal dialog, so they hold no expanded state for this script to keep.
 
   class VvjlLightboxElement extends ElementBase {
     static get patternSlug() {
@@ -101,12 +88,7 @@
       if (!this._modal) {
         return;
       }
-      this._collapseAll();
       this._modal.setAttribute('aria-hidden', 'true');
-    }
-
-    _collapseAll() {
-      this._items.forEach((row) => setRowExpanded(row, false));
     }
 
     // -----------------------------------------------------------------
@@ -221,7 +203,12 @@
             return;
           }
           event.preventDefault();
-          this._navigate(event.key === 'ArrowRight' ? 'next' : 'prev');
+          // Right-to-left pages mirror the arrows, so Left is "next" there.
+          const forward =
+            getComputedStyle(this).direction === 'rtl'
+              ? 'ArrowLeft'
+              : 'ArrowRight';
+          this._navigate(event.key === forward ? 'next' : 'prev');
         },
         { signal: this.signal },
       );
@@ -285,9 +272,7 @@
       ) {
         return;
       }
-      this._collapseAll();
       this._currentIndex = index;
-      setRowExpanded(this._items[index], true);
       this.withTransition(() => this._updateModalContent());
     }
 
@@ -333,44 +318,68 @@
       if (!this._modal || !this._items.length) {
         return;
       }
-      this._lastFocusedElement = document.activeElement;
+      // The opener: the focused element when it is inside this row (a
+      // keyboard press on the expand button), else the row's expand button
+      // (a mouse click, where some browsers focus nothing). Focus returns
+      // here when the viewer closes.
+      const active = document.activeElement;
+      this._lastFocusedElement =
+        active instanceof HTMLElement && lightboxRow.contains(active)
+          ? active
+          : lightboxRow.querySelector('.modal-open');
       this._currentIndex = Array.from(this._items).indexOf(lightboxRow);
       if (this._canMorph()) {
         // The tile photo morphs into the viewer photo (Pattern feature).
         this._namePhoto(lightboxRow.querySelector('.lightbox-image img'));
         const morph = this.withTransition(() => {
           this._updateModalContent();
-          setRowExpanded(lightboxRow, true);
           if (this._modal) {
             this._modal.setAttribute('aria-hidden', 'false');
             this._modal.style.display = 'block';
           }
           this._namePhoto(this._modalImage());
+          // INSIDE the update: a view transition runs it later, and the
+          // dialog cannot take focus before it is displayed.
+          this._focusIntoModal();
         });
         if (morph) {
           morph.finished.finally(() => this._namePhoto(null));
         } else {
           this._namePhoto(null);
         }
-        this._modal.focus();
-        this._releaseFocusTrap = trapFocus(this._modal, this.signal);
         event.stopPropagation();
         this._neutralizeGridLinks(false);
         return;
       }
       this._updateModalContent();
-      setRowExpanded(lightboxRow, true);
       this._modal.setAttribute('aria-hidden', 'false');
       this._modal.style.display = 'block';
 
-      this.withTransition(() => {
-        this._modal?.focus();
-        this._releaseFocusTrap = trapFocus(this._modal, this.signal);
-      });
+      this.withTransition(() => this._focusIntoModal());
 
       event.stopPropagation();
       this._neutralizeGridLinks(false);
     };
+
+    /**
+     * Moves focus into the open dialog and traps it there.
+     *
+     * The dialog itself (tabindex="-1") takes focus first so focus is never
+     * left behind it; the trap then moves it to the first control. One trap
+     * at a time: a second open while one is active keeps the first.
+     */
+    _focusIntoModal() {
+      if (!this._modal || this._releaseFocusTrap) {
+        return;
+      }
+      this._modal.focus();
+      this._releaseFocusTrap = trapFocus(this._modal, this.signal, {
+        returnFocus:
+          this._lastFocusedElement instanceof HTMLElement
+            ? this._lastFocusedElement
+            : null,
+      });
+    }
 
     _closeModal() {
       if (!this._modal || !this._modalContent) {
@@ -405,13 +414,15 @@
       }
       this._modal.style.display = 'none';
       this._modal.setAttribute('aria-hidden', 'true');
-      this._collapseAll();
       this._currentIndex = -1;
-      if (this._lastFocusedElement instanceof HTMLElement) {
+      // release() removes the trap's listener and focuses the opener.
+      const release = this._releaseFocusTrap;
+      this._releaseFocusTrap = null;
+      if (release) {
+        release();
+      } else if (this._lastFocusedElement instanceof HTMLElement) {
         this._lastFocusedElement.focus();
       }
-      this._releaseFocusTrap?.();
-      this._releaseFocusTrap = null;
       this._modalContent.classList.remove('fade-out');
       this._neutralizeGridLinks(true);
     }
@@ -421,14 +432,12 @@
       if (!this._items.length) {
         return;
       }
-      this._collapseAll();
       if (direction === 'next') {
         this._currentIndex = (this._currentIndex + 1) % this._items.length;
       } else {
         this._currentIndex =
           (this._currentIndex - 1 + this._items.length) % this._items.length;
       }
-      setRowExpanded(this._items[this._currentIndex], true);
       this.withTransition(() => this._updateModalContent());
     }
 

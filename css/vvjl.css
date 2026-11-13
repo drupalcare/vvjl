@@ -209,8 +209,9 @@
   animation-duration: 0.5s;
 }
 
-.lightbox-modal-content.fade-in {
+.vvjl .lightbox-modal-content.fade-in {
   transition: opacity 0.5s ease-in-out;
+  animation: fade-in 0.5s ease-in-out forwards;
   opacity: 1;
 }
 
@@ -261,11 +262,10 @@
   }
 }
 
-.fade-in {
-  animation: fade-in 0.5s ease-in-out forwards;
-}
-
-.fade-out {
+/* Scoped to the lightbox: .fade-in and .fade-out are common class names, and
+   a bare selector would animate them anywhere on the page. The .fade-in
+   animation sits with its transition, above. */
+.vvjl .lightbox-modal-content.fade-out {
   animation: fade-out 0.5s ease-in-out forwards;
 }
 
@@ -349,5 +349,30 @@
 
   to {
     transform: scale(1.05);
+  }
+}
+
+/* Focus ring for views without a Pattern (WCAG 2.4.7). The .button reset
+   above (all: unset) removes the browser ring; a Pattern restores its own
+   in vvjl-pattern-base.css, so this rule skips Pattern views. Drawn inside
+   the button (negative offset) so overflow: hidden on the row cannot clip
+   it, in two tones (white over black) so it shows on a photo and on the
+   dark backdrop. */
+.vvjl:not(.vvj-pattern) .vvjl-inner .button:focus-visible {
+  outline: 3px solid #fff;
+  outline-offset: -3px;
+  box-shadow: inset 0 0 0 6px #000;
+}
+
+/* Reduced motion (WCAG 2.3.3): no fade, scale or slide-in for views without
+   a Pattern. A Pattern view has its own guard in vvjl-pattern-base.css. */
+@media (prefers-reduced-motion: reduce) {
+  .vvjl .lightbox-modal,
+  .vvjl .lightbox-modal-content,
+  .vvjl .lightbox-modal .lightbox-image,
+  .vvjl .vvjl-inner .fade-in,
+  .vvjl .vvjl-inner .fade-out {
+    transition: none;
+    animation: none;
   }
 }

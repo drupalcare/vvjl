@@ -23,6 +23,7 @@ from 1.x.
 
 ### Fixed
 
+- Accessibility: views without a Pattern show a visible focus ring on the expand, close, previous and next buttons; the lightbox dialog always takes focus when it opens (Pattern morph views too), returns it to the image that opened it, and drops its key listener on close; fades, scale and slide-in effects stop under reduced motion; Left and Right swap in the Pattern viewer on right-to-left pages. The expand button announces that it opens a dialog (`aria-haspopup="dialog"`) instead of carrying `aria-expanded` and an `aria-controls` that pointed at the grid; the image counter in views without a Pattern is a polite live region, so moving to another image is announced; every lightbox button is `type="button"`; the `.fade-in` and `.fade-out` rules only apply inside the lightbox.
 - Patterns: Sheet's caption keeps its clearance from the open button.
 - Patterns: Index, Mosaic, Reel and Sheet used two variables that were never defined (`--vvj-accent`, `--vvj-font-mono`), so their accent and monospace styling silently did not apply; both are now defined.
 - Patterns: spacing, corner radius, type size, shadow and motion read shared `--vvj-*` variables with fallbacks, so a site or theme can adjust them in one place; a few odd values moved to the nearest step, under 10%.
@@ -31,7 +32,7 @@ from 1.x.
 - Patterns: Prints and Mosaic fill their frames with the photo (a wide photo left an empty band); Reel's expand icon follows its button color (it was white on a white button); Index keeps its expand button 12 px from the step label on phones.
 - Patterns: muted meta text (Prints under Solo and APEX, and the Sheet) uses 88% of the ink (was 70% and 80%), so it keeps a 4.5:1 contrast.
 - Accessibility: the lightbox region has one name, its hidden heading; with a Pattern the heading reads the Pattern label (the unused `aria-label` is gone).
-- Accessibility: `aria-expanded` is now set on the open button (the control) instead of the row group; every view's dialog is `aria-modal`; heading and counter ids carry the view id, so two lightboxes on one page no longer share ids; the open button's unused hidden text is removed.
+- Accessibility: every view's dialog is `aria-modal`; heading and counter ids carry the view id, so two lightboxes on one page no longer share ids; the open button's unused hidden text is removed.
 - Accessibility: the copy of a photo shown in the viewer no longer carries the grid's open button, which Patterns made visible and focusable there although it did nothing.
 - Viewer buttons: Pattern icons follow the button size and color instead of the module 60px white icon (Mosaic, Sheet and Reel showed oversized or white-on-white arrows). Mosaic: the bento repeats every six photos, so photos 8 and on no longer fall into 1/12-width slivers.
 - Hover rules that must beat a rest rule are flattened with `:where()` so no new Pattern selector exceeds 0,2,0; the look is unchanged (check-vvj-cascade: winners changed 0).
