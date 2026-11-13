@@ -194,17 +194,20 @@
 .vvj-pattern.vvjl.vvj-pattern--vvjl-mosaic .modal-prev,
 .vvj-pattern.vvjl.vvj-pattern--vvjl-mosaic .modal-next {
   position: absolute;
-  display: grid;
-  place-items: center;
   width: 56px;
   height: 56px;
+  /* stylelint-disable-next-line order/properties-order -- declaration order changes the result here (shorthand and longhand, all, or a physical and logical pair) */
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  /* stylelint-disable-next-line order/properties-order -- declaration order changes the result here (shorthand and longhand, all, or a physical and logical pair) */
+  border: 1px solid var(--vvjl-mosaic-line);
+  font-size: var(--vvj-text-22, 1.375rem);
+  /* stylelint-disable-next-line order/properties-order -- declaration order changes the result here (shorthand and longhand, all, or a physical and logical pair) */
   transition:
     background var(--vvj-dur-250, 0.25s),
     color var(--vvj-dur-250, 0.25s),
     transform var(--vvj-dur-400, 0.4s) var(--vvjl-ease-out);
-  border: 1px solid var(--vvjl-mosaic-line);
-  border-radius: 50%;
-  font-size: var(--vvj-text-22, 1.375rem);
 }
 .vvj-pattern.vvjl.vvj-pattern--vvjl-mosaic .modal-close {
   inset: 18px 18px auto auto;

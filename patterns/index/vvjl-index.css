@@ -91,17 +91,20 @@
   clip-path: inset(0 round 4px);
 }
 .vvj-pattern.vvjl.vvj-pattern--vvjl-index .modal-open {
-  display: grid;
   grid-area: btn;
-  place-items: center;
   width: 48px;
   height: 48px;
+  /* stylelint-disable-next-line order/properties-order -- declaration order changes the result here (shorthand and longhand, all, or a physical and logical pair) */
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  /* stylelint-disable-next-line order/properties-order -- declaration order changes the result here (shorthand and longhand, all, or a physical and logical pair) */
+  border: 1.5px solid currentColor;
+  font-size: var(--vvj-text-16, 1rem);
+  /* stylelint-disable-next-line order/properties-order -- declaration order changes the result here (shorthand and longhand, all, or a physical and logical pair) */
   transition:
     background var(--vvj-dur-250, 0.25s),
     color var(--vvj-dur-250, 0.25s);
-  border: 1.5px solid currentColor;
-  border-radius: 50%;
-  font-size: var(--vvj-text-16, 1rem);
 }
 .vvj-pattern.vvjl.vvj-pattern--vvjl-index .lightbox-row:hover .modal-open,
 .vvj-pattern.vvjl.vvj-pattern--vvjl-index .modal-open:focus-visible {

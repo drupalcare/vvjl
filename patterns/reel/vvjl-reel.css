@@ -59,6 +59,7 @@
       filter: none;
     }
   }
+  /* stylelint-disable-next-line order/order -- this nested rule stays after the @media block; moving it changes which rule wins */
   .vvj-pattern.vvjl.vvj-pattern--vvjl-reel::after {
     display: block;
     height: 3px;
